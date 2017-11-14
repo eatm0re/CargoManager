@@ -72,11 +72,11 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `Vehicles` ;
 
 CREATE TABLE IF NOT EXISTS `Vehicles` (
-  `idVehicle` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `vehicleCityId` BIGINT(20) UNSIGNED NOT NULL,
-  `vehicleRegNumber` VARCHAR(45) NOT NULL,
-  `vehicleCapacity` BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
-  `vehicleStatus` ENUM('OK', 'BROKEN') NOT NULL DEFAULT 'OK',
+  `idVehicle`         BIGINT(20) UNSIGNED  NOT NULL AUTO_INCREMENT,
+  `vehicleCityId`     BIGINT(20) UNSIGNED  NOT NULL,
+  `vehicleRegNumber`  VARCHAR(45)          NOT NULL,
+  `vehicleCapacityKg` BIGINT(20) UNSIGNED  NOT NULL DEFAULT 0,
+  `vehicleStatus`     ENUM('OK', 'BROKEN') NOT NULL DEFAULT 'OK',
   PRIMARY KEY (`idVehicle`),
   UNIQUE INDEX `vehicleRegNumber_UNIQUE` (`vehicleRegNumber` ASC),
   INDEX `vehicleCity_idx` (`vehicleCityId` ASC),
@@ -253,26 +253,46 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `CargoManager`;
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 1, '1234QW', 22000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 1, '5678ER', 17000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 1, '9012TY', 20000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 1, '3456UI', 19000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 2, '7890OP', 20000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 2, '9876AS', 19000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 2, '5432DF', 13000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 3, '1098GH', 15000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 3, '7654JK', 7000, 'BROKEN');
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 4, '3210LZ', 10000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 4, '1357XC', 6000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 5, '9135VB', 11000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 6, '7913NM', 7000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 7, '5791NB', 9000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 8, '3579VC', 8000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 9, '7531XZ', 14000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 11, '9753LK', 10000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 13, '1975JH', 9000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 15, '3197GF', 5000, DEFAULT);
-INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacity`, `vehicleStatus`) VALUES (DEFAULT, 17, '5319DS', 8000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 1, '1234QW', 22000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 1, '5678ER', 17000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 1, '9012TY', 20000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 1, '3456UI', 19000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 2, '7890OP', 20000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 2, '9876AS', 19000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 2, '5432DF', 13000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 3, '1098GH', 15000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 3, '7654JK', 7000, 'BROKEN');
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 4, '3210LZ', 10000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 4, '1357XC', 6000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 5, '9135VB', 11000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 6, '7913NM', 7000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 7, '5791NB', 9000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 8, '3579VC', 8000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 9, '7531XZ', 14000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 11, '9753LK', 10000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 13, '1975JH', 9000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 15, '3197GF', 5000, DEFAULT);
+INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
+VALUES (DEFAULT, 17, '5319DS', 8000, DEFAULT);
 
 COMMIT;
 
