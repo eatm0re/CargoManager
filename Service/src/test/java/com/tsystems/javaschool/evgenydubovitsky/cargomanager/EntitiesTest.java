@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.evgenydubovitsky.cargomanager.tests;
+package com.tsystems.javaschool.evgenydubovitsky.cargomanager;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Cargo;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
