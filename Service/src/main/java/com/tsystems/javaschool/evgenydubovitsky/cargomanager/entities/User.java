@@ -5,14 +5,18 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "users", schema = "cargomanager")
-public class User {
+public class User implements Serializable {
+
+    public enum Post {DRIVER, STUFF}
+
     private long id;
     private String login;
     private String password;
-    private Serializable post;
+    private Post post = Post.DRIVER;
 
     @Id
     @Column(name = "idUser", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -43,11 +47,12 @@ public class User {
 
     @Basic
     @Column(name = "userPost", nullable = false)
-    public Serializable getPost() {
+    @Enumerated(EnumType.STRING)
+    public Post getPost() {
         return post;
     }
 
-    public void setPost(Serializable post) {
+    public void setPost(Post post) {
         this.post = post;
     }
 
@@ -71,5 +76,13 @@ public class User {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (post != null ? post.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                '}';
     }
 }

@@ -1,11 +1,13 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "cities", schema = "cargomanager")
-public class City {
+public class City implements Serializable {
+
     private long id;
     private String name;
     private double latitude;
@@ -15,6 +17,7 @@ public class City {
 
     @Id
     @Column(name = "idCity", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -53,6 +56,24 @@ public class City {
         this.longitude = longitude;
     }
 
+    @OneToMany(mappedBy = "location")
+    public List<Driver> getDrivers() {
+        return drivers;
+    }
+
+    public void setDrivers(List<Driver> drivers) {
+        this.drivers = drivers;
+    }
+
+    @OneToMany(mappedBy = "location")
+    public List<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(List<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -79,21 +100,11 @@ public class City {
         return result;
     }
 
-    @OneToMany(mappedBy = "location")
-    public List<Driver> getDrivers() {
-        return drivers;
-    }
-
-    public void setDrivers(List<Driver> drivers) {
-        this.drivers = drivers;
-    }
-
-    @OneToMany(mappedBy = "location")
-    public List<Vehicle> getVehicles() {
-        return vehicles;
-    }
-
-    public void setVehicles(List<Vehicle> vehicles) {
-        this.vehicles = vehicles;
+    @Override
+    public String toString() {
+        return "City{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

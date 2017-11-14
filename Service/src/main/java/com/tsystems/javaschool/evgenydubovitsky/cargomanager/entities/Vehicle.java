@@ -6,17 +6,21 @@ import java.util.List;
 
 @Entity
 @Table(name = "vehicles", schema = "cargomanager")
-public class Vehicle {
+public class Vehicle implements Serializable {
+
+    public enum Status {OK, BROKEN}
+
     private long id;
     private String regNumber;
     private long capacityKg;
-    private Serializable status;
+    private Status status = Status.OK;
     private List<Driver> drivers;
     private Order order;
     private City location;
 
     @Id
     @Column(name = "idVehicle", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -47,34 +51,13 @@ public class Vehicle {
 
     @Basic
     @Column(name = "vehicleStatus", nullable = false)
-    public Serializable getStatus() {
+    @Enumerated(EnumType.STRING)
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(Serializable status) {
+    public void setStatus(Status status) {
         this.status = status;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Vehicle vehicle = (Vehicle) o;
-
-        if (id != vehicle.id) return false;
-        if (capacityKg != vehicle.capacityKg) return false;
-        if (regNumber != null ? !regNumber.equals(vehicle.regNumber) : vehicle.regNumber != null) return false;
-        return status != null ? status.equals(vehicle.status) : vehicle.status == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (regNumber != null ? regNumber.hashCode() : 0);
-        result = 31 * result + (int) (capacityKg ^ (capacityKg >>> 32));
-        result = 31 * result + (status != null ? status.hashCode() : 0);
-        return result;
     }
 
     @OneToMany(mappedBy = "vehicle")
@@ -103,5 +86,35 @@ public class Vehicle {
 
     public void setLocation(City location) {
         this.location = location;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Vehicle vehicle = (Vehicle) o;
+
+        if (id != vehicle.id) return false;
+        if (capacityKg != vehicle.capacityKg) return false;
+        if (regNumber != null ? !regNumber.equals(vehicle.regNumber) : vehicle.regNumber != null) return false;
+        return status != null ? status.equals(vehicle.status) : vehicle.status == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (regNumber != null ? regNumber.hashCode() : 0);
+        result = 31 * result + (int) (capacityKg ^ (capacityKg >>> 32));
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "id=" + id +
+                ", regNumber='" + regNumber + '\'' +
+                '}';
     }
 }

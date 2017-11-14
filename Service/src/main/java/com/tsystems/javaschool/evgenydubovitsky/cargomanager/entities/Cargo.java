@@ -7,16 +7,20 @@ import java.util.List;
 
 @Entity
 @Table(name = "cargoes", schema = "cargomanager")
-public class Cargo {
+public class Cargo implements Serializable {
+
+    public enum Status {READY, SHIPPED, DELIVERED}
+
     private long id;
     private String name;
-    private BigDecimal weightKg;
-    private Serializable status;
+    private BigDecimal weightKg = BigDecimal.ZERO;
+    private Status status = Status.READY;
     private City location;
     private List<Task> tasks;
 
     @Id
     @Column(name = "idCargo", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -47,12 +51,32 @@ public class Cargo {
 
     @Basic
     @Column(name = "cargoStatus", nullable = false)
-    public Serializable getStatus() {
+    @Enumerated(EnumType.STRING)
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(Serializable status) {
+    public void setStatus(Status status) {
         this.status = status;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "cargoCityId", referencedColumnName = "idCity", nullable = false)
+    public City getLocation() {
+        return location;
+    }
+
+    public void setLocation(City location) {
+        this.location = location;
+    }
+
+    @OneToMany(mappedBy = "cargo")
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
     }
 
     @Override
@@ -77,22 +101,11 @@ public class Cargo {
         return result;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "cargoCityId", referencedColumnName = "idCity", nullable = false)
-    public City getLocation() {
-        return location;
-    }
-
-    public void setLocation(City location) {
-        this.location = location;
-    }
-
-    @OneToMany(mappedBy = "cargo")
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+    @Override
+    public String toString() {
+        return "Cargo{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

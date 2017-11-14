@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `Cities` (
   `cityLongitude` DECIMAL(6,3) NOT NULL DEFAULT 0,
   PRIMARY KEY (`idCity`),
   UNIQUE INDEX `cityName_UNIQUE` (`cityName` ASC))
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `userPost` ENUM('DRIVER', 'STUFF') NOT NULL DEFAULT 'DRIVER',
   PRIMARY KEY (`idUser`),
   UNIQUE INDEX `userLogin_UNIQUE` (`userLogin` ASC))
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -59,11 +59,11 @@ CREATE TABLE IF NOT EXISTS `Cargoes` (
   PRIMARY KEY (`idCargo`),
   INDEX `cargoCity_idx` (`cargoCityId` ASC),
   CONSTRAINT `cargoCity`
-    FOREIGN KEY (`cargoCityId`)
-    REFERENCES `Cities` (`idCity`)
+  FOREIGN KEY (`cargoCityId`)
+  REFERENCES `Cities` (`idCity`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -72,20 +72,20 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `Vehicles` ;
 
 CREATE TABLE IF NOT EXISTS `Vehicles` (
-  `idVehicle`         BIGINT(20) UNSIGNED  NOT NULL AUTO_INCREMENT,
-  `vehicleCityId`     BIGINT(20) UNSIGNED  NOT NULL,
-  `vehicleRegNumber`  VARCHAR(45)          NOT NULL,
-  `vehicleCapacityKg` BIGINT(20) UNSIGNED  NOT NULL DEFAULT 0,
-  `vehicleStatus`     ENUM('OK', 'BROKEN') NOT NULL DEFAULT 'OK',
+  `idVehicle`         BIGINT(20) UNSIGNED   NOT NULL AUTO_INCREMENT,
+  `vehicleCityId`     BIGINT(20) UNSIGNED   NOT NULL,
+  `vehicleRegNumber`  VARCHAR(45)           NOT NULL,
+  `vehicleCapacityKg` BIGINT(20) UNSIGNED   NOT NULL DEFAULT 0,
+  `vehicleStatus`     ENUM ('OK', 'BROKEN') NOT NULL DEFAULT 'OK',
   PRIMARY KEY (`idVehicle`),
   UNIQUE INDEX `vehicleRegNumber_UNIQUE` (`vehicleRegNumber` ASC),
   INDEX `vehicleCity_idx` (`vehicleCityId` ASC),
   CONSTRAINT `vehicleCity`
-    FOREIGN KEY (`vehicleCityId`)
-    REFERENCES `Cities` (`idCity`)
+  FOREIGN KEY (`vehicleCityId`)
+  REFERENCES `Cities` (`idCity`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -101,11 +101,11 @@ CREATE TABLE IF NOT EXISTS `Orders` (
   PRIMARY KEY (`idOrder`),
   INDEX `orderVehicle_idx` (`orderVehicleId` ASC),
   CONSTRAINT `orderVehicle`
-    FOREIGN KEY (`orderVehicleId`)
-    REFERENCES `Vehicles` (`idVehicle`)
+  FOREIGN KEY (`orderVehicleId`)
+  REFERENCES `Vehicles` (`idVehicle`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -121,16 +121,16 @@ CREATE TABLE IF NOT EXISTS `Checkpoints` (
   INDEX `checkpointOrder_idx` (`checkpointOrderId` ASC),
   INDEX `checkpointCity_idx` (`checkpointCityId` ASC),
   CONSTRAINT `checkpointOrder`
-    FOREIGN KEY (`checkpointOrderId`)
-    REFERENCES `Orders` (`idOrder`)
+  FOREIGN KEY (`checkpointOrderId`)
+  REFERENCES `Orders` (`idOrder`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `checkpointCity`
-    FOREIGN KEY (`checkpointCityId`)
-    REFERENCES `Cities` (`idCity`)
+  FOREIGN KEY (`checkpointCityId`)
+  REFERENCES `Cities` (`idCity`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -146,16 +146,16 @@ CREATE TABLE IF NOT EXISTS `Tasks` (
   INDEX `taskCargo_idx` (`taskCargoId` ASC),
   INDEX `taskCheckpoint_idx` (`taskCheckpointId` ASC),
   CONSTRAINT `taskCargo`
-    FOREIGN KEY (`taskCargoId`)
-    REFERENCES `Cargoes` (`idCargo`)
+  FOREIGN KEY (`taskCargoId`)
+  REFERENCES `Cargoes` (`idCargo`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `taskCheckpoint`
-    FOREIGN KEY (`taskCheckpointId`)
-    REFERENCES `Checkpoints` (`idCheckpoint`)
+  FOREIGN KEY (`taskCheckpointId`)
+  REFERENCES `Checkpoints` (`idCheckpoint`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -178,16 +178,16 @@ CREATE TABLE IF NOT EXISTS `Drivers` (
   INDEX `driverCity_idx` (`driverCityId` ASC),
   INDEX `driverVehicle_idx` (`driverVehicleId` ASC),
   CONSTRAINT `driverCity`
-    FOREIGN KEY (`driverCityId`)
-    REFERENCES `Cities` (`idCity`)
+  FOREIGN KEY (`driverCityId`)
+  REFERENCES `Cities` (`idCity`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `driverVehicle`
-    FOREIGN KEY (`driverVehicleId`)
-    REFERENCES `Vehicles` (`idVehicle`)
+  FOREIGN KEY (`driverVehicleId`)
+  REFERENCES `Vehicles` (`idVehicle`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
@@ -200,7 +200,8 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 START TRANSACTION;
 USE `CargoManager`;
 INSERT INTO `Cities` (`idCity`, `cityName`, `cityLatitude`, `cityLongitude`) VALUES (DEFAULT, 'Moscow', 55.755, 37.612);
-INSERT INTO `Cities` (`idCity`, `cityName`, `cityLatitude`, `cityLongitude`) VALUES (DEFAULT, 'Saint-Perersburg', 59.952, 30.316);
+INSERT INTO `Cities` (`idCity`, `cityName`, `cityLatitude`, `cityLongitude`)
+VALUES (DEFAULT, 'Saint-Petersburg', 59.952, 30.316);
 INSERT INTO `Cities` (`idCity`, `cityName`, `cityLatitude`, `cityLongitude`) VALUES (DEFAULT, 'Novosibirsk', 55.012, 82.896);
 INSERT INTO `Cities` (`idCity`, `cityName`, `cityLatitude`, `cityLongitude`) VALUES (DEFAULT, 'Ekaterinburg', 56.858, 60.638);
 INSERT INTO `Cities` (`idCity`, `cityName`, `cityLatitude`, `cityLongitude`) VALUES (DEFAULT, 'Novgorod', 56.301, 43.895);

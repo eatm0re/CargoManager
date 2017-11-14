@@ -3,22 +3,27 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "drivers", schema = "cargomanager")
-public class Driver {
+public class Driver implements Serializable {
+
+    public enum Status {REST, WORK}
+
     private long id;
     private String persNumber;
     private String firstName;
     private String lastName;
-    private Serializable status;
-    private Timestamp lastStatusUpdate;
+    private Status status = Status.REST;
+    private Timestamp lastStatusUpdate = Timestamp.valueOf(LocalDateTime.now());
     private int workedThisMonth;
     private City location;
     private Vehicle vehicle;
 
     @Id
     @Column(name = "idDriver", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -59,11 +64,12 @@ public class Driver {
 
     @Basic
     @Column(name = "driverStatus", nullable = false)
-    public Serializable getStatus() {
+    @Enumerated(EnumType.STRING)
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(Serializable status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -85,6 +91,26 @@ public class Driver {
 
     public void setWorkedThisMonth(int workedThisMonth) {
         this.workedThisMonth = workedThisMonth;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "driverCityId", referencedColumnName = "idCity", nullable = false)
+    public City getLocation() {
+        return location;
+    }
+
+    public void setLocation(City location) {
+        this.location = location;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "driverVehicleId", referencedColumnName = "idVehicle")
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 
     @Override
@@ -115,23 +141,13 @@ public class Driver {
         return result;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "driverCityId", referencedColumnName = "idCity", nullable = false)
-    public City getLocation() {
-        return location;
-    }
-
-    public void setLocation(City location) {
-        this.location = location;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "driverVehicleId", referencedColumnName = "idVehicle")
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
+    @Override
+    public String toString() {
+        return "Driver{" +
+                "id=" + id +
+                ", persNumber='" + persNumber + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
     }
 }

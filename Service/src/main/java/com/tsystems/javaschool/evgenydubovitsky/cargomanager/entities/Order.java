@@ -1,11 +1,13 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "orders", schema = "cargomanager")
-public class Order {
+public class Order implements Serializable {
+
     private long id;
     private int progress;
     private int total;
@@ -14,6 +16,7 @@ public class Order {
 
     @Id
     @Column(name = "idOrder", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -42,6 +45,25 @@ public class Order {
         this.total = total;
     }
 
+    @OneToMany(mappedBy = "order")
+    public List<Checkpoint> getCheckpoints() {
+        return checkpoints;
+    }
+
+    public void setCheckpoints(List<Checkpoint> checkpoints) {
+        this.checkpoints = checkpoints;
+    }
+
+    @OneToOne
+    @JoinColumn(name = "orderVehicleId", referencedColumnName = "idVehicle")
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,22 +84,10 @@ public class Order {
         return result;
     }
 
-    @OneToMany(mappedBy = "order")
-    public List<Checkpoint> getCheckpoints() {
-        return checkpoints;
-    }
-
-    public void setCheckpoints(List<Checkpoint> checkpoints) {
-        this.checkpoints = checkpoints;
-    }
-
-    @OneToOne
-    @JoinColumn(name = "orderVehicleId", referencedColumnName = "idVehicle")
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                '}';
     }
 }
