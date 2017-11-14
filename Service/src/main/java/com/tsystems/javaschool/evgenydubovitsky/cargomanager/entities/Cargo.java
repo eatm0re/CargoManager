@@ -106,6 +106,7 @@ public class Cargo implements Serializable {
         return "Cargo{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", weightKg=" + weightKg +
                 '}';
     }
 }
