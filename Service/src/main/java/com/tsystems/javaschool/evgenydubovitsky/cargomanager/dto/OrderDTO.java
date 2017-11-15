@@ -3,24 +3,14 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Checkpoint;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class OrderDTO implements Serializable {
+public class OrderDTO extends DTO {
 
-    private long id;
     private int progress;
     private int total;
     private List<Checkpoint> checkpoints;
     private Vehicle vehicle;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public int getProgress() {
         return progress;

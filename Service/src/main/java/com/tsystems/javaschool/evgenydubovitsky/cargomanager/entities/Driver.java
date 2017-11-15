@@ -1,17 +1,15 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "drivers", schema = "cargomanager")
-public class Driver implements Serializable {
+public class Driver extends AbstractEntity {
 
     public enum Status {REST, WORK}
 
-    private long id;
     private String persNumber;
     private String firstName;
     private String lastName;

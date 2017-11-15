@@ -1,16 +1,14 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "vehicles", schema = "cargomanager")
-public class Vehicle implements Serializable {
+public class Vehicle extends AbstractEntity {
 
     public enum Status {OK, BROKEN}
 
-    private long id;
     private String regNumber;
     private long capacityKg;
     private Status status = Status.OK;

@@ -1,14 +1,12 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "cities", schema = "cargomanager")
-public class City implements Serializable {
+public class City extends AbstractEntity {
 
-    private long id;
     private String name;
     private double latitude;
     private double longitude;

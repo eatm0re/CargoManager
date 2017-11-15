@@ -2,22 +2,11 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.User;
 
-import java.io.Serializable;
+public class UserDTO extends DTO {
 
-public class UserDTO implements Serializable {
-
-    private long id;
     private String login;
     private String password;
     private User.Post post;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getLogin() {
         return login;

@@ -4,23 +4,13 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Order;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Task;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class CheckpointDTO implements Serializable {
+public class CheckpointDTO extends DTO {
 
-    private long id;
     private Order order;
     private City city;
     private List<Task> tasks;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public Order getOrder() {
         return order;

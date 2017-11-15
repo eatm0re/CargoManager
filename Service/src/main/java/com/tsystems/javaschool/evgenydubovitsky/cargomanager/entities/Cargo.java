@@ -1,17 +1,15 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
 @Table(name = "cargoes", schema = "cargomanager")
-public class Cargo implements Serializable {
+public class Cargo extends AbstractEntity {
 
     public enum Status {READY, SHIPPED, DELIVERED}
 
-    private long id;
     private String name;
     private BigDecimal weightKg = BigDecimal.ZERO;
     private Status status = Status.READY;

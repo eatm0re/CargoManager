@@ -1,13 +1,14 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.impl;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.DAO;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.AbstractEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public abstract class AbstractDAO<E> implements DAO<E> {
+public abstract class AbstractDAO<E extends AbstractEntity> implements DAO<E> {
 
     private Class<E> clazz;
     protected SessionFactory sessionFactory;

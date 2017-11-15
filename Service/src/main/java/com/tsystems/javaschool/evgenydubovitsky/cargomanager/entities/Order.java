@@ -1,14 +1,12 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "orders", schema = "cargomanager")
-public class Order implements Serializable {
+public class Order extends AbstractEntity {
 
-    private long id;
     private int progress;
     private int total;
     private List<Checkpoint> checkpoints;

@@ -5,26 +5,16 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Driver;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Order;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class VehicleDTO implements Serializable {
+public class VehicleDTO extends DTO {
 
-    private long id;
     private String regNumber;
     private long capacityKg;
     private Vehicle.Status status;
     private List<Driver> drivers;
     private Order order;
     private City location;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getRegNumber() {
         return regNumber;

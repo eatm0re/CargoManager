@@ -3,25 +3,15 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Driver;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class CityDTO implements Serializable {
+public class CityDTO extends DTO {
 
-    private long id;
     private String name;
     private double latitude;
     private double longitude;
     private List<Driver> drivers;
     private List<Vehicle> vehicles;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

@@ -1,13 +1,11 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "tasks", schema = "cargomanager")
-public class Task implements Serializable {
+public class Task extends AbstractEntity {
 
-    private long id;
     private Checkpoint checkpoint;
     private Cargo cargo;
 

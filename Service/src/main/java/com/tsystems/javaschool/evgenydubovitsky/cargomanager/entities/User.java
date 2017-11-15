@@ -1,15 +1,13 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "users", schema = "cargomanager")
-public class User implements Serializable {
+public class User extends AbstractEntity {
 
     public enum Post {DRIVER, STUFF}
 
-    private long id;
     private String login;
     private String password;
     private Post post = Post.DRIVER;

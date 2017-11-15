@@ -3,21 +3,10 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Cargo;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Checkpoint;
 
-import java.io.Serializable;
+public class TaskDTO extends DTO {
 
-public class TaskDTO implements Serializable {
-
-    private long id;
     private Checkpoint checkpoint;
     private Cargo cargo;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public Checkpoint getCheckpoint() {
         return checkpoint;

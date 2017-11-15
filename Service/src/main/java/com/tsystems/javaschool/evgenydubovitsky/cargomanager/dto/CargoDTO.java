@@ -4,26 +4,16 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Cargo;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Task;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class CargoDTO implements Serializable {
+public class CargoDTO extends DTO {
 
-    private long id;
     private String name;
     private BigDecimal weightKg;
     private Cargo.Status status;
     private City location;
     private List<Task> tasks;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

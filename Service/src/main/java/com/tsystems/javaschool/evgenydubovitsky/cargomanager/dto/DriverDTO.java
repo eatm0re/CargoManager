@@ -4,12 +4,10 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Driver;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class DriverDTO implements Serializable {
+public class DriverDTO extends DTO {
 
-    private long id;
     private String persNumber;
     private String firstName;
     private String lastName;
@@ -18,14 +16,6 @@ public class DriverDTO implements Serializable {
     private int workedThisMonth;
     private City location;
     private Vehicle vehicle;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getPersNumber() {
         return persNumber;
