@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Arrays;
+import java.util.Collections;
 
 import static org.junit.Assert.*;
 
@@ -31,14 +32,14 @@ public class OrderServiceTest {
     @Transactional(rollbackFor = Exception.class)
     @Rollback
     public void add_1() throws Exception {
-        OrderDTO order = new OrderDTO(0, 0, 0, Arrays.asList(
-                new CheckpointDTO(0, null, new CityDTO(0, "Saint-Petersburg", 0, 0), Arrays.asList(
-                        new TaskDTO(0, null, new CargoDTO(4, null, null, null))
+        OrderDTO order = new OrderDTO(Arrays.asList(
+                new CheckpointDTO(0, null, new CityDTO("Saint-Petersburg"), Arrays.asList(
+                        new TaskDTO(0, null, new CargoDTO(4))
                 )),
-                new CheckpointDTO(0, null, new CityDTO(0, "Novosibirsk", 0, 0), Arrays.asList(
-                        new TaskDTO(0, null, new CargoDTO(4, null, null, null))
+                new CheckpointDTO(0, null, new CityDTO("Novosibirsk"), Arrays.asList(
+                        new TaskDTO(0, null, new CargoDTO(4))
                 ))
-        ), null);
+        ));
 
         long orderId = service.getOrderService().add(order);
         order = service.getOrderService().findById(orderId);
@@ -52,9 +53,10 @@ public class OrderServiceTest {
     @Test
     @Transactional(rollbackFor = Exception.class)
     @Rollback
+    @SuppressWarnings("unchecked")
     public void add_2() throws Exception {
         try {
-            OrderDTO order = new OrderDTO(0, 0, 0, null, null);
+            OrderDTO order = new OrderDTO(Collections.EMPTY_LIST);
             service.getOrderService().add(order);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -67,14 +69,14 @@ public class OrderServiceTest {
     @Rollback
     public void add_3() throws Exception {
         try {
-            OrderDTO order = new OrderDTO(0, 0, 0, Arrays.asList(
-                    new CheckpointDTO(0, null, new CityDTO(0, "Saint-Petersburg", 0, 0), Arrays.asList(
-                            new TaskDTO(0, null, new CargoDTO(4, null, null, null))
+            OrderDTO order = new OrderDTO(Arrays.asList(
+                    new CheckpointDTO(0, null, new CityDTO("Saint-Petersburg"), Arrays.asList(
+                            new TaskDTO(0, null, new CargoDTO(4))
                     )),
-                    new CheckpointDTO(0, null, new CityDTO(0, null, 0, 0), Arrays.asList(
-                            new TaskDTO(0, null, new CargoDTO(4, null, null, null))
+                    new CheckpointDTO(0, null, new CityDTO(""), Arrays.asList(
+                            new TaskDTO(0, null, new CargoDTO(4))
                     ))
-            ), null);
+            ));
 
             service.getOrderService().add(order);
             fail("Exception expected");
@@ -88,14 +90,14 @@ public class OrderServiceTest {
     @Rollback
     public void add_4() throws Exception {
         try {
-            OrderDTO order = new OrderDTO(0, 0, 0, Arrays.asList(
-                    new CheckpointDTO(0, null, new CityDTO(0, "Saint-Petersburg", 0, 0), Arrays.asList(
-                            new TaskDTO(0, null, new CargoDTO(4, null, null, null))
+            OrderDTO order = new OrderDTO(Arrays.asList(
+                    new CheckpointDTO(0, null, new CityDTO("Saint-Petersburg"), Arrays.asList(
+                            new TaskDTO(0, null, new CargoDTO(4))
                     )),
-                    new CheckpointDTO(0, null, new CityDTO(0, "Новосибирск", 0, 0), Arrays.asList(
-                            new TaskDTO(0, null, new CargoDTO(4, null, null, null))
+                    new CheckpointDTO(0, null, new CityDTO("Новосибирск"), Arrays.asList(
+                            new TaskDTO(0, null, new CargoDTO(4))
                     ))
-            ), null);
+            ));
 
             service.getOrderService().add(order);
             fail("Exception expected");
@@ -109,14 +111,14 @@ public class OrderServiceTest {
     @Rollback
     public void add_5() throws Exception {
         try {
-            OrderDTO order = new OrderDTO(0, 0, 0, Arrays.asList(
-                    new CheckpointDTO(0, null, new CityDTO(0, "Saint-Petersburg", 0, 0), Arrays.asList(
-                            new TaskDTO(0, null, new CargoDTO(4, null, null, null))
+            OrderDTO order = new OrderDTO(Arrays.asList(
+                    new CheckpointDTO(0, null, new CityDTO("Saint-Petersburg"), Arrays.asList(
+                            new TaskDTO(0, null, new CargoDTO(4))
                     )),
-                    new CheckpointDTO(0, null, new CityDTO(0, "TestCity", 0, 0), Arrays.asList(
-                            new TaskDTO(0, null, new CargoDTO(4, null, null, null))
+                    new CheckpointDTO(0, null, new CityDTO("TestCity"), Arrays.asList(
+                            new TaskDTO(0, null, new CargoDTO(4))
                     ))
-            ), null);
+            ));
 
             service.getOrderService().add(order);
             fail("Exception expected");
@@ -130,14 +132,14 @@ public class OrderServiceTest {
     @Rollback
     public void add_6() throws Exception {
         try {
-            OrderDTO order = new OrderDTO(0, 0, 0, Arrays.asList(
-                    new CheckpointDTO(0, null, new CityDTO(0, "Saint-Petersburg", 0, 0), Arrays.asList(
-                            new TaskDTO(0, null, new CargoDTO(4, null, null, null))
+            OrderDTO order = new OrderDTO(Arrays.asList(
+                    new CheckpointDTO(0, null, new CityDTO("Saint-Petersburg"), Arrays.asList(
+                            new TaskDTO(0, null, new CargoDTO(4))
                     )),
-                    new CheckpointDTO(0, null, new CityDTO(0, "Novosibirsk", 0, 0), Arrays.asList(
-                            new TaskDTO(0, null, new CargoDTO(-4, null, null, null))
+                    new CheckpointDTO(0, null, new CityDTO("Novosibirsk"), Arrays.asList(
+                            new TaskDTO(0, null, new CargoDTO(-4))
                     ))
-            ), null);
+            ));
 
             service.getOrderService().add(order);
             fail("Exception expected");
@@ -151,14 +153,14 @@ public class OrderServiceTest {
     @Rollback
     public void add_7() throws Exception {
         try {
-            OrderDTO order = new OrderDTO(0, 0, 0, Arrays.asList(
-                    new CheckpointDTO(0, null, new CityDTO(0, "Saint-Petersburg", 0, 0), Arrays.asList(
-                            new TaskDTO(0, null, new CargoDTO(4, null, null, null))
+            OrderDTO order = new OrderDTO(Arrays.asList(
+                    new CheckpointDTO(0, null, new CityDTO("Saint-Petersburg"), Arrays.asList(
+                            new TaskDTO(0, null, new CargoDTO(4))
                     )),
-                    new CheckpointDTO(0, null, new CityDTO(0, "Novosibirsk", 0, 0), Arrays.asList(
-                            new TaskDTO(0, null, new CargoDTO(6666666666666L, null, null, null))
+                    new CheckpointDTO(0, null, new CityDTO("Novosibirsk"), Arrays.asList(
+                            new TaskDTO(0, null, new CargoDTO(6666666666666L))
                     ))
-            ), null);
+            ));
 
             service.getOrderService().add(order);
             fail("Exception expected");
@@ -172,14 +174,14 @@ public class OrderServiceTest {
     @Rollback
     public void add_8() throws Exception {
         try {
-            OrderDTO order = new OrderDTO(0, 0, 0, Arrays.asList(
-                    new CheckpointDTO(0, null, new CityDTO(0, "Saint-Petersburg", 0, 0), Arrays.asList(
-                            new TaskDTO(0, null, new CargoDTO(4, null, null, null))
+            OrderDTO order = new OrderDTO(Arrays.asList(
+                    new CheckpointDTO(0, null, new CityDTO("Saint-Petersburg"), Arrays.asList(
+                            new TaskDTO(0, null, new CargoDTO(4))
                     )),
-                    new CheckpointDTO(0, null, new CityDTO(0, "Saint-Petersburg", 0, 0), Arrays.asList(
-                            new TaskDTO(0, null, new CargoDTO(4, null, null, null))
+                    new CheckpointDTO(0, null, new CityDTO("Saint-Petersburg"), Arrays.asList(
+                            new TaskDTO(0, null, new CargoDTO(4))
                     ))
-            ), null);
+            ));
 
             service.getOrderService().add(order);
             fail("Exception expected");
@@ -193,14 +195,14 @@ public class OrderServiceTest {
     @Rollback
     public void add_9() throws Exception {
         try {
-            OrderDTO order = new OrderDTO(0, 0, 0, Arrays.asList(
-                    new CheckpointDTO(0, null, new CityDTO(0, "Moscow", 0, 0), Arrays.asList(
-                            new TaskDTO(0, null, new CargoDTO(4, null, null, null))
+            OrderDTO order = new OrderDTO(Arrays.asList(
+                    new CheckpointDTO(0, null, new CityDTO("Moscow"), Arrays.asList(
+                            new TaskDTO(0, null, new CargoDTO(4))
                     )),
-                    new CheckpointDTO(0, null, new CityDTO(0, "Novosibirsk", 0, 0), Arrays.asList(
-                            new TaskDTO(0, null, new CargoDTO(4, null, null, null))
+                    new CheckpointDTO(0, null, new CityDTO("Novosibirsk"), Arrays.asList(
+                            new TaskDTO(0, null, new CargoDTO(4))
                     ))
-            ), null);
+            ));
 
             service.getOrderService().add(order);
             fail("Exception expected");
@@ -214,15 +216,15 @@ public class OrderServiceTest {
     @Rollback
     public void add_10() throws Exception {
         try {
-            OrderDTO order = new OrderDTO(0, 0, 0, Arrays.asList(
-                    new CheckpointDTO(0, null, new CityDTO(0, "Saint-Petersburg", 0, 0), Arrays.asList(
-                            new TaskDTO(0, null, new CargoDTO(4, null, null, null)),
-                            new TaskDTO(0, null, new CargoDTO(5, null, null, null))
+            OrderDTO order = new OrderDTO(Arrays.asList(
+                    new CheckpointDTO(0, null, new CityDTO("Saint-Petersburg"), Arrays.asList(
+                            new TaskDTO(0, null, new CargoDTO(4)),
+                            new TaskDTO(0, null, new CargoDTO(5))
                     )),
-                    new CheckpointDTO(0, null, new CityDTO(0, "Novosibirsk", 0, 0), Arrays.asList(
-                            new TaskDTO(0, null, new CargoDTO(4, null, null, null))
+                    new CheckpointDTO(0, null, new CityDTO("Novosibirsk"), Arrays.asList(
+                            new TaskDTO(0, null, new CargoDTO(4))
                     ))
-            ), null);
+            ));
 
             service.getOrderService().add(order);
             fail("Exception expected");
@@ -235,11 +237,11 @@ public class OrderServiceTest {
     @Transactional(rollbackFor = Exception.class)
     @Rollback
     public void progressReport_1() throws Exception {
-        service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getDriverService().change(new DriverDTO(0, "CVB765432", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getDriverService().change(new DriverDTO(0, "NMQ109876", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getVehicleService().change(new VehicleDTO(0, "9876AS", 0, null, null, new OrderDTO(2, 0, 0), null));
-        service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, Driver.Status.WORK, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getDriverService().change(new DriverDTO("CVB765432", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
         service.getOrderService().progressReport(2);
         service.getOrderService().progressReport(2);
         OrderDTO order = service.getOrderService().findById(2);
@@ -286,11 +288,11 @@ public class OrderServiceTest {
     @Rollback
     public void progressReport_4() throws Exception {
         try {
-            service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-            service.getDriverService().change(new DriverDTO(0, "CVB765432", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-            service.getDriverService().change(new DriverDTO(0, "NMQ109876", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-            service.getVehicleService().change(new VehicleDTO(0, "9876AS", 0, null, null, new OrderDTO(2, 0, 0), null));
-            service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, Driver.Status.WORK, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
+            service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), null));
+            service.getDriverService().change(new DriverDTO("CVB765432", null, null, null, new VehicleDTO("9876AS"), null));
+            service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
+            service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
+            service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
             for (int i = 0; i < 5; i++) {
                 service.getOrderService().progressReport(2);
             }
@@ -305,9 +307,9 @@ public class OrderServiceTest {
     @Rollback
     public void progressReport_5() throws Exception {
         try {
-            service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-            service.getDriverService().change(new DriverDTO(0, "CVB765432", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-            service.getDriverService().change(new DriverDTO(0, "NMQ109876", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
+            service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), null));
+            service.getDriverService().change(new DriverDTO("CVB765432", null, null, null, new VehicleDTO("9876AS"), null));
+            service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
             service.getOrderService().progressReport(2);
             fail("Exception expected");
         } catch (IllegalStateException e) {
@@ -319,11 +321,11 @@ public class OrderServiceTest {
     @Transactional(rollbackFor = Exception.class)
     @Rollback
     public void progressReport_6() throws Exception {
-        service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getDriverService().change(new DriverDTO(0, "CVB765432", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getDriverService().change(new DriverDTO(0, "NMQ109876", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getVehicleService().change(new VehicleDTO(0, "9876AS", 0, null, null, new OrderDTO(2, 0, 0), null));
-        service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, Driver.Status.WORK, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getDriverService().change(new DriverDTO("CVB765432", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
         for (int i = 0; i < 4; i++) {
             service.getOrderService().progressReport(2);
         }
@@ -354,11 +356,11 @@ public class OrderServiceTest {
     @Transactional(rollbackFor = Exception.class)
     @Rollback
     public void interrupt_1() throws Exception {
-        service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getDriverService().change(new DriverDTO(0, "CVB765432", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getDriverService().change(new DriverDTO(0, "NMQ109876", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getVehicleService().change(new VehicleDTO(0, "9876AS", 0, null, null, new OrderDTO(2, 0, 0), null));
-        service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, Driver.Status.WORK, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getDriverService().change(new DriverDTO("CVB765432", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
         service.getOrderService().progressReport(2);
         service.getOrderService().progressReport(2);
         service.getOrderService().interrupt(2);
@@ -390,11 +392,11 @@ public class OrderServiceTest {
     @Transactional(rollbackFor = Exception.class)
     @Rollback
     public void interrupt_2() throws Exception {
-        service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getDriverService().change(new DriverDTO(0, "CVB765432", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getDriverService().change(new DriverDTO(0, "NMQ109876", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getVehicleService().change(new VehicleDTO(0, "9876AS", 0, null, null, new OrderDTO(2, 0, 0), null));
-        service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, Driver.Status.WORK, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getDriverService().change(new DriverDTO("CVB765432", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
         service.getOrderService().interrupt(2);
         OrderDTO order = service.getOrderService().findById(2);
         assertEquals(0, order.getProgress());
@@ -424,11 +426,11 @@ public class OrderServiceTest {
     @Transactional(rollbackFor = Exception.class)
     @Rollback
     public void interrupt_3() throws Exception {
-        service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getDriverService().change(new DriverDTO(0, "CVB765432", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getDriverService().change(new DriverDTO(0, "NMQ109876", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getVehicleService().change(new VehicleDTO(0, "9876AS", 0, null, null, new OrderDTO(2, 0, 0), null));
-        service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, Driver.Status.WORK, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getDriverService().change(new DriverDTO("CVB765432", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
         service.getOrderService().progressReport(2);
         service.getOrderService().interrupt(2);
         OrderDTO order = service.getOrderService().findById(2);
@@ -460,11 +462,11 @@ public class OrderServiceTest {
     @Rollback
     public void interrupt_4() throws Exception {
         try {
-            service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-            service.getDriverService().change(new DriverDTO(0, "CVB765432", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-            service.getDriverService().change(new DriverDTO(0, "NMQ109876", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-            service.getVehicleService().change(new VehicleDTO(0, "9876AS", 0, null, null, new OrderDTO(2, 0, 0), null));
-            service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, Driver.Status.WORK, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
+            service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), null));
+            service.getDriverService().change(new DriverDTO("CVB765432", null, null, null, new VehicleDTO("9876AS"), null));
+            service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
+            service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
+            service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
             service.getOrderService().progressReport(2);
             service.getOrderService().interrupt(2);
             service.getOrderService().progressReport(2);
@@ -478,14 +480,14 @@ public class OrderServiceTest {
     @Transactional(rollbackFor = Exception.class)
     @Rollback
     public void interrupt_5() throws Exception {
-        service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getDriverService().change(new DriverDTO(0, "CVB765432", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getDriverService().change(new DriverDTO(0, "NMQ109876", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getVehicleService().change(new VehicleDTO(0, "9876AS", 0, null, null, new OrderDTO(2, 0, 0), null));
-        service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, Driver.Status.WORK, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getDriverService().change(new DriverDTO("CVB765432", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
         service.getOrderService().progressReport(2);
         service.getOrderService().interrupt(2);
-        service.getVehicleService().change(new VehicleDTO(0, "9876AS", 0, null, null, new OrderDTO(2, 0, 0), null));
+        service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
         service.getOrderService().progressReport(2);
         service.getOrderService().progressReport(2);
         OrderDTO order = service.getOrderService().findById(2);
@@ -514,11 +516,11 @@ public class OrderServiceTest {
     @Transactional(rollbackFor = Exception.class)
     @Rollback
     public void interrupt_6() throws Exception {
-        service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getDriverService().change(new DriverDTO(0, "CVB765432", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getDriverService().change(new DriverDTO(0, "NMQ109876", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getVehicleService().change(new VehicleDTO(0, "9876AS", 0, null, null, new OrderDTO(2, 0, 0), null));
-        service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, Driver.Status.WORK, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getDriverService().change(new DriverDTO("CVB765432", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
         service.getOrderService().progressReport(2);
         service.getOrderService().progressReport(2);
         service.getOrderService().interrupt(2);
@@ -551,11 +553,11 @@ public class OrderServiceTest {
     @Rollback
     public void interrupt_7() throws Exception {
         try {
-            service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-            service.getDriverService().change(new DriverDTO(0, "CVB765432", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-            service.getDriverService().change(new DriverDTO(0, "NMQ109876", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-            service.getVehicleService().change(new VehicleDTO(0, "9876AS", 0, null, null, new OrderDTO(2, 0, 0), null));
-            service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, Driver.Status.WORK, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
+            service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), null));
+            service.getDriverService().change(new DriverDTO("CVB765432", null, null, null, new VehicleDTO("9876AS"), null));
+            service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
+            service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
+            service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
             for (int i = 0; i < 4; i++) {
                 service.getOrderService().progressReport(2);
             }
@@ -594,14 +596,14 @@ public class OrderServiceTest {
     @Transactional(rollbackFor = Exception.class)
     @Rollback
     public void interrupt_10() throws Exception {
-        service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getDriverService().change(new DriverDTO(0, "CVB765432", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getDriverService().change(new DriverDTO(0, "NMQ109876", null, null, null, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
-        service.getVehicleService().change(new VehicleDTO(0, "9876AS", 0, null, null, new OrderDTO(2, 0, 0), null));
-        service.getDriverService().change(new DriverDTO(0, "LZX321098", null, null, Driver.Status.WORK, null, 0, null, new VehicleDTO(0, "9876AS", 0, null)));
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getDriverService().change(new DriverDTO("CVB765432", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
+        service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
         service.getOrderService().progressReport(2);
         service.getOrderService().interrupt(2);
-        service.getVehicleService().change(new VehicleDTO(0, "9876AS", 0, null, null, new OrderDTO(2, 0, 0), null));
+        service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
         service.getOrderService().progressReport(2);
         OrderDTO order = service.getOrderService().findById(2);
         assertEquals(1, order.getProgress());

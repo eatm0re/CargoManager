@@ -8,6 +8,25 @@ public class UserDTO extends DTO<User> {
     private String password;
     private User.Post post;
 
+    /**
+     * Identifier
+     */
+    public UserDTO(String login) {
+        this.login = login;
+    }
+
+    /**
+     * Creator and Changer
+     */
+    public UserDTO(String login, String password, User.Post post) {
+        this.login = login;
+        this.password = password;
+        this.post = post;
+    }
+
+    /**
+     * Full
+     */
     public UserDTO(long id, String login, String password, User.Post post) {
         this.id = id;
         this.login = login;
@@ -15,8 +34,16 @@ public class UserDTO extends DTO<User> {
         this.post = post;
     }
 
+    /**
+     * Converter
+     */
     public UserDTO(User entity) {
-        this(entity.getId(), entity.getLogin(), entity.getPassword(), entity.getPost());
+        this(
+                entity.getId(),
+                entity.getLogin(),
+                entity.getPassword(),
+                entity.getPost()
+        );
     }
 
     @Override

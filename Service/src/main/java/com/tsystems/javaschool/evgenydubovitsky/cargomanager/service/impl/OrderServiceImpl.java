@@ -59,7 +59,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
             dao.getOrderDAO().addCheckpoint(order, checkpoint);
 
             // checkpoint city
-            if (checkpointDTO.getCity() == null || checkpointDTO.getCity().getName() == null) {
+            if (checkpointDTO.getCity() == null || checkpointDTO.getCity().getName() == null || checkpointDTO.getCity().getName().length() == 0) {
                 throw new IllegalArgumentException("City name must be specified in every checkpoint");
             }
             String cityName = checkpointDTO.getCity().getName();

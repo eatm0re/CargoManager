@@ -3,6 +3,7 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Checkpoint;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Order;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,26 +14,54 @@ public class OrderDTO extends DTO<Order> {
     private List<CheckpointDTO> checkpoints;
     private VehicleDTO vehicle;
 
-    public OrderDTO(long id, int progress, int total) {
+    /**
+     * Identifier
+     */
+    public OrderDTO(long id) {
+        this.id = id;
+    }
+
+    /**
+     * Creator
+     */
+    public OrderDTO(List<CheckpointDTO> checkpoints) {
+        this.checkpoints = checkpoints;
+    }
+
+    /**
+     * Full
+     */
+    public OrderDTO(long id, int progress, int total, List<CheckpointDTO> checkpoints, VehicleDTO vehicle) {
         this.id = id;
         this.progress = progress;
         this.total = total;
-    }
-
-    public OrderDTO(long id, int progress, int total, List<CheckpointDTO> checkpoints, VehicleDTO vehicle) {
-        this(id, progress, total);
         this.checkpoints = checkpoints;
         this.vehicle = vehicle;
     }
 
+    /**
+     * Converter
+     */
     public OrderDTO(Order entity) {
-        this(entity.getId(), entity.getProgress(), entity.getTotal());
+        this(
+                entity.getId(),
+                entity.getProgress(),
+                entity.getTotal(),
+                null,
+                null
+        );
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void fill(Order entity) {
         List<Checkpoint> checkpoints = entity.getCheckpoints();
-        this.checkpoints = checkpoints.stream().map(CheckpointDTO::new).collect(Collectors.toList());
+        if (checkpoints == null) {
+            this.checkpoints = Collections.EMPTY_LIST;
+        } else {
+            this.checkpoints = checkpoints.stream().map(CheckpointDTO::new).collect(Collectors.toList());
+        }
+
         vehicle = entity.getVehicle() == null ? null : new VehicleDTO(entity.getVehicle());
     }
 

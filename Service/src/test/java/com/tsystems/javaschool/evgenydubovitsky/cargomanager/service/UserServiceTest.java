@@ -77,7 +77,7 @@ public class UserServiceTest {
     @Transactional(rollbackFor = Exception.class)
     @Rollback
     public void register_1() throws Exception {
-        UserDTO user = new UserDTO(0, "Test1", "Test2", User.Post.DRIVER);
+        UserDTO user = new UserDTO("Test1", "Test2", User.Post.DRIVER);
         user.setId(service.getUserService().register(user));
         assertEquals(
                 user,
@@ -89,7 +89,7 @@ public class UserServiceTest {
     @Transactional(rollbackFor = Exception.class)
     @Rollback
     public void register_2() throws Exception {
-        UserDTO user = new UserDTO(0, "Test1", "Test2", User.Post.STUFF);
+        UserDTO user = new UserDTO("Test1", "Test2", User.Post.STUFF);
         user.setId(service.getUserService().register(user));
         assertEquals(
                 user,
@@ -102,7 +102,7 @@ public class UserServiceTest {
     @Rollback
     public void register_3() throws Exception {
         try {
-            UserDTO user = new UserDTO(0, "Тест1", "Test2", User.Post.DRIVER);
+            UserDTO user = new UserDTO("Тест1", "Test2", User.Post.DRIVER);
             service.getUserService().register(user);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -115,7 +115,7 @@ public class UserServiceTest {
     @Rollback
     public void register_4() throws Exception {
         try {
-            UserDTO user = new UserDTO(0, "Test1", "Тест2", User.Post.DRIVER);
+            UserDTO user = new UserDTO("Test1", "Тест2", User.Post.DRIVER);
             service.getUserService().register(user);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -128,7 +128,7 @@ public class UserServiceTest {
     @Rollback
     public void register_5() throws Exception {
         try {
-            UserDTO user = new UserDTO(0, "Test1", null, User.Post.DRIVER);
+            UserDTO user = new UserDTO("Test1", null, User.Post.DRIVER);
             service.getUserService().register(user);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -141,7 +141,7 @@ public class UserServiceTest {
     @Rollback
     public void register_6() throws Exception {
         try {
-            UserDTO user = new UserDTO(0, null, "Test2", User.Post.DRIVER);
+            UserDTO user = new UserDTO(null, "Test2", User.Post.DRIVER);
             service.getUserService().register(user);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -154,7 +154,7 @@ public class UserServiceTest {
     @Rollback
     public void register_7() throws Exception {
         try {
-            UserDTO user = new UserDTO(0, "Admin", "Test2", User.Post.DRIVER);
+            UserDTO user = new UserDTO("Admin", "Test2", User.Post.DRIVER);
             service.getUserService().register(user);
             fail("Exception expected");
         } catch (EntityExistsException e) {
@@ -167,7 +167,7 @@ public class UserServiceTest {
     @Rollback
     public void register_8() throws Exception {
         try {
-            UserDTO user = new UserDTO(0, "Test1", "Test2", null);
+            UserDTO user = new UserDTO("Test1", "Test2", null);
             service.getUserService().register(user);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -179,7 +179,7 @@ public class UserServiceTest {
     @Transactional(rollbackFor = Exception.class)
     @Rollback
     public void change_1() throws Exception {
-        UserDTO user = new UserDTO(0, "user", "Test", null);
+        UserDTO user = new UserDTO("user", "Test", null);
         service.getUserService().change(user);
         user.setId(2);
         user.setPost(User.Post.DRIVER);
@@ -193,7 +193,7 @@ public class UserServiceTest {
     @Transactional(rollbackFor = Exception.class)
     @Rollback
     public void change_2() throws Exception {
-        UserDTO user = new UserDTO(0, "user", null, User.Post.STUFF);
+        UserDTO user = new UserDTO("user", null, User.Post.STUFF);
         service.getUserService().change(user);
         user.setId(2);
         user.setPassword("user");
@@ -208,7 +208,7 @@ public class UserServiceTest {
     @Rollback
     public void change_3() throws Exception {
         try {
-            UserDTO user = new UserDTO(0, null, null, null);
+            UserDTO user = new UserDTO(null, null, null);
             service.getUserService().change(user);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -221,7 +221,7 @@ public class UserServiceTest {
     @Rollback
     public void change_4() throws Exception {
         try {
-            UserDTO user = new UserDTO(0, "Тест", null, null);
+            UserDTO user = new UserDTO("Тест", null, null);
             service.getUserService().change(user);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -234,7 +234,7 @@ public class UserServiceTest {
     @Rollback
     public void change_5() throws Exception {
         try {
-            UserDTO user = new UserDTO(0, "Test", null, null);
+            UserDTO user = new UserDTO("Test", null, null);
             service.getUserService().change(user);
             fail("Exception expected");
         } catch (EntityNotFoundException e) {

@@ -34,14 +34,14 @@ public class CityServiceTest {
 
     @Test
     public void add_1() throws Exception {
-        CityDTO city = new CityDTO(0, "TestCity", 0, 0);
+        CityDTO city = new CityDTO("TestCity");
         service.add(city);
     }
 
     @Test
     public void add_2() throws Exception {
         try {
-            CityDTO city = new CityDTO(0, null, 0, 0);
+            CityDTO city = new CityDTO("");
             service.add(city);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -52,7 +52,7 @@ public class CityServiceTest {
     @Test
     public void add_3() throws Exception {
         try {
-            CityDTO city = new CityDTO(0, "ТестГород", 0, 0);
+            CityDTO city = new CityDTO("ТестГород");
             service.add(city);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -64,7 +64,7 @@ public class CityServiceTest {
     public void add_4() throws Exception {
         try {
             when(dao.getCityDAO().selectByName("TestCity")).thenReturn(new City());
-            CityDTO city = new CityDTO(0, "TestCity", 0, 0);
+            CityDTO city = new CityDTO("TestCity");
             service.add(city);
             fail("Exception expected");
         } catch (EntityExistsException e) {
@@ -75,7 +75,7 @@ public class CityServiceTest {
     @Test
     public void add_5() throws Exception {
         try {
-            CityDTO city = new CityDTO(0, "TestCity", 100, 0);
+            CityDTO city = new CityDTO("TestCity", 100, 0);
             service.add(city);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -86,7 +86,7 @@ public class CityServiceTest {
     @Test
     public void add_6() throws Exception {
         try {
-            CityDTO city = new CityDTO(0, "TestCity", 0, -200);
+            CityDTO city = new CityDTO("TestCity", 0, -200);
             service.add(city);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -97,14 +97,14 @@ public class CityServiceTest {
     @Test
     public void change_1() throws Exception {
         when(dao.getCityDAO().selectByName("TestCity")).thenReturn(new City());
-        CityDTO city = new CityDTO(0, "TestCity", 0, 0);
+        CityDTO city = new CityDTO("TestCity");
         service.change(city);
     }
 
     @Test
     public void change_2() throws Exception {
         try {
-            CityDTO city = new CityDTO(0, "TestCity", 0, 0);
+            CityDTO city = new CityDTO("TestCity");
             service.change(city);
             fail("Exception expected");
         } catch (EntityNotFoundException e) {

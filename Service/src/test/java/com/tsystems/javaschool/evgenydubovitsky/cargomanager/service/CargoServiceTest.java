@@ -37,8 +37,7 @@ public class CargoServiceTest {
     @Test
     public void add_1() throws Exception {
         when(dao.getCityDAO().selectByName("TestCity")).thenReturn(new City());
-        CargoDTO cargo = new CargoDTO(0, "Test", BigDecimal.ONE, null);
-        cargo.setLocation(new CityDTO(0, "TestCity", 0, 0));
+        CargoDTO cargo = new CargoDTO("Test", BigDecimal.ONE, new CityDTO("TestCity"));
         service.add(cargo);
     }
 
@@ -46,8 +45,7 @@ public class CargoServiceTest {
     public void add_2() throws Exception {
         try {
             when(dao.getCityDAO().selectByName("TestCity")).thenReturn(new City());
-            CargoDTO cargo = new CargoDTO(0, null, BigDecimal.ONE, null);
-            cargo.setLocation(new CityDTO(0, "TestCity", 0, 0));
+            CargoDTO cargo = new CargoDTO(null, BigDecimal.ONE, new CityDTO("TestCity"));
             service.add(cargo);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -59,8 +57,7 @@ public class CargoServiceTest {
     public void add_3() throws Exception {
         try {
             when(dao.getCityDAO().selectByName("TestCity")).thenReturn(new City());
-            CargoDTO cargo = new CargoDTO(0, "Тест", BigDecimal.ONE, null);
-            cargo.setLocation(new CityDTO(0, "TestCity", 0, 0));
+            CargoDTO cargo = new CargoDTO("Тест", BigDecimal.ONE, new CityDTO("TestCity"));
             service.add(cargo);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -72,8 +69,7 @@ public class CargoServiceTest {
     public void add_4() throws Exception {
         try {
             when(dao.getCityDAO().selectByName("TestCity")).thenReturn(new City());
-            CargoDTO cargo = new CargoDTO(0, "Test", BigDecimal.ONE.negate(), null);
-            cargo.setLocation(new CityDTO(0, "TestCity", 0, 0));
+            CargoDTO cargo = new CargoDTO("Test", BigDecimal.ONE.negate(), new CityDTO("TestCity"));
             service.add(cargo);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -84,7 +80,7 @@ public class CargoServiceTest {
     @Test
     public void add_5() throws Exception {
         try {
-            CargoDTO cargo = new CargoDTO(0, "Test", BigDecimal.ONE, null);
+            CargoDTO cargo = new CargoDTO("Test", BigDecimal.ONE, null);
             service.add(cargo);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -95,8 +91,7 @@ public class CargoServiceTest {
     @Test
     public void add_6() throws Exception {
         try {
-            CargoDTO cargo = new CargoDTO(0, "Test", BigDecimal.ONE, null);
-            cargo.setLocation(new CityDTO(0, "Test@City", 0, 0));
+            CargoDTO cargo = new CargoDTO("Test", BigDecimal.ONE, new CityDTO("Test@City"));
             service.add(cargo);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -107,8 +102,7 @@ public class CargoServiceTest {
     @Test
     public void add_7() throws Exception {
         try {
-            CargoDTO cargo = new CargoDTO(0, "Test", BigDecimal.ONE, null);
-            cargo.setLocation(new CityDTO(0, "TestCity", 0, 0));
+            CargoDTO cargo = new CargoDTO("Test", BigDecimal.ONE, new CityDTO("TestCity"));
             service.add(cargo);
             fail("Exception expected");
         } catch (EntityNotFoundException e) {
@@ -119,14 +113,14 @@ public class CargoServiceTest {
     @Test
     public void change_1() throws Exception {
         when(dao.getCargoDAO().selectById(2L)).thenReturn(new Cargo(2L, "Test", BigDecimal.ONE, Cargo.Status.READY));
-        CargoDTO cargo = new CargoDTO(2L, "Test", BigDecimal.ONE, null);
+        CargoDTO cargo = new CargoDTO(2, "Test", BigDecimal.ONE);
         service.change(cargo);
     }
 
     @Test
     public void change_2() throws Exception {
         try {
-            CargoDTO cargo = new CargoDTO(-2L, "Test", BigDecimal.ONE, null);
+            CargoDTO cargo = new CargoDTO(-2, "Test", BigDecimal.ONE);
             service.change(cargo);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -137,7 +131,7 @@ public class CargoServiceTest {
     @Test
     public void change_3() throws Exception {
         try {
-            CargoDTO cargo = new CargoDTO(2L, "Test", BigDecimal.ONE, null);
+            CargoDTO cargo = new CargoDTO(2, "Test", BigDecimal.ONE);
             service.change(cargo);
             fail("Exception expected");
         } catch (EntityNotFoundException e) {
@@ -149,7 +143,7 @@ public class CargoServiceTest {
     public void change_4() throws Exception {
         try {
             when(dao.getCargoDAO().selectById(2L)).thenReturn(new Cargo(2L, "Test", BigDecimal.ONE, Cargo.Status.READY));
-            CargoDTO cargo = new CargoDTO(2L, "Тест", BigDecimal.ONE, null);
+            CargoDTO cargo = new CargoDTO(2, "Тест", BigDecimal.ONE);
             service.change(cargo);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -161,7 +155,7 @@ public class CargoServiceTest {
     public void change_5() throws Exception {
         try {
             when(dao.getCargoDAO().selectById(2L)).thenReturn(new Cargo(2L, "Test", BigDecimal.ONE, Cargo.Status.READY));
-            CargoDTO cargo = new CargoDTO(2L, "Test", BigDecimal.ONE.negate(), null);
+            CargoDTO cargo = new CargoDTO(2, "Test", BigDecimal.ONE.negate());
             service.change(cargo);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {

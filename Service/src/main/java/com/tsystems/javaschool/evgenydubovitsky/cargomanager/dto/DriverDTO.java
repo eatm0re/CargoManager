@@ -15,24 +15,65 @@ public class DriverDTO extends DTO<Driver> {
     private CityDTO location;
     private VehicleDTO vehicle;
 
-    public DriverDTO(long id, String persNumber, String firstName, String lastName, Driver.Status status, Timestamp lastStatusUpdate, int workedThisMonth) {
+    /**
+     * Identifier
+     */
+    public DriverDTO(String persNumber) {
+        this.persNumber = persNumber;
+    }
+
+    /**
+     * Creator
+     */
+    public DriverDTO(String persNumber, String firstName, String lastName, CityDTO location) {
+        this.persNumber = persNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.location = location;
+    }
+
+    /**
+     * Changer
+     */
+    public DriverDTO(String persNumber, String firstName, String lastName, CityDTO location, VehicleDTO vehicle, Driver.Status status) {
+        this.persNumber = persNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.location = location;
+        this.vehicle = vehicle;
+        this.status = status;
+    }
+
+    /**
+     * Full
+     */
+    public DriverDTO(long id, String persNumber, String firstName, String lastName, CityDTO location, VehicleDTO vehicle, Driver.Status status, Timestamp lastStatusUpdate, int workedThisMonth) {
         this.id = id;
         this.persNumber = persNumber;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.location = location;
+        this.vehicle = vehicle;
         this.status = status;
         this.lastStatusUpdate = lastStatusUpdate;
         this.workedThisMonth = workedThisMonth;
     }
 
-    public DriverDTO(long id, String persNumber, String firstName, String lastName, Driver.Status status, Timestamp lastStatusUpdate, int workedThisMonth, CityDTO location, VehicleDTO vehicle) {
-        this(id, persNumber, firstName, lastName, status, lastStatusUpdate, workedThisMonth);
-        this.location = location;
-        this.vehicle = vehicle;
-    }
-
+    /**
+     * Converter
+     */
     public DriverDTO(Driver entity) {
-        this(entity.getId(), entity.getPersNumber(), entity.getFirstName(), entity.getLastName(), entity.getStatus(), entity.getLastStatusUpdate(), entity.getWorkedThisMonth());
+        this(
+                entity.getId(),
+                entity.getPersNumber(),
+                entity.getFirstName(),
+                entity.getLastName(),
+                null,
+                null,
+                entity.getStatus(),
+                entity.getLastStatusUpdate(),
+                entity.getWorkedThisMonth()
+        );
     }
 
     @Override

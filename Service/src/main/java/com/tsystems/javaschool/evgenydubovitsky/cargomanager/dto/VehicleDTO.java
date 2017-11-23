@@ -12,26 +12,63 @@ public class VehicleDTO extends DTO<Vehicle> {
     private String regNumber;
     private long capacityKg;
     private Vehicle.Status status;
-    private List<DriverDTO> drivers;
-    private OrderDTO order;
     private CityDTO location;
+    private OrderDTO order;
+    private List<DriverDTO> drivers;
 
-    public VehicleDTO(long id, String regNumber, long capacityKg, Vehicle.Status status) {
+    /**
+     * Identifier
+     */
+    public VehicleDTO(String regNumber) {
+        this.regNumber = regNumber;
+    }
+
+    /**
+     * Creator
+     */
+    public VehicleDTO(String regNumber, long capacityKg, CityDTO location) {
+        this.regNumber = regNumber;
+        this.capacityKg = capacityKg;
+        this.location = location;
+    }
+
+    /**
+     * Changer
+     */
+    public VehicleDTO(String regNumber, long capacityKg, Vehicle.Status status, CityDTO location, OrderDTO order) {
+        this.regNumber = regNumber;
+        this.capacityKg = capacityKg;
+        this.status = status;
+        this.location = location;
+        this.order = order;
+    }
+
+    /**
+     * Full
+     */
+    public VehicleDTO(long id, String regNumber, long capacityKg, Vehicle.Status status, CityDTO location, OrderDTO order, List<DriverDTO> drivers) {
         this.id = id;
         this.regNumber = regNumber;
         this.capacityKg = capacityKg;
         this.status = status;
-    }
-
-    public VehicleDTO(long id, String regNumber, long capacityKg, Vehicle.Status status, List<DriverDTO> drivers, OrderDTO order, CityDTO location) {
-        this(id, regNumber, capacityKg, status);
-        this.drivers = drivers;
-        this.order = order;
         this.location = location;
+        this.order = order;
+        this.drivers = drivers;
     }
 
+    /**
+     * Converter
+     */
     public VehicleDTO(Vehicle entity) {
-        this(entity.getId(), entity.getRegNumber(), entity.getCapacityKg(), entity.getStatus());
+        this(
+                entity.getId(),
+                entity.getRegNumber(),
+                entity.getCapacityKg(),
+                entity.getStatus(),
+                null,
+                null,
+                null
+        );
     }
 
     @Override

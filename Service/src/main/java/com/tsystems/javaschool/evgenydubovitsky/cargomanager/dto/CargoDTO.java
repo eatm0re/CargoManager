@@ -2,44 +2,69 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Cargo;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Task;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class CargoDTO extends DTO<Cargo> {
 
     private String name;
     private BigDecimal weightKg;
-    private Cargo.Status status;
     private CityDTO location;
-    private List<TaskDTO> tasks;
+    private Cargo.Status status;
 
-    public CargoDTO(long id, String name, BigDecimal weightKg, Cargo.Status status) {
+    /**
+     * Identifier
+     */
+    public CargoDTO(long id) {
+        this.id = id;
+    }
+
+    /**
+     * Creator
+     */
+    public CargoDTO(String name, BigDecimal weightKg, CityDTO location) {
+        this.name = name;
+        this.weightKg = weightKg;
+        this.location = location;
+    }
+
+    /**
+     * Changer
+     */
+    public CargoDTO(long id, String name, BigDecimal weightKg) {
         this.id = id;
         this.name = name;
         this.weightKg = weightKg;
+    }
+
+    /**
+     * Full
+     */
+    public CargoDTO(long id, String name, BigDecimal weightKg, CityDTO location, Cargo.Status status) {
+        this.id = id;
+        this.name = name;
+        this.weightKg = weightKg;
+        this.location = location;
         this.status = status;
     }
 
-    public CargoDTO(long id, String name, BigDecimal weightKg, Cargo.Status status, CityDTO location, List<TaskDTO> tasks) {
-        this(id, name, weightKg, status);
-        this.location = location;
-        this.tasks = tasks;
-    }
-
+    /**
+     * Converter
+     */
     public CargoDTO(Cargo entity) {
-        this(entity.getId(), entity.getName(), entity.getWeightKg(), entity.getStatus());
+        this(
+                entity.getId(),
+                entity.getName(),
+                entity.getWeightKg(),
+                null,
+                entity.getStatus()
+        );
     }
 
     @Override
     public void fill(Cargo entity) {
         City location = entity.getLocation();
         this.location = new CityDTO(location);
-
-        List<Task> tasks = entity.getTasks();
-        this.tasks = tasks.stream().map(TaskDTO::new).collect(Collectors.toList());
     }
 
     public String getName() {
@@ -74,14 +99,6 @@ public class CargoDTO extends DTO<Cargo> {
         this.location = location;
     }
 
-    public List<TaskDTO> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<TaskDTO> tasks) {
-        this.tasks = tasks;
-    }
-
     @Override
     public String toString() {
         return "CargoDTO{" +
@@ -102,8 +119,7 @@ public class CargoDTO extends DTO<Cargo> {
         if (name != null ? !name.equals(cargoDTO.name) : cargoDTO.name != null) return false;
         if (weightKg != null ? !weightKg.equals(cargoDTO.weightKg) : cargoDTO.weightKg != null) return false;
         if (status != cargoDTO.status) return false;
-        if (location != null ? !location.equals(cargoDTO.location) : cargoDTO.location != null) return false;
-        return tasks != null ? tasks.equals(cargoDTO.tasks) : cargoDTO.tasks == null;
+        return location != null ? location.equals(cargoDTO.location) : cargoDTO.location == null;
     }
 
     @Override
@@ -113,7 +129,6 @@ public class CargoDTO extends DTO<Cargo> {
         result = 31 * result + (weightKg != null ? weightKg.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
-        result = 31 * result + (tasks != null ? tasks.hashCode() : 0);
         return result;
     }
 }

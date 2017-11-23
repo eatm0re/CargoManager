@@ -50,7 +50,7 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
 
         // registration number
         String regNumber = vehicleDTO.getRegNumber();
-        if (regNumber == null) {
+        if (regNumber == null || regNumber.length() == 0) {
             throw new IllegalArgumentException("Registration number must be specified");
         }
         if (!isSimpleName(regNumber)) {

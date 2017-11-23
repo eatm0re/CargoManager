@@ -41,8 +41,7 @@ public class DriverServiceTest {
     @Test
     public void add_1() throws Exception {
         when(dao.getCityDAO().selectByName("TestCity")).thenReturn(new City());
-        DriverDTO driver = new DriverDTO(0, "Test1", "Test2", "Test3", null, null, 0);
-        driver.setLocation(new CityDTO(0, "TestCity", 0, 0));
+        DriverDTO driver = new DriverDTO("Test1", "Test2", "Test3", new CityDTO("TestCity"));
         service.add(driver);
     }
 
@@ -50,8 +49,7 @@ public class DriverServiceTest {
     public void add_2() throws Exception {
         try {
             when(dao.getCityDAO().selectByName("TestCity")).thenReturn(new City());
-            DriverDTO driver = new DriverDTO(0, null, "Test2", "Test3", null, null, 0);
-            driver.setLocation(new CityDTO(0, "TestCity", 0, 0));
+            DriverDTO driver = new DriverDTO(null, "Test2", "Test3", new CityDTO("TestCity"));
             service.add(driver);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -63,8 +61,7 @@ public class DriverServiceTest {
     public void add_3() throws Exception {
         try {
             when(dao.getCityDAO().selectByName("TestCity")).thenReturn(new City());
-            DriverDTO driver = new DriverDTO(0, "Test1", null, "Test3", null, null, 0);
-            driver.setLocation(new CityDTO(0, "TestCity", 0, 0));
+            DriverDTO driver = new DriverDTO("Test1", null, "Test3", new CityDTO("TestCity"));
             service.add(driver);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -76,8 +73,7 @@ public class DriverServiceTest {
     public void add_4() throws Exception {
         try {
             when(dao.getCityDAO().selectByName("TestCity")).thenReturn(new City());
-            DriverDTO driver = new DriverDTO(0, "Test1", "Test2", null, null, null, 0);
-            driver.setLocation(new CityDTO(0, "TestCity", 0, 0));
+            DriverDTO driver = new DriverDTO("Test1", "Test2", null, new CityDTO("TestCity"));
             service.add(driver);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -89,7 +85,7 @@ public class DriverServiceTest {
     public void add_5() throws Exception {
         try {
             when(dao.getCityDAO().selectByName("TestCity")).thenReturn(new City());
-            DriverDTO driver = new DriverDTO(0, "Test1", "Test2", "Test3", null, null, 0);
+            DriverDTO driver = new DriverDTO("Test1", "Test2", "Test3", null);
             service.add(driver);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -101,8 +97,7 @@ public class DriverServiceTest {
     public void add_6() throws Exception {
         try {
             when(dao.getCityDAO().selectByName("TestCity")).thenReturn(new City());
-            DriverDTO driver = new DriverDTO(0, "Тест1", "Test2", "Test3", null, null, 0);
-            driver.setLocation(new CityDTO(0, "TestCity", 0, 0));
+            DriverDTO driver = new DriverDTO("Тест1", "Test2", "Test3", new CityDTO("TestCity"));
             service.add(driver);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -114,8 +109,7 @@ public class DriverServiceTest {
     public void add_7() throws Exception {
         try {
             when(dao.getCityDAO().selectByName("TestCity")).thenReturn(new City());
-            DriverDTO driver = new DriverDTO(0, "Test1", "Тест2", "Test3", null, null, 0);
-            driver.setLocation(new CityDTO(0, "TestCity", 0, 0));
+            DriverDTO driver = new DriverDTO("Test1", "Тест2", "Test3", new CityDTO("TestCity"));
             service.add(driver);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -127,8 +121,7 @@ public class DriverServiceTest {
     public void add_8() throws Exception {
         try {
             when(dao.getCityDAO().selectByName("TestCity")).thenReturn(new City());
-            DriverDTO driver = new DriverDTO(0, "Test1", "Test2", "Тест3", null, null, 0);
-            driver.setLocation(new CityDTO(0, "TestCity", 0, 0));
+            DriverDTO driver = new DriverDTO("Test1", "Test2", "Тест3", new CityDTO("TestCity"));
             service.add(driver);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -140,8 +133,7 @@ public class DriverServiceTest {
     public void add_9() throws Exception {
         try {
             when(dao.getCityDAO().selectByName("TestCity")).thenReturn(new City());
-            DriverDTO driver = new DriverDTO(0, "Test1", "Test2", "Test3", null, null, 0);
-            driver.setLocation(new CityDTO(0, "ТестГород", 0, 0));
+            DriverDTO driver = new DriverDTO("Test1", "Test2", "Test3", new CityDTO("ТестГород"));
             service.add(driver);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -154,8 +146,7 @@ public class DriverServiceTest {
         try {
             when(dao.getCityDAO().selectByName("TestCity")).thenReturn(new City());
             when(dao.getDriverDAO().selectByPersNumber("Test1")).thenReturn(new Driver());
-            DriverDTO driver = new DriverDTO(0, "Test1", "Test2", "Test3", null, null, 0);
-            driver.setLocation(new CityDTO(0, "TestCity", 0, 0));
+            DriverDTO driver = new DriverDTO("Test1", "Test2", "Test3", new CityDTO("TestCity"));
             service.add(driver);
             fail("Exception expected");
         } catch (EntityExistsException e) {
@@ -173,7 +164,7 @@ public class DriverServiceTest {
         when(dao.getCityDAO().selectByName("TestCity")).thenReturn(driverLocation);
         when(dao.getVehicleDAO().selectByRegNumber("TestVehicle")).thenReturn(bindedVehicle);
 
-        DriverDTO driver = new DriverDTO(0, "Test1", "changed", "Test3", null, null, 0);
+        DriverDTO driver = new DriverDTO("Test1", "changed", "Test3", null, null, null);
         service.change(driver);
     }
 
@@ -187,7 +178,7 @@ public class DriverServiceTest {
             when(dao.getCityDAO().selectByName("TestCity")).thenReturn(driverLocation);
             when(dao.getVehicleDAO().selectByRegNumber("TestVehicle")).thenReturn(bindedVehicle);
 
-            DriverDTO driver = new DriverDTO(0, "Test1", "changed", "Test3", null, null, 0);
+            DriverDTO driver = new DriverDTO("Test1", "changed", "Test3", null, null, null);
             service.change(driver);
             fail("Exception expected");
         } catch (EntityNotFoundException e) {
@@ -206,8 +197,7 @@ public class DriverServiceTest {
             when(dao.getCityDAO().selectByName("TestCity")).thenReturn(driverLocation);
             when(dao.getVehicleDAO().selectByRegNumber("TestVehicle")).thenReturn(bindedVehicle);
 
-            DriverDTO driver = new DriverDTO(0, "Test1", "Test2", "Test3", null, null, 0);
-            driver.setLocation(new CityDTO(0, "TestAnotherCity", 0, 0));
+            DriverDTO driver = new DriverDTO("Test1", "Test2", "Test3", new CityDTO("TestAnotherCity"), null, null);
             service.change(driver);
             fail("Exception expected");
         } catch (IllegalStateException e) {
@@ -226,7 +216,7 @@ public class DriverServiceTest {
             when(dao.getCityDAO().selectByName("TestCity")).thenReturn(driverLocation);
             when(dao.getVehicleDAO().selectByRegNumber("TestVehicle")).thenReturn(bindedVehicle);
 
-            DriverDTO driver = new DriverDTO(0, "Test1", "Test2", "Test3", null, null, 0);
+            DriverDTO driver = new DriverDTO("Test1", "Test2", "Test3", null, null, null);
             service.change(driver);
             fail("Exception expected");
         } catch (IllegalStateException e) {

@@ -39,9 +39,9 @@ public class VehicleServiceTest {
                         "5678ER",
                         17000,
                         Vehicle.Status.OK,
-                        Collections.EMPTY_LIST,
+                        new CityDTO(1, "Moscow", 55.755, 37.612, null, null),
                         null,
-                        new CityDTO(1, "Moscow", 55.755, 37.612)
+                        Collections.EMPTY_LIST
                 ),
                 vehicle
         );
@@ -72,7 +72,7 @@ public class VehicleServiceTest {
     @Rollback
     @SuppressWarnings("unchecked")
     public void add_1() throws Exception {
-        VehicleDTO vehicle = new VehicleDTO(0, "Test", 1000, null, null, null, new CityDTO(0, "Saint-Petersburg", 0, 0));
+        VehicleDTO vehicle = new VehicleDTO("Test", 1000, new CityDTO("Saint-Petersburg"));
         long vehicleId = service.getVehicleService().add(vehicle);
         vehicle = service.getVehicleService().findByRegNumber("Test");
         assertEquals(
@@ -81,9 +81,7 @@ public class VehicleServiceTest {
                         "Test",
                         1000,
                         Vehicle.Status.OK,
-                        Collections.EMPTY_LIST,
-                        null,
-                        new CityDTO(2, "Saint-Petersburg", 59.952, 30.316)
+                        new CityDTO(2, "Saint-Petersburg", 59.952, 30.316, null, null), null, Collections.EMPTY_LIST
                 ),
                 vehicle
         );
@@ -94,7 +92,7 @@ public class VehicleServiceTest {
     @Rollback
     public void add_2() throws Exception {
         try {
-            VehicleDTO vehicle = new VehicleDTO(0, null, 1000, null, null, null, new CityDTO(0, "Saint-Petersburg", 0, 0));
+            VehicleDTO vehicle = new VehicleDTO("", 1000, new CityDTO("Saint-Petersburg"));
             service.getVehicleService().add(vehicle);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -107,7 +105,7 @@ public class VehicleServiceTest {
     @Rollback
     public void add_3() throws Exception {
         try {
-            VehicleDTO vehicle = new VehicleDTO(0, "Тест", 1000, null, null, null, new CityDTO(0, "Saint-Petersburg", 0, 0));
+            VehicleDTO vehicle = new VehicleDTO("Тест", 1000, new CityDTO("Saint-Petersburg"));
             service.getVehicleService().add(vehicle);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -120,7 +118,7 @@ public class VehicleServiceTest {
     @Rollback
     public void add_4() throws Exception {
         try {
-            VehicleDTO vehicle = new VehicleDTO(0, "Test", -1000, null, null, null, new CityDTO(0, "Saint-Petersburg", 0, 0));
+            VehicleDTO vehicle = new VehicleDTO("Test", -1000, new CityDTO("Saint-Petersburg"));
             service.getVehicleService().add(vehicle);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -133,7 +131,7 @@ public class VehicleServiceTest {
     @Rollback
     public void add_5() throws Exception {
         try {
-            VehicleDTO vehicle = new VehicleDTO(0, "Test", 1000, null, null, null, null);
+            VehicleDTO vehicle = new VehicleDTO("Test", 1000, null);
             service.getVehicleService().add(vehicle);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -146,7 +144,7 @@ public class VehicleServiceTest {
     @Rollback
     public void add_6() throws Exception {
         try {
-            VehicleDTO vehicle = new VehicleDTO(0, "Test", 1000, null, null, null, new CityDTO(0, "Test", 0, 0));
+            VehicleDTO vehicle = new VehicleDTO("Test", 1000, new CityDTO("Test"));
             service.getVehicleService().add(vehicle);
             fail("Exception expected");
         } catch (EntityNotFoundException e) {
@@ -159,7 +157,7 @@ public class VehicleServiceTest {
     @Rollback
     public void add_7() throws Exception {
         try {
-            VehicleDTO vehicle = new VehicleDTO(0, "Test", 1000, null, null, null, new CityDTO(0, "Тест", 0, 0));
+            VehicleDTO vehicle = new VehicleDTO("Test", 1000, new CityDTO("Тест"));
             service.getVehicleService().add(vehicle);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -172,7 +170,7 @@ public class VehicleServiceTest {
     @Rollback
     public void add_8() throws Exception {
         try {
-            VehicleDTO vehicle = new VehicleDTO(0, "Test", 1000, null, null, null, new CityDTO(0, null, 0, 0));
+            VehicleDTO vehicle = new VehicleDTO("Test", 1000, new CityDTO(""));
             service.getVehicleService().add(vehicle);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -185,7 +183,7 @@ public class VehicleServiceTest {
     @Rollback
     @SuppressWarnings("unchecked")
     public void change_1() throws Exception {
-        VehicleDTO vehicle = new VehicleDTO(0, "5432DF", 14000, null, null, null, null);
+        VehicleDTO vehicle = new VehicleDTO("5432DF", 14000, null);
         service.getVehicleService().change(vehicle);
         assertEquals(
                 new VehicleDTO(
@@ -193,9 +191,9 @@ public class VehicleServiceTest {
                         "5432DF",
                         14000,
                         Vehicle.Status.OK,
-                        Collections.EMPTY_LIST,
+                        new CityDTO(2, "Saint-Petersburg", 59.952, 30.316, null, null),
                         null,
-                        new CityDTO(2, "Saint-Petersburg", 59.952, 30.316)
+                        Collections.EMPTY_LIST
                 ),
                 service.getVehicleService().findByRegNumber("5432DF")
         );
@@ -206,18 +204,17 @@ public class VehicleServiceTest {
     @Rollback
     @SuppressWarnings("unchecked")
     public void change_2() throws Exception {
-        VehicleDTO vehicle = new VehicleDTO(0, "5432DF", 0, null, null, null, new CityDTO(0, "Moscow", 0, 0));
+        VehicleDTO vehicle = new VehicleDTO("5432DF", 0, new CityDTO("Moscow"));
         service.getVehicleService().change(vehicle);
-        vehicle = service.getVehicleService().findByRegNumber("5432DF");
         assertEquals(
                 new VehicleDTO(
                         7,
                         "5432DF",
                         13000,
                         Vehicle.Status.OK,
-                        Collections.EMPTY_LIST,
+                        new CityDTO(1, "Moscow", 55.755, 37.612, null, null),
                         null,
-                        new CityDTO(1, "Moscow", 55.755, 37.612)
+                        Collections.EMPTY_LIST
                 ),
                 service.getVehicleService().findByRegNumber("5432DF")
         );
@@ -228,7 +225,7 @@ public class VehicleServiceTest {
     @Rollback
     @SuppressWarnings("unchecked")
     public void change_3() throws Exception {
-        VehicleDTO vehicle = new VehicleDTO(0, "5432DF", 0, Vehicle.Status.BROKEN, null, null, null);
+        VehicleDTO vehicle = new VehicleDTO("5432DF", 0, Vehicle.Status.BROKEN, null, null);
         service.getVehicleService().change(vehicle);
         assertEquals(
                 new VehicleDTO(
@@ -236,9 +233,9 @@ public class VehicleServiceTest {
                         "5432DF",
                         13000,
                         Vehicle.Status.BROKEN,
-                        Collections.EMPTY_LIST,
+                        new CityDTO(2, "Saint-Petersburg", 59.952, 30.316, null, null),
                         null,
-                        new CityDTO(2, "Saint-Petersburg", 59.952, 30.316)
+                        Collections.EMPTY_LIST
                 ),
                 service.getVehicleService().findByRegNumber("5432DF")
         );
@@ -249,9 +246,9 @@ public class VehicleServiceTest {
     @Rollback
     public void change_4() throws Exception {
         DriverDTO driver = service.getDriverService().findByPersNumber("LZX321098");
-        driver.setVehicle(new VehicleDTO(0, "5432DF", 0, null));
+        driver.setVehicle(new VehicleDTO("5432DF"));
         service.getDriverService().change(driver);
-        VehicleDTO vehicle = new VehicleDTO(0, "5432DF", 0, null, null, new OrderDTO(2, 0, 0), null);
+        VehicleDTO vehicle = new VehicleDTO("5432DF", 0, null, null, new OrderDTO(2));
         service.getVehicleService().change(vehicle);
         assertEquals(2, service.getVehicleService().findByRegNumber("5432DF").getOrder().getId());
     }
@@ -261,7 +258,7 @@ public class VehicleServiceTest {
     @Rollback
     public void change_5() throws Exception {
         try {
-            VehicleDTO vehicle = new VehicleDTO(0, "5432DF", 0, null, null, new OrderDTO(2, 0, 0), null);
+            VehicleDTO vehicle = new VehicleDTO("5432DF", 0, null, null, new OrderDTO(2));
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
         } catch (IllegalStateException e) {
@@ -275,9 +272,9 @@ public class VehicleServiceTest {
     public void change_6() throws Exception {
         try {
             DriverDTO driver = service.getDriverService().findByPersNumber("LZX321098");
-            driver.setVehicle(new VehicleDTO(0, "5432DF", 0, null));
+            driver.setVehicle(new VehicleDTO("5432DF"));
             service.getDriverService().change(driver);
-            VehicleDTO vehicle = new VehicleDTO(0, "5432DF", 1, null, null, new OrderDTO(2, 0, 0), null);
+            VehicleDTO vehicle = new VehicleDTO("5432DF", 1, null, null, new OrderDTO(2));
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
         } catch (IllegalStateException e) {
@@ -291,9 +288,9 @@ public class VehicleServiceTest {
     public void change_7() throws Exception {
         try {
             DriverDTO driver = service.getDriverService().findByPersNumber("LZX321098");
-            driver.setVehicle(new VehicleDTO(0, "5432DF", 0, null));
+            driver.setVehicle(new VehicleDTO("5432DF"));
             service.getDriverService().change(driver);
-            VehicleDTO vehicle = new VehicleDTO(0, "5432DF", 0, Vehicle.Status.BROKEN, null, new OrderDTO(2, 0, 0), null);
+            VehicleDTO vehicle = new VehicleDTO("5432DF", 0, Vehicle.Status.BROKEN, null, new OrderDTO(2));
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
         } catch (IllegalStateException e) {
@@ -307,9 +304,9 @@ public class VehicleServiceTest {
     public void change_8() throws Exception {
         try {
             DriverDTO driver = service.getDriverService().findByPersNumber("LZX321098");
-            driver.setVehicle(new VehicleDTO(0, "5432DF", 0, null));
+            driver.setVehicle(new VehicleDTO("5432DF"));
             service.getDriverService().change(driver);
-            VehicleDTO vehicle = new VehicleDTO(0, "5432DF", 0, null, null, new OrderDTO(-2, 0, 0), null);
+            VehicleDTO vehicle = new VehicleDTO("5432DF", 0, null, null, new OrderDTO(-2));
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -323,9 +320,9 @@ public class VehicleServiceTest {
     public void change_9() throws Exception {
         try {
             DriverDTO driver = service.getDriverService().findByPersNumber("LZX321098");
-            driver.setVehicle(new VehicleDTO(0, "5432DF", 0, null));
+            driver.setVehicle(new VehicleDTO("5432DF"));
             service.getDriverService().change(driver);
-            VehicleDTO vehicle = new VehicleDTO(0, "5432DF", 0, null, null, new OrderDTO(666_666_666_666L, 0, 0), null);
+            VehicleDTO vehicle = new VehicleDTO("5432DF", 0, null, null, new OrderDTO(666_666_666_666L));
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
         } catch (EntityNotFoundException e) {
@@ -338,7 +335,7 @@ public class VehicleServiceTest {
     @Rollback
     public void change_10() throws Exception {
         try {
-            VehicleDTO vehicle = new VehicleDTO(0, null, 0, null, null, null, null);
+            VehicleDTO vehicle = new VehicleDTO("", 0, null, null, null);
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -351,7 +348,7 @@ public class VehicleServiceTest {
     @Rollback
     public void change_11() throws Exception {
         try {
-            VehicleDTO vehicle = new VehicleDTO(0, "Тест", 0, null, null, null, null);
+            VehicleDTO vehicle = new VehicleDTO("Тест", 0, null, null, null);
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -364,7 +361,7 @@ public class VehicleServiceTest {
     @Rollback
     public void change_12() throws Exception {
         try {
-            VehicleDTO vehicle = new VehicleDTO(0, "Test", 0, null, null, null, null);
+            VehicleDTO vehicle = new VehicleDTO("Test", 0, null, null, null);
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
         } catch (EntityNotFoundException e) {
@@ -377,7 +374,7 @@ public class VehicleServiceTest {
     @Rollback
     public void change_13() throws Exception {
         try {
-            VehicleDTO vehicle = new VehicleDTO(0, "5432DF", -1000, null, null, null, null);
+            VehicleDTO vehicle = new VehicleDTO("5432DF", -1000, null, null, null);
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
         } catch (IllegalArgumentException e) {
@@ -391,9 +388,9 @@ public class VehicleServiceTest {
     public void change_14() throws Exception {
         try {
             DriverDTO driver = service.getDriverService().findByPersNumber("LZX321098");
-            driver.setVehicle(new VehicleDTO(0, "5432DF", 0, null));
+            driver.setVehicle(new VehicleDTO("5432DF"));
             service.getDriverService().change(driver);
-            VehicleDTO vehicle = new VehicleDTO(0, "5432DF", 0, null, null, new OrderDTO(2, 0, 0), null);
+            VehicleDTO vehicle = new VehicleDTO("5432DF", 0, null, null, new OrderDTO(2));
             service.getVehicleService().change(vehicle);
             vehicle.setCapacityKg(1);
             service.getVehicleService().change(vehicle);
@@ -409,9 +406,9 @@ public class VehicleServiceTest {
     public void change_15() throws Exception {
         try {
             DriverDTO driver = service.getDriverService().findByPersNumber("LZX321098");
-            driver.setVehicle(new VehicleDTO(0, "5432DF", 0, null));
+            driver.setVehicle(new VehicleDTO("5432DF"));
             service.getDriverService().change(driver);
-            VehicleDTO vehicle = new VehicleDTO(0, "5432DF", 0, null, null, new OrderDTO(2, 0, 0), null);
+            VehicleDTO vehicle = new VehicleDTO("5432DF", 0, null, null, new OrderDTO(2));
             service.getVehicleService().change(vehicle);
             vehicle.setStatus(Vehicle.Status.BROKEN);
             service.getVehicleService().change(vehicle);
@@ -427,11 +424,11 @@ public class VehicleServiceTest {
     public void change_16() throws Exception {
         try {
             DriverDTO driver = service.getDriverService().findByPersNumber("LZX321098");
-            driver.setVehicle(new VehicleDTO(0, "5432DF", 0, null));
+            driver.setVehicle(new VehicleDTO("5432DF"));
             service.getDriverService().change(driver);
-            VehicleDTO vehicle = new VehicleDTO(0, "5432DF", 0, null, null, new OrderDTO(2, 0, 0), null);
+            VehicleDTO vehicle = new VehicleDTO("5432DF", 0, null, null, new OrderDTO(2));
             service.getVehicleService().change(vehicle);
-            vehicle.setLocation(new CityDTO(0, "Moscow", 0, 0));
+            vehicle.setLocation(new CityDTO("Moscow"));
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
         } catch (IllegalStateException e) {
@@ -444,9 +441,9 @@ public class VehicleServiceTest {
     @Rollback
     public void change_17() throws Exception {
         DriverDTO driver = service.getDriverService().findByPersNumber("LZX321098");
-        driver.setVehicle(new VehicleDTO(0, "5432DF", 0, null));
+        driver.setVehicle(new VehicleDTO("5432DF"));
         service.getDriverService().change(driver);
-        VehicleDTO vehicle = new VehicleDTO(0, "5432DF", 0, null, null, new OrderDTO(2, 0, 0), null);
+        VehicleDTO vehicle = new VehicleDTO("5432DF", 0, null, null, new OrderDTO(2));
         service.getVehicleService().change(vehicle);
         vehicle.setOrder(null);
         service.getVehicleService().change(vehicle);
@@ -460,9 +457,9 @@ public class VehicleServiceTest {
     public void change_18() throws Exception {
         try {
             DriverDTO driver = service.getDriverService().findByPersNumber("LZX321098");
-            driver.setVehicle(new VehicleDTO(0, "5432DF", 0, null));
+            driver.setVehicle(new VehicleDTO("5432DF"));
             service.getDriverService().change(driver);
-            VehicleDTO vehicle = new VehicleDTO(0, "5432DF", 0, null, null, new OrderDTO(1, 0, 0), null);
+            VehicleDTO vehicle = new VehicleDTO("5432DF", 0, null, null, new OrderDTO(1));
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
         } catch (IllegalStateException e) {
@@ -476,11 +473,11 @@ public class VehicleServiceTest {
     public void change_19() throws Exception {
         try {
             DriverDTO driver = service.getDriverService().findByPersNumber("LZX321098");
-            driver.setVehicle(new VehicleDTO(0, "5432DF", 0, null));
+            driver.setVehicle(new VehicleDTO("5432DF"));
             service.getDriverService().change(driver);
-            VehicleDTO vehicle = new VehicleDTO(0, "5432DF", 0, null, null, new OrderDTO(2, 0, 0), null);
+            VehicleDTO vehicle = new VehicleDTO("5432DF", 0, null, null, new OrderDTO(2));
             service.getVehicleService().change(vehicle);
-            vehicle.setOrder(new OrderDTO(1, 0, 0));
+            vehicle.setOrder(new OrderDTO(1));
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
         } catch (IllegalStateException e) {

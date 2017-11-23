@@ -4,6 +4,7 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Driver;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,30 +16,64 @@ public class CityDTO extends DTO<City> {
     private List<DriverDTO> drivers;
     private List<VehicleDTO> vehicles;
 
-    public CityDTO(long id, String name, double latitude, double longitude) {
-        this.id = id;
+    /**
+     * Identifier
+     */
+    public CityDTO(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Creator and Changer
+     */
+    public CityDTO(String name, double latitude, double longitude) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
+    /**
+     * Full
+     */
     public CityDTO(long id, String name, double latitude, double longitude, List<DriverDTO> drivers, List<VehicleDTO> vehicles) {
-        this(id, name, latitude, longitude);
+        this.id = id;
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.drivers = drivers;
         this.vehicles = vehicles;
     }
 
+    /**
+     * Converter
+     */
     public CityDTO(City entity) {
-        this(entity.getId(), entity.getName(), entity.getLatitude(), entity.getLongitude());
+        this(
+                entity.getId(),
+                entity.getName(),
+                entity.getLatitude(),
+                entity.getLongitude(),
+                null,
+                null
+        );
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void fill(City entity) {
         List<Driver> drivers = entity.getDrivers();
-        this.drivers = drivers.stream().map(DriverDTO::new).collect(Collectors.toList());
+        if (drivers == null) {
+            this.drivers = Collections.EMPTY_LIST;
+        } else {
+            this.drivers = drivers.stream().map(DriverDTO::new).collect(Collectors.toList());
+        }
 
         List<Vehicle> vehicles = entity.getVehicles();
-        this.vehicles = vehicles.stream().map(VehicleDTO::new).collect(Collectors.toList());
+        if (vehicles == null) {
+            this.vehicles = Collections.EMPTY_LIST;
+        } else {
+            this.vehicles = vehicles.stream().map(VehicleDTO::new).collect(Collectors.toList());
+        }
     }
 
     public String getName() {
