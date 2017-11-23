@@ -42,7 +42,7 @@ public class Checkpoint extends AbstractEntity {
         this.city = city;
     }
 
-    @OneToMany(mappedBy = "checkpoint")
+    @OneToMany(mappedBy = "checkpoint", cascade = {CascadeType.PERSIST})
     public List<Task> getTasks() {
         return tasks;
     }

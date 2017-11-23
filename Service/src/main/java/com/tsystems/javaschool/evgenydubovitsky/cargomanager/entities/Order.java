@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities;
 
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -43,13 +44,20 @@ public class Order extends AbstractEntity {
         this.total = total;
     }
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST})
     public List<Checkpoint> getCheckpoints() {
         return checkpoints;
     }
 
     public void setCheckpoints(List<Checkpoint> checkpoints) {
         this.checkpoints = checkpoints;
+    }
+
+    public void putCheckpoint(Checkpoint checkpoint) {
+        if (checkpoints == null) {
+            checkpoints = new LinkedList<>();
+        }
+        checkpoints.add(checkpoint);
     }
 
     @OneToOne

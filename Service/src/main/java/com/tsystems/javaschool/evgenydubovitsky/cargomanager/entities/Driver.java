@@ -19,6 +19,21 @@ public class Driver extends AbstractEntity {
     private City location;
     private Vehicle vehicle;
 
+    public Driver() {
+    }
+
+    public Driver(long id, String persNumber, String firstName, String lastName, Status status, Timestamp lastStatusUpdate, int workedThisMonth, City location, Vehicle vehicle) {
+        this.id = id;
+        this.persNumber = persNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.status = status;
+        this.lastStatusUpdate = lastStatusUpdate;
+        this.workedThisMonth = workedThisMonth;
+        this.location = location;
+        this.vehicle = vehicle;
+    }
+
     @Id
     @Column(name = "idDriver", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

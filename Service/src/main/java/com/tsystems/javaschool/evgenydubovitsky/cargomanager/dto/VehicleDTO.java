@@ -1,20 +1,52 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Driver;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Order;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class VehicleDTO extends DTO {
+public class VehicleDTO extends DTO<Vehicle> {
 
     private String regNumber;
     private long capacityKg;
     private Vehicle.Status status;
-    private List<Driver> drivers;
-    private Order order;
-    private City location;
+    private List<DriverDTO> drivers;
+    private OrderDTO order;
+    private CityDTO location;
+
+    public VehicleDTO(long id, String regNumber, long capacityKg, Vehicle.Status status) {
+        this.id = id;
+        this.regNumber = regNumber;
+        this.capacityKg = capacityKg;
+        this.status = status;
+    }
+
+    public VehicleDTO(long id, String regNumber, long capacityKg, Vehicle.Status status, List<DriverDTO> drivers, OrderDTO order, CityDTO location) {
+        this(id, regNumber, capacityKg, status);
+        this.drivers = drivers;
+        this.order = order;
+        this.location = location;
+    }
+
+    public VehicleDTO(Vehicle entity) {
+        this(entity.getId(), entity.getRegNumber(), entity.getCapacityKg(), entity.getStatus());
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void fill(Vehicle entity) {
+        List<Driver> drivers = entity.getDrivers();
+        if (drivers == null) {
+            this.drivers = Collections.EMPTY_LIST;
+        } else {
+            this.drivers = drivers.stream().map(DriverDTO::new).collect(Collectors.toList());
+        }
+
+        order = entity.getOrder() == null ? null : new OrderDTO(entity.getOrder());
+        location = new CityDTO(entity.getLocation());
+    }
 
     public String getRegNumber() {
         return regNumber;
@@ -40,27 +72,27 @@ public class VehicleDTO extends DTO {
         this.status = status;
     }
 
-    public List<Driver> getDrivers() {
+    public List<DriverDTO> getDrivers() {
         return drivers;
     }
 
-    public void setDrivers(List<Driver> drivers) {
+    public void setDrivers(List<DriverDTO> drivers) {
         this.drivers = drivers;
     }
 
-    public Order getOrder() {
+    public OrderDTO getOrder() {
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(OrderDTO order) {
         this.order = order;
     }
 
-    public City getLocation() {
+    public CityDTO getLocation() {
         return location;
     }
 
-    public void setLocation(City location) {
+    public void setLocation(CityDTO location) {
         this.location = location;
     }
 
@@ -70,5 +102,33 @@ public class VehicleDTO extends DTO {
                 "id=" + id +
                 ", regNumber='" + regNumber + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof VehicleDTO)) return false;
+        if (!super.equals(o)) return false;
+
+        VehicleDTO that = (VehicleDTO) o;
+
+        if (capacityKg != that.capacityKg) return false;
+        if (regNumber != null ? !regNumber.equals(that.regNumber) : that.regNumber != null) return false;
+        if (status != that.status) return false;
+        if (drivers != null ? !drivers.equals(that.drivers) : that.drivers != null) return false;
+        if (order != null ? !order.equals(that.order) : that.order != null) return false;
+        return location != null ? location.equals(that.location) : that.location == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (regNumber != null ? regNumber.hashCode() : 0);
+        result = 31 * result + (int) (capacityKg ^ (capacityKg >>> 32));
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (drivers != null ? drivers.hashCode() : 0);
+        result = 31 * result + (order != null ? order.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        return result;
     }
 }

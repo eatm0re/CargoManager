@@ -12,6 +12,16 @@ public class User extends AbstractEntity {
     private String password;
     private Post post = Post.DRIVER;
 
+    public User() {
+    }
+
+    public User(long id, String login, String password, Post post) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.post = post;
+    }
+
     @Id
     @Column(name = "idUser", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

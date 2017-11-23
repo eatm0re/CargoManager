@@ -16,6 +16,16 @@ public class Cargo extends AbstractEntity {
     private City location;
     private List<Task> tasks;
 
+    public Cargo() {
+    }
+
+    public Cargo(long id, String name, BigDecimal weightKg, Status status) {
+        this.id = id;
+        this.name = name;
+        this.weightKg = weightKg;
+        this.status = status;
+    }
+
     @Id
     @Column(name = "idCargo", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

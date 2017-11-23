@@ -243,8 +243,10 @@ INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoName`, `cargoWeightKg`, `
 INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoName`, `cargoWeightKg`, `cargoStatus`) VALUES (DEFAULT, 2, 'Beer', 1800, DEFAULT);
 INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoName`, `cargoWeightKg`, `cargoStatus`) VALUES (DEFAULT, 2, 'Wine', 1000, DEFAULT);
 INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoName`, `cargoWeightKg`, `cargoStatus`) VALUES (DEFAULT, 2, 'Cognac', 400, DEFAULT);
-INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoName`, `cargoWeightKg`, `cargoStatus`) VALUES (DEFAULT, 3, 'Whiskey', 400, DEFAULT);
-INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoName`, `cargoWeightKg`, `cargoStatus`) VALUES (DEFAULT, 3, 'Water', 1900, DEFAULT);
+INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoName`, `cargoWeightKg`, `cargoStatus`)
+VALUES (DEFAULT, 1, 'Whiskey', 400, DEFAULT);
+INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoName`, `cargoWeightKg`, `cargoStatus`)
+VALUES (DEFAULT, 1, 'Water', 1900, DEFAULT);
 
 COMMIT;
 
@@ -395,4 +397,3 @@ INSERT INTO `Drivers` (`idDriver`, `driverCityId`, `driverVehicleId`, `driverPer
 INSERT INTO `Drivers` (`idDriver`, `driverCityId`, `driverVehicleId`, `driverPersNumber`, `driverFirstName`, `driverLastName`, `driverStatus`, `driverLastStatusUpdate`, `driverWorkedThisMonth`) VALUES (DEFAULT, 17, NULL, 'KJH456321', 'Grigoriy', 'Kuzmin', DEFAULT, DEFAULT, DEFAULT);
 
 COMMIT;
-

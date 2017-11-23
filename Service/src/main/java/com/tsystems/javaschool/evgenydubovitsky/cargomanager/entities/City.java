@@ -1,6 +1,10 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities;
 
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.LazyListProxy;
+import org.hibernate.collection.spi.PersistentCollection;
+
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -12,6 +16,19 @@ public class City extends AbstractEntity {
     private double longitude;
     private List<Driver> drivers;
     private List<Vehicle> vehicles;
+
+    private boolean driversProxied;
+    private boolean vehiclesProxied;
+
+    public City() {
+    }
+
+    public City(long id, String name, double latitude, double longitude) {
+        this.id = id;
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
     @Id
     @Column(name = "idCity", nullable = false)
@@ -63,6 +80,22 @@ public class City extends AbstractEntity {
         this.drivers = drivers;
     }
 
+    public void putDriver(Driver driver) {
+        if (drivers == null) {
+            drivers = new LinkedList<>();
+        }
+        drivers.add(driver);
+    }
+
+    @SuppressWarnings({"unchecked", "UnusedReturnValue"})
+    public boolean removeDriver(Driver driver) {
+        if (!driversProxied && drivers instanceof PersistentCollection) {
+            drivers = new LazyListProxy<>(drivers);
+            driversProxied = true;
+        }
+        return drivers.remove(driver);
+    }
+
     @OneToMany(mappedBy = "location")
     public List<Vehicle> getVehicles() {
         return vehicles;
@@ -70,6 +103,22 @@ public class City extends AbstractEntity {
 
     public void setVehicles(List<Vehicle> vehicles) {
         this.vehicles = vehicles;
+    }
+
+    public void putVehicle(Vehicle vehicle) {
+        if (vehicles == null) {
+            vehicles = new LinkedList<>();
+        }
+        vehicles.add(vehicle);
+    }
+
+    @SuppressWarnings({"unchecked", "UnusedReturnValue"})
+    public boolean removeVehicle(Vehicle vehicle) {
+        if (!vehiclesProxied && vehicles instanceof PersistentCollection) {
+            vehicles = new LazyListProxy<>(vehicles);
+            vehiclesProxied = true;
+        }
+        return vehicles.remove(vehicle);
     }
 
     @Override

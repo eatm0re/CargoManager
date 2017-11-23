@@ -10,11 +10,11 @@ import java.util.List;
 
 public abstract class AbstractDAO<E extends AbstractEntity> implements DAO<E> {
 
-    private Class<E> clazz;
+    private Class<E> entityClass;
     protected SessionFactory sessionFactory;
 
-    protected AbstractDAO(Class<E> clazz) {
-        this.clazz = clazz;
+    protected AbstractDAO(Class<E> entityClass) {
+        this.entityClass = entityClass;
     }
 
     @Autowired
@@ -23,23 +23,28 @@ public abstract class AbstractDAO<E extends AbstractEntity> implements DAO<E> {
     }
 
     @Override
+    public Class<E> getEntityClass() {
+        return entityClass;
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public List<E> selectAll() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from " + clazz.getSimpleName()).list();
+        return session.createQuery("from " + entityClass.getSimpleName()).list();
     }
 
     @Override
     public E selectById(long id) {
         Session session = sessionFactory.getCurrentSession();
-        return session.get(clazz, id);
+        return session.get(entityClass, id);
     }
 
-    @Override
     @SuppressWarnings("unchecked")
-    public List<E> selectByParam(String param, Object value) {
+    protected List<E> selectByParam(String param, Object value) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from " + clazz.getSimpleName() + " x where x." + param + " = ?1")
+        return session
+                .createQuery("from " + entityClass.getSimpleName() + " x where x." + param + " = ?1")
                 .setParameter(1, value)
                 .list();
     }
@@ -57,10 +62,11 @@ public abstract class AbstractDAO<E extends AbstractEntity> implements DAO<E> {
     }
 
     @Override
-    public void delete(long id) {
+    public int deleteByParam(String param, Object value) {
         Session session = sessionFactory.getCurrentSession();
-        session.createQuery("delete from " + clazz.getSimpleName() + " x where x.id = ?1")
-                .setParameter(1, id)
+        return session
+                .createQuery("delete from " + entityClass.getSimpleName() + " x where x." + param + " = ?1")
+                .setParameter(1, value)
                 .executeUpdate();
     }
 }

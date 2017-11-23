@@ -1,6 +1,10 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities;
 
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.LazyListProxy;
+import org.hibernate.collection.spi.PersistentCollection;
+
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -15,6 +19,21 @@ public class Vehicle extends AbstractEntity {
     private List<Driver> drivers;
     private Order order;
     private City location;
+
+    private boolean driversProxied;
+
+    public Vehicle() {
+    }
+
+    public Vehicle(long id, String regNumber, long capacityKg, Status status, List<Driver> drivers, Order order, City location) {
+        this.id = id;
+        this.regNumber = regNumber;
+        this.capacityKg = capacityKg;
+        this.status = status;
+        this.drivers = drivers;
+        this.order = order;
+        this.location = location;
+    }
 
     @Id
     @Column(name = "idVehicle", nullable = false)
@@ -65,6 +84,22 @@ public class Vehicle extends AbstractEntity {
 
     public void setDrivers(List<Driver> drivers) {
         this.drivers = drivers;
+    }
+
+    public void putDriver(Driver driver) {
+        if (drivers == null) {
+            drivers = new LinkedList<>();
+        }
+        drivers.add(driver);
+    }
+
+    @SuppressWarnings({"unchecked", "UnusedReturnValue"})
+    public boolean removeDriver(Driver driver) {
+        if (!driversProxied && drivers instanceof PersistentCollection) {
+            drivers = new LazyListProxy<>(drivers);
+            driversProxied = true;
+        }
+        return drivers.remove(driver);
     }
 
     @OneToOne(mappedBy = "vehicle")
