@@ -4,6 +4,7 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.CityDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.CityService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
@@ -85,5 +86,11 @@ public class CityServiceImpl extends AbstractService<City, CityDTO> implements C
             throw new IllegalArgumentException("City longitude must be between -180 (not including) and +180 (including)");
         }
         city.setLongitude(longitude);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    public double distance(String firstCityName, String secondCityName) {
+        return 0;
     }
 }

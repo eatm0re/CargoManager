@@ -7,4 +7,6 @@ public interface CityService extends Service<CityDTO> {
     long add(CityDTO cityDTO);
 
     void change(CityDTO cityDTO);
+
+    double distance(String firstCityName, String secondCityName);
 }

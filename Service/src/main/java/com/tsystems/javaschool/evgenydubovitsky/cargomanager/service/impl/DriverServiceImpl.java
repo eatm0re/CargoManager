@@ -158,7 +158,6 @@ public class DriverServiceImpl extends AbstractService<Driver, DriverDTO> implem
                 throw new EntityNotFoundException("City " + cityName + " not found");
             }
             dao.getDriverDAO().move(driver, city);
-            //driver.setLocation(city);
         }
 
         // vehicle
@@ -172,7 +171,6 @@ public class DriverServiceImpl extends AbstractService<Driver, DriverDTO> implem
                     service.getOrderService().interrupt(driver.getVehicle().getOrder().getId());
                 }
                 dao.getDriverDAO().unbind(driver);
-                //driver.setVehicle(null);
             }
         } else {
             String regNumber = driverDTO.getVehicle().getRegNumber();
@@ -195,7 +193,6 @@ public class DriverServiceImpl extends AbstractService<Driver, DriverDTO> implem
                     throw new IllegalStateException("Attempted to assign driver to vehicle in another city");
                 }
                 dao.getDriverDAO().bind(driver, vehicle);
-                //driver.setVehicle(vehicle);
             }
         }
 
