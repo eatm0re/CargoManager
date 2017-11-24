@@ -61,6 +61,9 @@ public abstract class AbstractService<E extends AbstractEntity, D extends DTO<E>
     @SuppressWarnings("unchecked")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
     public D findById(long id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("ID must be positive");
+        }
         E entity = dao.getDAO(entityClass).selectById(id);
         if (entity == null) {
             throw new EntityNotFoundException(entityClass.getSimpleName() + " #" + id + " not found");
@@ -69,25 +72,6 @@ public abstract class AbstractService<E extends AbstractEntity, D extends DTO<E>
         dto.fill(entity);
         return dto;
     }
-
-//    @Override
-//    @SuppressWarnings("unchecked")
-//    @Transactional(rollbackFor = Exception.class, readOnly = true)
-//    public List<D> findByParam(String param, Object value) {
-//        List<D> res = (List<D>) dao.getDAO(entityClass)
-//                .selectByParam(param, value)
-//                .stream()
-//                .map(x -> {
-//                    DTO<E> dto = DTOFactory.createDTO(x);
-//                    dto.fill(x);
-//                    return dto;
-//                })
-//                .collect(Collectors.toList());
-//        if (res.size() == 0) {
-//            throw new EntityNotFoundException(entityClass.getSimpleName() + " with " + param + " = " + value + " not found");
-//        }
-//        return res;
-//    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)

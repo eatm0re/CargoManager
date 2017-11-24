@@ -19,8 +19,6 @@
 - Попробовать уже отправленный груз назначить на новый заказ
 - Навесить propagation.SUPPORTS на все read-only методы
 - Навесить propagation.MANDATORY на пишущие методы DAO
-- Добавить верификации в AbstractService
-- Изменить порядок метода VehicleService.change, чтобы order interruption был сначала
 
 
     ПОТОМ
