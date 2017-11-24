@@ -13,6 +13,7 @@ public class Cargo extends AbstractEntity {
     private BigDecimal weightKg = BigDecimal.ZERO;
     private Status status = Status.READY;
     private City location;
+    private Vehicle vehicle;
 
     public Cargo() {
     }
@@ -74,6 +75,16 @@ public class Cargo extends AbstractEntity {
 
     public void setLocation(City location) {
         this.location = location;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "cargoVehicleId", referencedColumnName = "idVehicle")
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 
     @Override

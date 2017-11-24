@@ -242,12 +242,16 @@ public class OrderServiceTest {
         service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
         service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
         service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
+
         service.getOrderService().progressReport(2);
         service.getOrderService().progressReport(2);
+
         OrderDTO order = service.getOrderService().findById(2);
         assertEquals(2, order.getProgress());
+
         VehicleDTO vehicle = service.getVehicleService().findByRegNumber("9876AS");
         assertEquals("Moscow", vehicle.getLocation().getName());
+
         for (DriverDTO driver : vehicle.getDrivers()) {
             driver = service.getDriverService().findByPersNumber(driver.getPersNumber());
             assertEquals("Moscow", driver.getLocation().getName());
@@ -255,8 +259,15 @@ public class OrderServiceTest {
         }
         assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonthMs() > 0);
         assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonthMs());
-        CargoDTO cargo = service.getCargoService().findById(5);
+
+        CargoDTO cargo = service.getCargoService().findById(4);
+        assertEquals(Cargo.Status.DELIVERED, cargo.getStatus());
+        assertNull(cargo.getVehicle());
+
+        cargo = service.getCargoService().findById(5);
         assertEquals(Cargo.Status.SHIPPED, cargo.getStatus());
+        assertEquals(vehicle.getRegNumber(), cargo.getVehicle().getRegNumber());
+        assertEquals(4, vehicle.getCargoes().size());
     }
 
     @Test
@@ -326,13 +337,17 @@ public class OrderServiceTest {
         service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
         service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
         service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
+
         for (int i = 0; i < 4; i++) {
             service.getOrderService().progressReport(2);
         }
+
         OrderDTO order = service.getOrderService().findById(2);
         assertNull(order.getVehicle());
         VehicleDTO vehicle = service.getVehicleService().findByRegNumber("9876AS");
         assertNull(vehicle.getOrder());
+        assertEquals(0, vehicle.getCargoes().size());
+
         for (DriverDTO driver : vehicle.getDrivers()) {
             driver = service.getDriverService().findByPersNumber(driver.getPersNumber());
             assertEquals("9876AS", driver.getVehicle().getRegNumber());
@@ -341,6 +356,7 @@ public class OrderServiceTest {
         }
         assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonthMs() > 0);
         assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonthMs());
+
         for (CheckpointDTO checkpoint : order.getCheckpoints()) {
             checkpoint = service.getCheckpointService().findById(checkpoint.getId());
             for (TaskDTO task : checkpoint.getTasks()) {
@@ -361,15 +377,19 @@ public class OrderServiceTest {
         service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
         service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
         service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
+
         service.getOrderService().progressReport(2);
         service.getOrderService().progressReport(2);
         service.getOrderService().interrupt(2);
+
         OrderDTO order = service.getOrderService().findById(2);
         assertEquals(2, order.getProgress());
         VehicleDTO vehicle = service.getVehicleService().findByRegNumber("9876AS");
         assertNull(vehicle.getOrder());
         assertNull(order.getVehicle());
         assertEquals("Moscow", vehicle.getLocation().getName());
+        assertEquals(0, vehicle.getCargoes().size());
+
         for (DriverDTO driver : vehicle.getDrivers()) {
             driver = service.getDriverService().findByPersNumber(driver.getPersNumber());
             assertEquals("Moscow", driver.getLocation().getName());
@@ -377,6 +397,7 @@ public class OrderServiceTest {
         }
         assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonthMs() > 0);
         assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonthMs());
+
         CargoDTO firstCargo = service.getCargoService().findById(4);
         CargoDTO secondCargo = service.getCargoService().findById(5);
         CargoDTO thirdCargo = service.getCargoService().findById(7);
@@ -386,6 +407,9 @@ public class OrderServiceTest {
         assertEquals("Moscow", firstCargo.getLocation().getName());
         assertEquals("Moscow", secondCargo.getLocation().getName());
         assertEquals("Moscow", thirdCargo.getLocation().getName());
+        assertNull(firstCargo.getVehicle());
+        assertNull(secondCargo.getVehicle());
+        assertNull(thirdCargo.getVehicle());
     }
 
     @Test
@@ -397,13 +421,17 @@ public class OrderServiceTest {
         service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
         service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
         service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
+
         service.getOrderService().interrupt(2);
+
         OrderDTO order = service.getOrderService().findById(2);
         assertEquals(0, order.getProgress());
         VehicleDTO vehicle = service.getVehicleService().findByRegNumber("9876AS");
         assertNull(vehicle.getOrder());
         assertNull(order.getVehicle());
         assertEquals("Saint-Petersburg", vehicle.getLocation().getName());
+        assertEquals(0, vehicle.getCargoes().size());
+
         for (DriverDTO driver : vehicle.getDrivers()) {
             driver = service.getDriverService().findByPersNumber(driver.getPersNumber());
             assertEquals("Saint-Petersburg", driver.getLocation().getName());
@@ -411,6 +439,7 @@ public class OrderServiceTest {
         }
         assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonthMs() > 0);
         assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonthMs());
+
         CargoDTO firstCargo = service.getCargoService().findById(4);
         CargoDTO secondCargo = service.getCargoService().findById(5);
         CargoDTO thirdCargo = service.getCargoService().findById(7);
@@ -420,6 +449,9 @@ public class OrderServiceTest {
         assertEquals("Saint-Petersburg", firstCargo.getLocation().getName());
         assertEquals("Saint-Petersburg", secondCargo.getLocation().getName());
         assertEquals("Moscow", thirdCargo.getLocation().getName());
+        assertNull(firstCargo.getVehicle());
+        assertNull(secondCargo.getVehicle());
+        assertNull(thirdCargo.getVehicle());
     }
 
     @Test
@@ -431,14 +463,18 @@ public class OrderServiceTest {
         service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
         service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
         service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
+
         service.getOrderService().progressReport(2);
         service.getOrderService().interrupt(2);
+
         OrderDTO order = service.getOrderService().findById(2);
         assertEquals(0, order.getProgress());
         VehicleDTO vehicle = service.getVehicleService().findByRegNumber("9876AS");
         assertNull(vehicle.getOrder());
         assertNull(order.getVehicle());
         assertEquals("Saint-Petersburg", vehicle.getLocation().getName());
+        assertEquals(0, vehicle.getCargoes().size());
+
         for (DriverDTO driver : vehicle.getDrivers()) {
             driver = service.getDriverService().findByPersNumber(driver.getPersNumber());
             assertEquals("Saint-Petersburg", driver.getLocation().getName());
@@ -446,6 +482,7 @@ public class OrderServiceTest {
         }
         assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonthMs() > 0);
         assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonthMs());
+
         CargoDTO firstCargo = service.getCargoService().findById(4);
         CargoDTO secondCargo = service.getCargoService().findById(5);
         CargoDTO thirdCargo = service.getCargoService().findById(7);
@@ -455,6 +492,9 @@ public class OrderServiceTest {
         assertEquals("Saint-Petersburg", firstCargo.getLocation().getName());
         assertEquals("Saint-Petersburg", secondCargo.getLocation().getName());
         assertEquals("Moscow", thirdCargo.getLocation().getName());
+        assertNull(firstCargo.getVehicle());
+        assertNull(secondCargo.getVehicle());
+        assertNull(thirdCargo.getVehicle());
     }
 
     @Test
@@ -467,6 +507,7 @@ public class OrderServiceTest {
             service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
             service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
             service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
+
             service.getOrderService().progressReport(2);
             service.getOrderService().interrupt(2);
             service.getOrderService().progressReport(2);
@@ -485,15 +526,19 @@ public class OrderServiceTest {
         service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
         service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
         service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
+
         service.getOrderService().progressReport(2);
         service.getOrderService().interrupt(2);
         service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
         service.getOrderService().progressReport(2);
         service.getOrderService().progressReport(2);
+
         OrderDTO order = service.getOrderService().findById(2);
         assertEquals(2, order.getProgress());
         VehicleDTO vehicle = service.getVehicleService().findByRegNumber("9876AS");
         assertEquals("Moscow", vehicle.getLocation().getName());
+        assertEquals(4, vehicle.getCargoes().size());
+
         for (DriverDTO driver : vehicle.getDrivers()) {
             driver = service.getDriverService().findByPersNumber(driver.getPersNumber());
             assertEquals("Moscow", driver.getLocation().getName());
@@ -501,6 +546,7 @@ public class OrderServiceTest {
         }
         assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonthMs() > 0);
         assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonthMs());
+
         CargoDTO firstCargo = service.getCargoService().findById(4);
         CargoDTO secondCargo = service.getCargoService().findById(5);
         CargoDTO thirdCargo = service.getCargoService().findById(7);
@@ -508,8 +554,11 @@ public class OrderServiceTest {
         assertEquals(Cargo.Status.SHIPPED, secondCargo.getStatus());
         assertEquals(Cargo.Status.SHIPPED, thirdCargo.getStatus());
         assertEquals("Moscow", firstCargo.getLocation().getName());
-        assertEquals("Saint-Petersburg", secondCargo.getLocation().getName());
+        assertEquals("Moscow", secondCargo.getLocation().getName());
         assertEquals("Moscow", thirdCargo.getLocation().getName());
+        assertNull(firstCargo.getVehicle());
+        assertEquals(vehicle.getRegNumber(), secondCargo.getVehicle().getRegNumber());
+        assertEquals(vehicle.getRegNumber(), thirdCargo.getVehicle().getRegNumber());
     }
 
     @Test
@@ -521,15 +570,19 @@ public class OrderServiceTest {
         service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
         service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
         service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
+
         service.getOrderService().progressReport(2);
         service.getOrderService().progressReport(2);
         service.getOrderService().interrupt(2);
+
         OrderDTO order = service.getOrderService().findById(2);
         assertEquals(2, order.getProgress());
         VehicleDTO vehicle = service.getVehicleService().findByRegNumber("9876AS");
         assertNull(vehicle.getOrder());
         assertNull(order.getVehicle());
         assertEquals("Moscow", vehicle.getLocation().getName());
+        assertEquals(0, vehicle.getCargoes().size());
+
         for (DriverDTO driver : vehicle.getDrivers()) {
             driver = service.getDriverService().findByPersNumber(driver.getPersNumber());
             assertEquals("Moscow", driver.getLocation().getName());
@@ -537,6 +590,7 @@ public class OrderServiceTest {
         }
         assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonthMs() > 0);
         assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonthMs());
+
         CargoDTO firstCargo = service.getCargoService().findById(4);
         CargoDTO secondCargo = service.getCargoService().findById(5);
         CargoDTO thirdCargo = service.getCargoService().findById(7);
@@ -546,6 +600,9 @@ public class OrderServiceTest {
         assertEquals("Moscow", firstCargo.getLocation().getName());
         assertEquals("Moscow", secondCargo.getLocation().getName());
         assertEquals("Moscow", thirdCargo.getLocation().getName());
+        assertNull(firstCargo.getVehicle());
+        assertNull(secondCargo.getVehicle());
+        assertNull(thirdCargo.getVehicle());
     }
 
     @Test
@@ -558,6 +615,7 @@ public class OrderServiceTest {
             service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
             service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
             service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
+
             for (int i = 0; i < 4; i++) {
                 service.getOrderService().progressReport(2);
             }
@@ -601,14 +659,18 @@ public class OrderServiceTest {
         service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
         service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
         service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
+
         service.getOrderService().progressReport(2);
         service.getOrderService().interrupt(2);
         service.getVehicleService().change(new VehicleDTO("9876AS", 0, null, null, new OrderDTO(2)));
         service.getOrderService().progressReport(2);
+
         OrderDTO order = service.getOrderService().findById(2);
         assertEquals(1, order.getProgress());
         VehicleDTO vehicle = service.getVehicleService().findByRegNumber("9876AS");
         assertEquals("Saint-Petersburg", vehicle.getLocation().getName());
+        assertEquals(3, vehicle.getCargoes().size());
+
         for (DriverDTO driver : vehicle.getDrivers()) {
             driver = service.getDriverService().findByPersNumber(driver.getPersNumber());
             assertEquals("Saint-Petersburg", driver.getLocation().getName());
@@ -616,6 +678,7 @@ public class OrderServiceTest {
         }
         assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonthMs() > 0);
         assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonthMs());
+
         CargoDTO firstCargo = service.getCargoService().findById(4);
         CargoDTO secondCargo = service.getCargoService().findById(5);
         CargoDTO thirdCargo = service.getCargoService().findById(7);
@@ -625,6 +688,9 @@ public class OrderServiceTest {
         assertEquals("Saint-Petersburg", firstCargo.getLocation().getName());
         assertEquals("Saint-Petersburg", secondCargo.getLocation().getName());
         assertEquals("Moscow", thirdCargo.getLocation().getName());
+        assertEquals(vehicle.getRegNumber(), firstCargo.getVehicle().getRegNumber());
+        assertEquals(vehicle.getRegNumber(), secondCargo.getVehicle().getRegNumber());
+        assertNull(thirdCargo.getVehicle());
     }
 
     @Test

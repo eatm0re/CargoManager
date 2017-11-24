@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Cargo;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
 
 import java.math.BigDecimal;
 
@@ -10,6 +11,7 @@ public class CargoDTO extends DTO<Cargo> {
     private BigDecimal weightKg;
     private CityDTO location;
     private Cargo.Status status;
+    private VehicleDTO vehicle;
 
     /**
      * Identifier
@@ -39,12 +41,13 @@ public class CargoDTO extends DTO<Cargo> {
     /**
      * Full
      */
-    public CargoDTO(long id, String name, BigDecimal weightKg, CityDTO location, Cargo.Status status) {
+    public CargoDTO(long id, String name, BigDecimal weightKg, CityDTO location, Cargo.Status status, VehicleDTO vehicle) {
         this.id = id;
         this.name = name;
         this.weightKg = weightKg;
         this.location = location;
         this.status = status;
+        this.vehicle = vehicle;
     }
 
     /**
@@ -56,13 +59,17 @@ public class CargoDTO extends DTO<Cargo> {
                 entity.getName(),
                 entity.getWeightKg(),
                 null,
-                entity.getStatus()
+                entity.getStatus(),
+                null
         );
     }
 
     @Override
     public void fill(Cargo entity) {
         this.location = new CityDTO(entity.getLocation());
+
+        Vehicle entityVehicle = entity.getVehicle();
+        this.vehicle = entityVehicle == null ? null : new VehicleDTO(entity.getVehicle());
     }
 
     public String getName() {
@@ -97,6 +104,14 @@ public class CargoDTO extends DTO<Cargo> {
         this.location = location;
     }
 
+    public VehicleDTO getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(VehicleDTO vehicle) {
+        this.vehicle = vehicle;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -107,8 +122,9 @@ public class CargoDTO extends DTO<Cargo> {
 
         if (name != null ? !name.equals(cargoDTO.name) : cargoDTO.name != null) return false;
         if (weightKg != null ? !weightKg.equals(cargoDTO.weightKg) : cargoDTO.weightKg != null) return false;
+        if (location != null ? !location.equals(cargoDTO.location) : cargoDTO.location != null) return false;
         if (status != cargoDTO.status) return false;
-        return location != null ? location.equals(cargoDTO.location) : cargoDTO.location == null;
+        return vehicle != null ? vehicle.equals(cargoDTO.vehicle) : cargoDTO.vehicle == null;
     }
 
     @Override
@@ -116,8 +132,9 @@ public class CargoDTO extends DTO<Cargo> {
         int result = super.hashCode();
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (weightKg != null ? weightKg.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (vehicle != null ? vehicle.hashCode() : 0);
         return result;
     }
 

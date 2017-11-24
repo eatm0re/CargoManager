@@ -17,10 +17,12 @@ public class Vehicle extends AbstractEntity {
     private long capacityKg;
     private Status status = Status.OK;
     private List<Driver> drivers;
+    private List<Cargo> cargoes;
     private Order order;
     private City location;
 
     private boolean driversProxied;
+    private boolean cargoesProxied;
 
     public Vehicle() {
     }
@@ -93,13 +95,38 @@ public class Vehicle extends AbstractEntity {
         drivers.add(driver);
     }
 
-    @SuppressWarnings({"unchecked", "UnusedReturnValue"})
+    @SuppressWarnings("UnusedReturnValue")
     public boolean removeDriver(Driver driver) {
         if (!driversProxied && drivers instanceof PersistentCollection) {
             drivers = new LazyListProxy<>(drivers);
             driversProxied = true;
         }
         return drivers.remove(driver);
+    }
+
+    @OneToMany(mappedBy = "vehicle")
+    public List<Cargo> getCargoes() {
+        return cargoes;
+    }
+
+    public void setCargoes(List<Cargo> cargoes) {
+        this.cargoes = cargoes;
+    }
+
+    public void putCargo(Cargo cargo) {
+        if (cargoes == null) {
+            cargoes = new LinkedList<>();
+        }
+        cargoes.add(cargo);
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    public boolean removeCargo(Cargo cargo) {
+        if (!cargoesProxied && cargoes instanceof PersistentCollection) {
+            cargoes = new LazyListProxy<>(cargoes);
+            cargoesProxied = true;
+        }
+        return cargoes.remove(cargo);
     }
 
     @OneToOne(mappedBy = "vehicle")

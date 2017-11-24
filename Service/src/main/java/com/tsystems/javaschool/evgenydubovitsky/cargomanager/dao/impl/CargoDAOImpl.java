@@ -3,6 +3,7 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.impl;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.CargoDAO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Cargo;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
@@ -20,5 +21,21 @@ public class CargoDAOImpl extends AbstractDAO<Cargo> implements CargoDAO {
     @Loggable
     public void move(Cargo cargo, City location) {
         cargo.setLocation(location);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
+    @Loggable
+    public void load(Cargo cargo, Vehicle vehicle) {
+        cargo.setVehicle(vehicle);
+        vehicle.putCargo(cargo);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
+    @Loggable
+    public void unload(Cargo cargo) {
+        cargo.getVehicle().removeCargo(cargo);
+        cargo.setVehicle(null);
     }
 }

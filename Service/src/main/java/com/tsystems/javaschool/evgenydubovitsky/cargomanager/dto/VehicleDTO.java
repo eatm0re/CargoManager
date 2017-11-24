@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Cargo;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Driver;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
 
@@ -15,6 +16,7 @@ public class VehicleDTO extends DTO<Vehicle> {
     private CityDTO location;
     private OrderDTO order;
     private List<DriverDTO> drivers;
+    private List<CargoDTO> cargoes;
 
     /**
      * Identifier
@@ -46,7 +48,7 @@ public class VehicleDTO extends DTO<Vehicle> {
     /**
      * Full
      */
-    public VehicleDTO(long id, String regNumber, long capacityKg, Vehicle.Status status, CityDTO location, OrderDTO order, List<DriverDTO> drivers) {
+    public VehicleDTO(long id, String regNumber, long capacityKg, Vehicle.Status status, CityDTO location, OrderDTO order, List<DriverDTO> drivers, List<CargoDTO> cargoes) {
         this.id = id;
         this.regNumber = regNumber;
         this.capacityKg = capacityKg;
@@ -54,6 +56,7 @@ public class VehicleDTO extends DTO<Vehicle> {
         this.location = location;
         this.order = order;
         this.drivers = drivers;
+        this.cargoes = cargoes;
     }
 
     /**
@@ -67,6 +70,7 @@ public class VehicleDTO extends DTO<Vehicle> {
                 entity.getStatus(),
                 null,
                 null,
+                null,
                 null
         );
     }
@@ -76,9 +80,16 @@ public class VehicleDTO extends DTO<Vehicle> {
     public void fill(Vehicle entity) {
         List<Driver> entityDrivers = entity.getDrivers();
         if (entityDrivers == null) {
-            this.drivers = Collections.emptyList();
+            drivers = Collections.emptyList();
         } else {
-            this.drivers = entityDrivers.stream().map(DriverDTO::new).collect(Collectors.toList());
+            drivers = entityDrivers.stream().map(DriverDTO::new).collect(Collectors.toList());
+        }
+
+        List<Cargo> entityCargoes = entity.getCargoes();
+        if (entityCargoes == null) {
+            cargoes = Collections.emptyList();
+        } else {
+            cargoes = entityCargoes.stream().map(CargoDTO::new).collect(Collectors.toList());
         }
 
         order = entity.getOrder() == null ? null : new OrderDTO(entity.getOrder());
@@ -133,6 +144,14 @@ public class VehicleDTO extends DTO<Vehicle> {
         this.location = location;
     }
 
+    public List<CargoDTO> getCargoes() {
+        return cargoes;
+    }
+
+    public void setCargoes(List<CargoDTO> cargoes) {
+        this.cargoes = cargoes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -144,9 +163,10 @@ public class VehicleDTO extends DTO<Vehicle> {
         if (capacityKg != that.capacityKg) return false;
         if (regNumber != null ? !regNumber.equals(that.regNumber) : that.regNumber != null) return false;
         if (status != that.status) return false;
-        if (drivers != null ? !drivers.equals(that.drivers) : that.drivers != null) return false;
+        if (location != null ? !location.equals(that.location) : that.location != null) return false;
         if (order != null ? !order.equals(that.order) : that.order != null) return false;
-        return location != null ? location.equals(that.location) : that.location == null;
+        if (drivers != null ? !drivers.equals(that.drivers) : that.drivers != null) return false;
+        return cargoes != null ? cargoes.equals(that.cargoes) : that.cargoes == null;
     }
 
     @Override
@@ -155,9 +175,10 @@ public class VehicleDTO extends DTO<Vehicle> {
         result = 31 * result + (regNumber != null ? regNumber.hashCode() : 0);
         result = 31 * result + (int) (capacityKg ^ (capacityKg >>> 32));
         result = 31 * result + (status != null ? status.hashCode() : 0);
-        result = 31 * result + (drivers != null ? drivers.hashCode() : 0);
-        result = 31 * result + (order != null ? order.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (order != null ? order.hashCode() : 0);
+        result = 31 * result + (drivers != null ? drivers.hashCode() : 0);
+        result = 31 * result + (cargoes != null ? cargoes.hashCode() : 0);
         return result;
     }
 

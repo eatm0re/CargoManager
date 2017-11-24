@@ -41,7 +41,8 @@ public class VehicleServiceTest {
                         Vehicle.Status.OK,
                         new CityDTO(1, "Moscow", 55.755, 37.612, null, null),
                         null,
-                        Collections.EMPTY_LIST
+                        Collections.emptyList(),
+                        Collections.emptyList()
                 ),
                 vehicle
         );
@@ -81,7 +82,8 @@ public class VehicleServiceTest {
                         "Test",
                         1000,
                         Vehicle.Status.OK,
-                        new CityDTO(2, "Saint-Petersburg", 59.952, 30.316, null, null), null, Collections.EMPTY_LIST
+                        new CityDTO(2, "Saint-Petersburg", 59.952, 30.316, null, null), null, Collections.EMPTY_LIST,
+                        Collections.emptyList()
                 ),
                 vehicle
         );
@@ -193,7 +195,8 @@ public class VehicleServiceTest {
                         Vehicle.Status.OK,
                         new CityDTO(2, "Saint-Petersburg", 59.952, 30.316, null, null),
                         null,
-                        Collections.EMPTY_LIST
+                        Collections.emptyList(),
+                        Collections.emptyList()
                 ),
                 service.getVehicleService().findByRegNumber("5432DF")
         );
@@ -214,7 +217,8 @@ public class VehicleServiceTest {
                         Vehicle.Status.OK,
                         new CityDTO(1, "Moscow", 55.755, 37.612, null, null),
                         null,
-                        Collections.EMPTY_LIST
+                        Collections.emptyList(),
+                        Collections.emptyList()
                 ),
                 service.getVehicleService().findByRegNumber("5432DF")
         );
@@ -235,7 +239,8 @@ public class VehicleServiceTest {
                         Vehicle.Status.BROKEN,
                         new CityDTO(2, "Saint-Petersburg", 59.952, 30.316, null, null),
                         null,
-                        Collections.EMPTY_LIST
+                        Collections.emptyList(),
+                        Collections.emptyList()
                 ),
                 service.getVehicleService().findByRegNumber("5432DF")
         );

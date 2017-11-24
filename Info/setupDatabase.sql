@@ -46,27 +46,6 @@ CREATE TABLE IF NOT EXISTS `Users` (
 
 
 -- -----------------------------------------------------
--- Table `Cargoes`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `Cargoes` ;
-
-CREATE TABLE IF NOT EXISTS `Cargoes` (
-  `idCargo` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `cargoCityId` BIGINT(20) UNSIGNED NOT NULL,
-  `cargoName` VARCHAR(255) NOT NULL,
-  `cargoWeightKg` DECIMAL(15,3) UNSIGNED NOT NULL DEFAULT 0,
-  `cargoStatus` ENUM('READY', 'SHIPPED', 'DELIVERED') NOT NULL DEFAULT 'READY',
-  PRIMARY KEY (`idCargo`),
-  INDEX `cargoCity_idx` (`cargoCityId` ASC),
-  CONSTRAINT `cargoCity`
-  FOREIGN KEY (`cargoCityId`)
-  REFERENCES `Cities` (`idCity`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-  ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `Vehicles`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `Vehicles` ;
@@ -85,6 +64,34 @@ CREATE TABLE IF NOT EXISTS `Vehicles` (
   REFERENCES `Cities` (`idCity`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Cargoes`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Cargoes`;
+
+CREATE TABLE IF NOT EXISTS `Cargoes` (
+  `idCargo`        BIGINT(20) UNSIGNED                    NOT NULL AUTO_INCREMENT,
+  `cargoCityId`    BIGINT(20) UNSIGNED                    NOT NULL,
+  `cargoVehicleId` BIGINT(20) UNSIGNED                    NULL,
+  `cargoName`      VARCHAR(255)                           NOT NULL,
+  `cargoWeightKg`  DECIMAL(15, 3) UNSIGNED                NOT NULL DEFAULT 0,
+  `cargoStatus`    ENUM ('READY', 'SHIPPED', 'DELIVERED') NOT NULL DEFAULT 'READY',
+  PRIMARY KEY (`idCargo`),
+  INDEX `cargoCity_idx` (`cargoCityId` ASC),
+  INDEX `cargoVehicle_idx` (`cargoVehicleId` ASC),
+  CONSTRAINT `cargoCity`
+  FOREIGN KEY (`cargoCityId`)
+  REFERENCES `Cities` (`idCity`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `cargoVehicle`
+  FOREIGN KEY (`cargoVehicleId`)
+  REFERENCES `Vehicles` (`idVehicle`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+)
   ENGINE = InnoDB;
 
 
@@ -233,25 +240,6 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `Cargoes`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `CargoManager`;
-INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoName`, `cargoWeightKg`, `cargoStatus`) VALUES (DEFAULT, 6, 'Apples', 2000, DEFAULT);
-INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoName`, `cargoWeightKg`, `cargoStatus`) VALUES (DEFAULT, 6, 'Oranges', 1500, DEFAULT);
-INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoName`, `cargoWeightKg`, `cargoStatus`) VALUES (DEFAULT, 10, 'Watermelons', 2200, DEFAULT);
-INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoName`, `cargoWeightKg`, `cargoStatus`) VALUES (DEFAULT, 2, 'Beer', 1800, DEFAULT);
-INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoName`, `cargoWeightKg`, `cargoStatus`) VALUES (DEFAULT, 2, 'Wine', 1000, DEFAULT);
-INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoName`, `cargoWeightKg`, `cargoStatus`) VALUES (DEFAULT, 2, 'Cognac', 400, DEFAULT);
-INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoName`, `cargoWeightKg`, `cargoStatus`)
-VALUES (DEFAULT, 1, 'Whiskey', 400, DEFAULT);
-INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoName`, `cargoWeightKg`, `cargoStatus`)
-VALUES (DEFAULT, 1, 'Water', 1900, DEFAULT);
-
-COMMIT;
-
-
--- -----------------------------------------------------
 -- Data for table `Vehicles`
 -- -----------------------------------------------------
 START TRANSACTION;
@@ -296,6 +284,31 @@ INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehic
 VALUES (DEFAULT, 15, '3197GF', 5000, DEFAULT);
 INSERT INTO `Vehicles` (`idVehicle`, `vehicleCityId`, `vehicleRegNumber`, `vehicleCapacityKg`, `vehicleStatus`)
 VALUES (DEFAULT, 17, '5319DS', 8000, DEFAULT);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `Cargoes`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `CargoManager`;
+INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoVehicleId`, `cargoName`, `cargoWeightKg`, `cargoStatus`)
+VALUES (DEFAULT, 6, NULL, 'Apples', 2000, DEFAULT);
+INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoVehicleId`, `cargoName`, `cargoWeightKg`, `cargoStatus`)
+VALUES (DEFAULT, 6, NULL, 'Oranges', 1500, DEFAULT);
+INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoVehicleId`, `cargoName`, `cargoWeightKg`, `cargoStatus`)
+VALUES (DEFAULT, 10, NULL, 'Watermelons', 2200, DEFAULT);
+INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoVehicleId`, `cargoName`, `cargoWeightKg`, `cargoStatus`)
+VALUES (DEFAULT, 2, NULL, 'Beer', 1800, DEFAULT);
+INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoVehicleId`, `cargoName`, `cargoWeightKg`, `cargoStatus`)
+VALUES (DEFAULT, 2, NULL, 'Wine', 1000, DEFAULT);
+INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoVehicleId`, `cargoName`, `cargoWeightKg`, `cargoStatus`)
+VALUES (DEFAULT, 2, NULL, 'Cognac', 400, DEFAULT);
+INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoVehicleId`, `cargoName`, `cargoWeightKg`, `cargoStatus`)
+VALUES (DEFAULT, 1, NULL, 'Whiskey', 400, DEFAULT);
+INSERT INTO `Cargoes` (`idCargo`, `cargoCityId`, `cargoVehicleId`, `cargoName`, `cargoWeightKg`, `cargoStatus`)
+VALUES (DEFAULT, 1, NULL, 'Water', 1900, DEFAULT);
 
 COMMIT;
 

@@ -175,6 +175,12 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
             dao.getDriverDAO().updateStatus(driver, Driver.Status.REST);
         }
 
+        // move all cargoes to the new city
+        List<Cargo> cargoes = vehicle.getCargoes();
+        for (Cargo cargo : cargoes) {
+            dao.getCargoDAO().move(cargo, city);
+        }
+
         // loading and unloading target cargoes
         List<Task> tasks = checkpoint.getTasks();
         for (Task task : tasks) {
@@ -182,10 +188,11 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
             if (cargo.getStatus() == Cargo.Status.READY) {
                 // loading
                 cargo.setStatus(Cargo.Status.SHIPPED);
+                dao.getCargoDAO().load(cargo, vehicle);
             } else {
                 // unloading
                 cargo.setStatus(Cargo.Status.DELIVERED);
-                dao.getCargoDAO().move(cargo, city);
+                dao.getCargoDAO().unload(cargo);
             }
         }
     }
@@ -240,29 +247,10 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
         }
 
         // scan all loaded cargoes at the moment of order interruption
-        List<Checkpoint> checkpoints = order.getCheckpoints();
-        HashSet<Cargo> loadedCargoes = new HashSet<>();
-        for (int i = 0; i < progress; i++) {
-
-            // scan all tasks for checkpoint
-            List<Task> tasks = checkpoints.get(i).getTasks();
-            for (Task task : tasks) {
-                Cargo cargo = task.getCargo();
-                if (loadedCargoes.contains(cargo)) {
-                    // task is unloading cargo
-                    loadedCargoes.remove(cargo);
-                } else {
-                    // task is loading cargo
-                    loadedCargoes.add(cargo);
-                }
-            }
-        }
-
-        // move all loaded cargoes to the current city
-        City city = checkpoints.get(progress == 0 ? 0 : progress - 1).getCity();
-        for (Cargo cargo : loadedCargoes) {
-            dao.getCargoDAO().move(cargo, city);
+        List<Cargo> cargoes = vehicle.getCargoes();
+        for (Cargo cargo : cargoes) {
             cargo.setStatus(Cargo.Status.READY);
+            dao.getCargoDAO().unload(cargo);
         }
     }
 
