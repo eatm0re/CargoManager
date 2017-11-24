@@ -148,6 +148,8 @@ public class Vehicle extends AbstractEntity {
         return "Vehicle{" +
                 "id=" + id +
                 ", regNumber='" + regNumber + '\'' +
+                ", capacityKg=" + capacityKg +
+                ", status=" + status +
                 '}';
     }
 }

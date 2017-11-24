@@ -6,6 +6,7 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.DTOFactory;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.AbstractEntity;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.Service;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.ServiceFacade;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +18,9 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractService<E extends AbstractEntity, D extends DTO<E>> implements Service<D> {
 
-    private Class<E> entityClass;
-    private static Pattern simpleNamePattern = Pattern.compile("^[a-zA-Z0-9 _-]{1,45}$");
-    //private static Pattern longNamePattern = Pattern.compile("^[a-zA-Z0-9 ()_:,./-]{1,255}$");
-    private static Pattern longNamePattern = Pattern.compile("^[a-zA-Z0-9 ~!@\"#№$;%^:&?*()-_=+\\[{\\]}\\\\'|,<.>/]{1,255}$");
+    private static final Pattern simpleNamePattern = Pattern.compile("^[a-zA-Z0-9 _-]{1,45}$");
+    private static final Pattern longNamePattern = Pattern.compile("^[a-zA-Z0-9 ~!@\"#№$;%^:&?*()-_=+\\[{\\]}\\\\'|,<.>/]{1,255}$");
+    private final Class<E> entityClass;
     protected DAOFacade dao;
     protected ServiceFacade service;
 
@@ -41,6 +41,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends DTO<E>
     @Override
     @SuppressWarnings("unchecked")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    @Loggable
     public List<D> getAll() {
         List<D> res = (List<D>) dao.getDAO(entityClass)
                 .selectAll()
@@ -60,6 +61,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends DTO<E>
     @Override
     @SuppressWarnings("unchecked")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    @Loggable
     public D findById(long id) {
         if (id <= 0) {
             throw new IllegalArgumentException("ID must be positive");
@@ -75,6 +77,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends DTO<E>
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Loggable
     public void removeByParam(String param, Object value) {
         if (dao.getDAO(entityClass).deleteByParam(param, value) == 0) {
             throw new EntityNotFoundException(entityClass.getSimpleName() + " with " + param + " = " + value + " not found");

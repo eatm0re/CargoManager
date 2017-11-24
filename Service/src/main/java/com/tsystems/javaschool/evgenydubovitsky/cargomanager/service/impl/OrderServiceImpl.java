@@ -5,6 +5,7 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.OrderDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.TaskDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.*;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.OrderService;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Loggable
     public long add(OrderDTO orderDTO) {
 
         // creating order
@@ -137,6 +139,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Loggable
     public void progressReport(long id) {
 
         // loading order
@@ -200,6 +203,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Loggable
     public void interrupt(long id) {
 
         // loading order
@@ -275,6 +279,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
      */
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    @Loggable
     public long capacityNeeded(long id) {
 
         // loading order

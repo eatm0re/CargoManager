@@ -3,6 +3,7 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.UserDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.User;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.UserService;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ public class UserServiceImpl extends AbstractService<User, UserDTO> implements U
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    @Loggable
     public UserDTO findByLogin(String login) {
         if (!isSimpleName(login)) {
             throw new IllegalArgumentException("Wrong user login");
@@ -32,6 +34,7 @@ public class UserServiceImpl extends AbstractService<User, UserDTO> implements U
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Loggable
     public long register(UserDTO userDTO) {
 
         // create user
@@ -74,6 +77,7 @@ public class UserServiceImpl extends AbstractService<User, UserDTO> implements U
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Loggable
     public void change(UserDTO userDTO) {
 
         // find user by login

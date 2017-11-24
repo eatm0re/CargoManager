@@ -152,6 +152,8 @@ public class City extends AbstractEntity {
         return "City{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 '}';
     }
 }

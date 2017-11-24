@@ -104,6 +104,7 @@ public class Cargo extends AbstractEntity {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", weightKg=" + weightKg +
+                ", status=" + status +
                 '}';
     }
 }

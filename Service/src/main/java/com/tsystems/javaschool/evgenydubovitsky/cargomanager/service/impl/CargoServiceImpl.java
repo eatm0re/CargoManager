@@ -4,6 +4,7 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.CargoDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Cargo;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.CargoService;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ public class CargoServiceImpl extends AbstractService<Cargo, CargoDTO> implement
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Loggable
     public long add(CargoDTO cargoDTO) {
 
         // creating cargo
@@ -64,6 +66,7 @@ public class CargoServiceImpl extends AbstractService<Cargo, CargoDTO> implement
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Loggable
     public void change(CargoDTO cargoDTO) {
 
         // find cargo by ID

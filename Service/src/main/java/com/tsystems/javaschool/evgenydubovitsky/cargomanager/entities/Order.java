@@ -94,6 +94,8 @@ public class Order extends AbstractEntity {
     public String toString() {
         return "Order{" +
                 "id=" + id +
+                ", progress=" + progress +
+                ", total=" + total +
                 '}';
     }
 }

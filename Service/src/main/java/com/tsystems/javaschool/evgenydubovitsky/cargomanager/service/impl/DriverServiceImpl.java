@@ -5,6 +5,7 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Driver;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.DriverService;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ public class DriverServiceImpl extends AbstractService<Driver, DriverDTO> implem
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    @Loggable
     public DriverDTO findByPersNumber(String persNumber) {
         if (!isSimpleName(persNumber)) {
             throw new IllegalArgumentException("Wrong registration number");
@@ -48,6 +50,7 @@ public class DriverServiceImpl extends AbstractService<Driver, DriverDTO> implem
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Loggable
     public long add(DriverDTO driverDTO) {
 
         // creating driver
@@ -107,6 +110,7 @@ public class DriverServiceImpl extends AbstractService<Driver, DriverDTO> implem
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Loggable
     public void change(DriverDTO driverDTO) {
 
         // find by personal number

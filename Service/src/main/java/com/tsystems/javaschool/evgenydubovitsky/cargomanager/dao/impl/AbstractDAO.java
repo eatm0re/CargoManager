@@ -2,6 +2,7 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.impl;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.DAO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.AbstractEntity;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public abstract class AbstractDAO<E extends AbstractEntity> implements DAO<E> {
     @Override
     @SuppressWarnings("unchecked")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    @Loggable
     public List<E> selectAll() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from " + entityClass.getSimpleName()).list();
@@ -39,6 +41,7 @@ public abstract class AbstractDAO<E extends AbstractEntity> implements DAO<E> {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    @Loggable
     public E selectById(long id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(entityClass, id);
@@ -46,6 +49,7 @@ public abstract class AbstractDAO<E extends AbstractEntity> implements DAO<E> {
 
     @SuppressWarnings("unchecked")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    @Loggable
     protected List<E> selectByParam(String param, Object value) {
         Session session = sessionFactory.getCurrentSession();
         return session
@@ -56,6 +60,7 @@ public abstract class AbstractDAO<E extends AbstractEntity> implements DAO<E> {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
+    @Loggable
     public void insert(E obj) {
         Session session = sessionFactory.getCurrentSession();
         session.persist(obj);
@@ -63,6 +68,7 @@ public abstract class AbstractDAO<E extends AbstractEntity> implements DAO<E> {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
+    @Loggable
     public void update(E obj) {
         Session session = sessionFactory.getCurrentSession();
         session.update(obj);
@@ -70,6 +76,7 @@ public abstract class AbstractDAO<E extends AbstractEntity> implements DAO<E> {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
+    @Loggable
     public int deleteByParam(String param, Object value) {
         Session session = sessionFactory.getCurrentSession();
         return session

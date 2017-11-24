@@ -161,6 +161,9 @@ public class Driver extends AbstractEntity {
                 ", persNumber='" + persNumber + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", status=" + status +
+                ", lastStatusUpdate=" + lastStatusUpdate +
+                ", workedThisMonthMs=" + workedThisMonthMs +
                 '}';
     }
 }

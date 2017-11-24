@@ -4,6 +4,7 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.DriverDAO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Driver;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ public class DriverDAOImpl extends AbstractDAO<Driver> implements DriverDAO {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    @Loggable
     public Driver selectByPersNumber(String persNumber) {
         List<Driver> list = selectByParam("persNumber", persNumber);
         return list.size() == 0 ? null : list.get(0);
@@ -28,6 +30,7 @@ public class DriverDAOImpl extends AbstractDAO<Driver> implements DriverDAO {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
+    @Loggable
     public void move(Driver driver, City location) {
         City prevLocation = driver.getLocation();
         driver.setLocation(location);
@@ -38,6 +41,7 @@ public class DriverDAOImpl extends AbstractDAO<Driver> implements DriverDAO {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
+    @Loggable
     public void bind(Driver driver, Vehicle vehicle) {
         Vehicle prevVehicle = driver.getVehicle();
         driver.setVehicle(vehicle);
@@ -50,6 +54,7 @@ public class DriverDAOImpl extends AbstractDAO<Driver> implements DriverDAO {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
+    @Loggable
     public void unbind(Driver driver) {
         Vehicle vehicle = driver.getVehicle();
         driver.setVehicle(null);
@@ -58,6 +63,7 @@ public class DriverDAOImpl extends AbstractDAO<Driver> implements DriverDAO {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
+    @Loggable
     public void updateStatus(Driver driver, Driver.Status status) {
         if (status == driver.getStatus()) {
             return;

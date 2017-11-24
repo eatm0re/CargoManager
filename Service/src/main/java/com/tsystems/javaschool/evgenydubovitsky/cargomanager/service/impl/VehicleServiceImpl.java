@@ -3,6 +3,7 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.VehicleDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.*;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.VehicleService;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    @Loggable
     public VehicleDTO findByRegNumber(String regNumber) {
         if (!isSimpleName(regNumber)) {
             throw new IllegalArgumentException("Wrong registration number");
@@ -48,6 +50,7 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Loggable
     public long add(VehicleDTO vehicleDTO) {
         Vehicle vehicle = new Vehicle();
 
@@ -111,6 +114,7 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Loggable
     public void change(VehicleDTO vehicleDTO) {
 
         // search by registration number

@@ -3,6 +3,7 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.CityDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.CityService;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ public class CityServiceImpl extends AbstractService<City, CityDTO> implements C
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Loggable
     public long add(CityDTO cityDTO) {
 
         // creating city
@@ -63,6 +65,7 @@ public class CityServiceImpl extends AbstractService<City, CityDTO> implements C
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @Loggable
     public void change(CityDTO cityDTO) {
 
         // find city by name
@@ -95,6 +98,7 @@ public class CityServiceImpl extends AbstractService<City, CityDTO> implements C
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    @Loggable
     public double distance(String firstCityName, String secondCityName) {
         if (firstCityName.equals(secondCityName)) {
             return 0.0;
