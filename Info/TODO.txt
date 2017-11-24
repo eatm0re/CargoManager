@@ -21,10 +21,6 @@
 - Навесить propagation.MANDATORY на пишущие методы DAO
 - Добавить верификации в AbstractService
 - Изменить порядок метода VehicleService.change, чтобы order interruption был сначала
-- Сделать так, чтобы при продвижении заказа работал не более, чем один водитель
-- Переделать List<Driver> в City в Set<Driver>
-- Заменить все entity.set-методы в сервисах на процедуры DAO
-- Удалить List<Task> tasks из Cargo
 
 
     ПОТОМ

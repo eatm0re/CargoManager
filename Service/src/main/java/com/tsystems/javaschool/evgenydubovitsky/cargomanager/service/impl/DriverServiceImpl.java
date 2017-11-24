@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import java.util.Collection;
 
 @Service
 public class DriverServiceImpl extends AbstractService<Driver, DriverDTO> implements DriverService {
@@ -200,14 +201,27 @@ public class DriverServiceImpl extends AbstractService<Driver, DriverDTO> implem
         Driver.Status status = driverDTO.getStatus();
         if (status != null) {
             if (status == Driver.Status.WORK) {
-                if (driver.getVehicle() == null || driver.getVehicle().getOrder() == null) {
+                Vehicle vehicle = driver.getVehicle();
+                if (vehicle == null || vehicle.getOrder() == null) {
                     throw new IllegalStateException("To WORK status driver must be assigned to order");
                 }
                 if (driver.getWorkedThisMonthMs() >= MONTH_WORK_TIME) {
                     throw new IllegalStateException("Driver monthly work time exceeded");
                 }
+                if (isAnybodyWorking(vehicle.getDrivers())) {
+                    throw new IllegalStateException("Someone is already on wheel");
+                }
             }
             dao.getDriverDAO().updateStatus(driver, status);
         }
+    }
+
+    private boolean isAnybodyWorking(Collection<Driver> drivers) {
+        for (Driver driver : drivers) {
+            if (driver.getStatus() == Driver.Status.WORK) {
+                return true;
+            }
+        }
+        return false;
     }
 }
