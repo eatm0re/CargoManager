@@ -4,6 +4,8 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.VehicleDAO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,12 +17,14 @@ public class VehicleDAOImpl extends AbstractDAO<Vehicle> implements VehicleDAO {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
     public Vehicle selectByRegNumber(String regNumber) {
         List<Vehicle> list = selectByParam("regNumber", regNumber);
         return list.size() == 0 ? null : list.get(0);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
     public void move(Vehicle vehicle, City location) {
         City prevLocation = vehicle.getLocation();
         vehicle.setLocation(location);

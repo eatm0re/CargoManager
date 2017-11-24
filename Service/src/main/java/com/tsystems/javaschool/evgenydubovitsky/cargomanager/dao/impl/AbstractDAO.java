@@ -5,6 +5,8 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.AbstractEn
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,18 +31,21 @@ public abstract class AbstractDAO<E extends AbstractEntity> implements DAO<E> {
 
     @Override
     @SuppressWarnings("unchecked")
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
     public List<E> selectAll() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("from " + entityClass.getSimpleName()).list();
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
     public E selectById(long id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(entityClass, id);
     }
 
     @SuppressWarnings("unchecked")
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
     protected List<E> selectByParam(String param, Object value) {
         Session session = sessionFactory.getCurrentSession();
         return session
@@ -50,18 +55,21 @@ public abstract class AbstractDAO<E extends AbstractEntity> implements DAO<E> {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
     public void insert(E obj) {
         Session session = sessionFactory.getCurrentSession();
         session.persist(obj);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
     public void update(E obj) {
         Session session = sessionFactory.getCurrentSession();
         session.update(obj);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
     public int deleteByParam(String param, Object value) {
         Session session = sessionFactory.getCurrentSession();
         return session

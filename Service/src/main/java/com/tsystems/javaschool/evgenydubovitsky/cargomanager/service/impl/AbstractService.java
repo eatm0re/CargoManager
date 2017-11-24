@@ -40,7 +40,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends DTO<E>
 
     @Override
     @SuppressWarnings("unchecked")
-    @Transactional(rollbackFor = Exception.class, readOnly = true)
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
     public List<D> getAll() {
         List<D> res = (List<D>) dao.getDAO(entityClass)
                 .selectAll()

@@ -73,6 +73,7 @@ public class UserServiceImpl extends AbstractService<User, UserDTO> implements U
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void change(UserDTO userDTO) {
 
         // find user by login
