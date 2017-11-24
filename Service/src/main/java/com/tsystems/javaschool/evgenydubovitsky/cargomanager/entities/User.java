@@ -10,7 +10,7 @@ public class User extends AbstractEntity {
 
     private String login;
     private String password;
-    private Post post = Post.DRIVER;
+    private Post post;
 
     public User() {
     }

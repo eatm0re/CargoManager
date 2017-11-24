@@ -36,10 +36,10 @@ CREATE TABLE IF NOT EXISTS `Cities` (
 DROP TABLE IF EXISTS `Users` ;
 
 CREATE TABLE IF NOT EXISTS `Users` (
-  `idUser` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `userLogin` VARCHAR(45) NOT NULL,
-  `userPassword` VARCHAR(255) NOT NULL,
-  `userPost` ENUM('DRIVER', 'STUFF') NOT NULL DEFAULT 'DRIVER',
+  `idUser`       BIGINT(20) UNSIGNED      NOT NULL AUTO_INCREMENT,
+  `userLogin`    VARCHAR(45)              NOT NULL,
+  `userPassword` VARCHAR(255)             NOT NULL,
+  `userPost`     ENUM ('DRIVER', 'STUFF') NOT NULL,
   PRIMARY KEY (`idUser`),
   UNIQUE INDEX `userLogin_UNIQUE` (`userLogin` ASC))
   ENGINE = InnoDB;
