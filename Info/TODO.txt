@@ -1,5 +1,4 @@
-- Удалить сущность Task
-- Переименовать lastStatusUpdate на lastStepIn
+-
 
 
     ПОТОМ
