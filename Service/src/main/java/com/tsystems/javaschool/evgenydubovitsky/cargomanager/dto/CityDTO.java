@@ -117,14 +117,6 @@ public class CityDTO extends DTO<City> {
     }
 
     @Override
-    public String toString() {
-        return "CityDTO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CityDTO)) return false;
@@ -151,5 +143,15 @@ public class CityDTO extends DTO<City> {
         result = 31 * result + (drivers != null ? drivers.hashCode() : 0);
         result = 31 * result + (vehicles != null ? vehicles.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "CityDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
     }
 }

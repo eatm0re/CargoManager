@@ -44,13 +44,6 @@ public class TaskDTO extends DTO<Task> {
     }
 
     @Override
-    public String toString() {
-        return "TaskDTO{" +
-                "id=" + id +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof TaskDTO)) return false;
@@ -68,5 +61,12 @@ public class TaskDTO extends DTO<Task> {
         result = 31 * result + (checkpoint != null ? checkpoint.hashCode() : 0);
         result = 31 * result + (cargo != null ? cargo.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "TaskDTO{" +
+                "id=" + id +
+                '}';
     }
 }

@@ -60,13 +60,6 @@ public class CheckpointDTO extends DTO<Checkpoint> {
     }
 
     @Override
-    public String toString() {
-        return "CheckpointDTO{" +
-                "id=" + id +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CheckpointDTO)) return false;
@@ -86,5 +79,12 @@ public class CheckpointDTO extends DTO<Checkpoint> {
         result = 31 * result + (city != null ? city.hashCode() : 0);
         result = 31 * result + (tasks != null ? tasks.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "CheckpointDTO{" +
+                "id=" + id +
+                '}';
     }
 }

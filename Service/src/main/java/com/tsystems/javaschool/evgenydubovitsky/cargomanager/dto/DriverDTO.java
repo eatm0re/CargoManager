@@ -147,16 +147,6 @@ public class DriverDTO extends DTO<Driver> {
     }
 
     @Override
-    public String toString() {
-        return "DriverDTO{" +
-                "id=" + id +
-                ", persNumber='" + persNumber + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof DriverDTO)) return false;
@@ -187,5 +177,18 @@ public class DriverDTO extends DTO<Driver> {
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (vehicle != null ? vehicle.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "DriverDTO{" +
+                "id=" + id +
+                ", persNumber='" + persNumber + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", status=" + status +
+                ", lastStatusUpdate=" + lastStatusUpdate +
+                ", workedThisMonthMs=" + workedThisMonthMs +
+                '}';
     }
 }

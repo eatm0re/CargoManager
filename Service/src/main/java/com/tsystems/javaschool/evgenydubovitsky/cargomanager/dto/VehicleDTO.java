@@ -134,14 +134,6 @@ public class VehicleDTO extends DTO<Vehicle> {
     }
 
     @Override
-    public String toString() {
-        return "VehicleDTO{" +
-                "id=" + id +
-                ", regNumber='" + regNumber + '\'' +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof VehicleDTO)) return false;
@@ -167,5 +159,15 @@ public class VehicleDTO extends DTO<Vehicle> {
         result = 31 * result + (order != null ? order.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "VehicleDTO{" +
+                "id=" + id +
+                ", regNumber='" + regNumber + '\'' +
+                ", capacityKg=" + capacityKg +
+                ", status=" + status +
+                '}';
     }
 }

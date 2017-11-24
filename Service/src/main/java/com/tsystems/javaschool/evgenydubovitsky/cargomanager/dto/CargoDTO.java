@@ -100,15 +100,6 @@ public class CargoDTO extends DTO<Cargo> {
     }
 
     @Override
-    public String toString() {
-        return "CargoDTO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", weightKg=" + weightKg +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CargoDTO)) return false;
@@ -130,5 +121,15 @@ public class CargoDTO extends DTO<Cargo> {
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "CargoDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", weightKg=" + weightKg +
+                ", status=" + status +
+                '}';
     }
 }

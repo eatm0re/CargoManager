@@ -75,14 +75,6 @@ public class UserDTO extends DTO<User> {
     }
 
     @Override
-    public String toString() {
-        return "UserDTO{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof UserDTO)) return false;
@@ -102,5 +94,14 @@ public class UserDTO extends DTO<User> {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (post != null ? post.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", post=" + post +
+                '}';
     }
 }

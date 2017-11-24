@@ -98,13 +98,6 @@ public class OrderDTO extends DTO<Order> {
     }
 
     @Override
-    public String toString() {
-        return "OrderDTO{" +
-                "id=" + id +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof OrderDTO)) return false;
@@ -127,5 +120,14 @@ public class OrderDTO extends DTO<Order> {
         result = 31 * result + (checkpoints != null ? checkpoints.hashCode() : 0);
         result = 31 * result + (vehicle != null ? vehicle.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDTO{" +
+                "id=" + id +
+                ", progress=" + progress +
+                ", total=" + total +
+                '}';
     }
 }
