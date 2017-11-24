@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Service
 public class DriverServiceImpl extends AbstractService<Driver, DriverDTO> implements DriverService {
+
+    private static final long MONTH_WORK_TIME = 176 * 3_600_000;
 
     public DriverServiceImpl() {
         super(Driver.class);
@@ -197,18 +197,17 @@ public class DriverServiceImpl extends AbstractService<Driver, DriverDTO> implem
         }
 
         // status
-        if (driverDTO.getStatus() != null && driverDTO.getStatus() != driver.getStatus()) {
-            if (driverDTO.getStatus() == Driver.Status.REST) {
-                Timestamp now = Timestamp.valueOf(LocalDateTime.now());
-                int diffHours = (int) ((now.getTime() - driver.getLastStatusUpdate().getTime() - 1) / 3_600_000 + 1);
-                driver.setWorkedThisMonth(driver.getWorkedThisMonth() + diffHours);
-                driver.setStatus(Driver.Status.REST);
-            } else {
+        Driver.Status status = driverDTO.getStatus();
+        if (status != null) {
+            if (status == Driver.Status.WORK) {
                 if (driver.getVehicle() == null || driver.getVehicle().getOrder() == null) {
                     throw new IllegalStateException("To WORK status driver must be assigned to order");
                 }
-                driver.setStatus(Driver.Status.WORK);
+                if (driver.getWorkedThisMonthMs() >= MONTH_WORK_TIME) {
+                    throw new IllegalStateException("Driver monthly work time exceeded");
+                }
             }
+            dao.getDriverDAO().updateStatus(driver, status);
         }
     }
 }

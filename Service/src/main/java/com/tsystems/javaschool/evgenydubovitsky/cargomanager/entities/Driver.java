@@ -15,21 +15,21 @@ public class Driver extends AbstractEntity {
     private String lastName;
     private Status status = Status.REST;
     private Timestamp lastStatusUpdate = Timestamp.valueOf(LocalDateTime.now());
-    private int workedThisMonth;
+    private long workedThisMonthMs;
     private City location;
     private Vehicle vehicle;
 
     public Driver() {
     }
 
-    public Driver(long id, String persNumber, String firstName, String lastName, Status status, Timestamp lastStatusUpdate, int workedThisMonth, City location, Vehicle vehicle) {
+    public Driver(long id, String persNumber, String firstName, String lastName, Status status, Timestamp lastStatusUpdate, int workedThisMonthMs, City location, Vehicle vehicle) {
         this.id = id;
         this.persNumber = persNumber;
         this.firstName = firstName;
         this.lastName = lastName;
         this.status = status;
         this.lastStatusUpdate = lastStatusUpdate;
-        this.workedThisMonth = workedThisMonth;
+        this.workedThisMonthMs = workedThisMonthMs;
         this.location = location;
         this.vehicle = vehicle;
     }
@@ -98,12 +98,12 @@ public class Driver extends AbstractEntity {
 
     @Basic
     @Column(name = "driverWorkedThisMonth", nullable = false)
-    public int getWorkedThisMonth() {
-        return workedThisMonth;
+    public long getWorkedThisMonthMs() {
+        return workedThisMonthMs;
     }
 
-    public void setWorkedThisMonth(int workedThisMonth) {
-        this.workedThisMonth = workedThisMonth;
+    public void setWorkedThisMonthMs(long workedThisMonth) {
+        this.workedThisMonthMs = workedThisMonth;
     }
 
     @ManyToOne
@@ -134,7 +134,7 @@ public class Driver extends AbstractEntity {
         Driver driver = (Driver) o;
 
         if (id != driver.id) return false;
-        if (workedThisMonth != driver.workedThisMonth) return false;
+        if (workedThisMonthMs != driver.workedThisMonthMs) return false;
         if (persNumber != null ? !persNumber.equals(driver.persNumber) : driver.persNumber != null) return false;
         if (firstName != null ? !firstName.equals(driver.firstName) : driver.firstName != null) return false;
         if (lastName != null ? !lastName.equals(driver.lastName) : driver.lastName != null) return false;
@@ -150,7 +150,7 @@ public class Driver extends AbstractEntity {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (lastStatusUpdate != null ? lastStatusUpdate.hashCode() : 0);
-        result = 31 * result + workedThisMonth;
+        result = 31 * result + (int) (workedThisMonthMs ^ (workedThisMonthMs >>> 32));
         return result;
     }
 

@@ -168,15 +168,9 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
 
         // move all drivers to the new city
         List<Driver> drivers = vehicle.getDrivers();
-        Timestamp now = Timestamp.valueOf(LocalDateTime.now());
         for (Driver driver : drivers) {
             dao.getDriverDAO().move(driver, city);
-            if (driver.getStatus() == Driver.Status.WORK) {
-                // update worked hours counter
-                driver.setStatus(Driver.Status.REST);
-                int diffHours = (int) ((now.getTime() - driver.getLastStatusUpdate().getTime() - 1) / 3_600_000 + 1);
-                driver.setWorkedThisMonth(driver.getWorkedThisMonth() + diffHours);
-            }
+            dao.getDriverDAO().updateStatus(driver, Driver.Status.REST);
         }
 
         // loading and unloading target cargoes
@@ -240,7 +234,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
                 // update worked hours counter
                 driver.setStatus(Driver.Status.REST);
                 int diffHours = (int) ((now.getTime() - driver.getLastStatusUpdate().getTime() - 1) / 3_600_000 + 1);
-                driver.setWorkedThisMonth(driver.getWorkedThisMonth() + diffHours);
+                driver.setWorkedThisMonthMs(driver.getWorkedThisMonthMs() + diffHours);
             }
         }
 

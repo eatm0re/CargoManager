@@ -253,8 +253,8 @@ public class OrderServiceTest {
             assertEquals("Moscow", driver.getLocation().getName());
             assertEquals(Driver.Status.REST, driver.getStatus());
         }
-        assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonth() > 0);
-        assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonth());
+        assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonthMs() > 0);
+        assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonthMs());
         CargoDTO cargo = service.getCargoService().findById(5);
         assertEquals(Cargo.Status.SHIPPED, cargo.getStatus());
     }
@@ -339,8 +339,8 @@ public class OrderServiceTest {
             assertEquals("Ekaterinburg", driver.getLocation().getName());
             assertEquals(Driver.Status.REST, driver.getStatus());
         }
-        assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonth() > 0);
-        assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonth());
+        assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonthMs() > 0);
+        assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonthMs());
         for (CheckpointDTO checkpoint : order.getCheckpoints()) {
             checkpoint = service.getCheckpointService().findById(checkpoint.getId());
             for (TaskDTO task : checkpoint.getTasks()) {
@@ -375,8 +375,8 @@ public class OrderServiceTest {
             assertEquals("Moscow", driver.getLocation().getName());
             assertEquals(Driver.Status.REST, driver.getStatus());
         }
-        assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonth() > 0);
-        assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonth());
+        assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonthMs() > 0);
+        assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonthMs());
         CargoDTO firstCargo = service.getCargoService().findById(4);
         CargoDTO secondCargo = service.getCargoService().findById(5);
         CargoDTO thirdCargo = service.getCargoService().findById(7);
@@ -409,8 +409,8 @@ public class OrderServiceTest {
             assertEquals("Saint-Petersburg", driver.getLocation().getName());
             assertEquals(Driver.Status.REST, driver.getStatus());
         }
-        assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonth() > 0);
-        assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonth());
+        assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonthMs() > 0);
+        assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonthMs());
         CargoDTO firstCargo = service.getCargoService().findById(4);
         CargoDTO secondCargo = service.getCargoService().findById(5);
         CargoDTO thirdCargo = service.getCargoService().findById(7);
@@ -444,8 +444,8 @@ public class OrderServiceTest {
             assertEquals("Saint-Petersburg", driver.getLocation().getName());
             assertEquals(Driver.Status.REST, driver.getStatus());
         }
-        assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonth() > 0);
-        assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonth());
+        assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonthMs() > 0);
+        assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonthMs());
         CargoDTO firstCargo = service.getCargoService().findById(4);
         CargoDTO secondCargo = service.getCargoService().findById(5);
         CargoDTO thirdCargo = service.getCargoService().findById(7);
@@ -499,8 +499,8 @@ public class OrderServiceTest {
             assertEquals("Moscow", driver.getLocation().getName());
             assertEquals(Driver.Status.REST, driver.getStatus());
         }
-        assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonth() > 0);
-        assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonth());
+        assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonthMs() > 0);
+        assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonthMs());
         CargoDTO firstCargo = service.getCargoService().findById(4);
         CargoDTO secondCargo = service.getCargoService().findById(5);
         CargoDTO thirdCargo = service.getCargoService().findById(7);
@@ -535,8 +535,8 @@ public class OrderServiceTest {
             assertEquals("Moscow", driver.getLocation().getName());
             assertEquals(Driver.Status.REST, driver.getStatus());
         }
-        assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonth() > 0);
-        assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonth());
+        assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonthMs() > 0);
+        assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonthMs());
         CargoDTO firstCargo = service.getCargoService().findById(4);
         CargoDTO secondCargo = service.getCargoService().findById(5);
         CargoDTO thirdCargo = service.getCargoService().findById(7);
@@ -614,8 +614,8 @@ public class OrderServiceTest {
             assertEquals("Saint-Petersburg", driver.getLocation().getName());
             assertEquals(Driver.Status.REST, driver.getStatus());
         }
-        assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonth() > 0);
-        assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonth());
+        assertTrue(service.getDriverService().findByPersNumber("LZX321098").getWorkedThisMonthMs() > 0);
+        assertEquals(0, service.getDriverService().findByPersNumber("CVB765432").getWorkedThisMonthMs());
         CargoDTO firstCargo = service.getCargoService().findById(4);
         CargoDTO secondCargo = service.getCargoService().findById(5);
         CargoDTO thirdCargo = service.getCargoService().findById(7);

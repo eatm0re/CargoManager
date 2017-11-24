@@ -26,7 +26,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring.xml")
-public class DriverServiceTest {
+public class DriverServiceMockTest {
 
     private DAOFacade dao;
     private DriverServiceImpl service;

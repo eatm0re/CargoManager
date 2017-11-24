@@ -78,7 +78,7 @@ public class EntitiesTest {
         Assert.assertEquals("Moscow", driver.getLocation().getName());
         Assert.assertEquals(Driver.Status.REST, driver.getStatus());
         Assert.assertNull(driver.getVehicle());
-        Assert.assertEquals(0, driver.getWorkedThisMonth());
+        Assert.assertEquals(0, driver.getWorkedThisMonthMs());
         Timestamp time = driver.getLastStatusUpdate();
         Timestamp past = Timestamp.valueOf(LocalDateTime.now().minusSeconds(20));
         Assert.assertTrue(time.after(past));

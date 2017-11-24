@@ -1,9 +1,7 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.VehicleDTO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Order;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.*;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.VehicleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -11,9 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import java.util.Collection;
+import java.util.List;
 
 @Service
 public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> implements VehicleService {
+
+    private static final double SPEED_KMH = 60.0;
+    private static final long MONTH_WORK_TIME = 176 * 3_600_000;
 
     public VehicleServiceImpl() {
         super(Vehicle.class);
@@ -193,7 +196,7 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
                 if (vehicle.getLocation().getId() != orderCity.getId()) {
                     throw new IllegalStateException("Vehicle must be in " + orderCity.getName());
                 }
-                if (vehicle.getDrivers() == null || vehicle.getDrivers().isEmpty()) {
+                if (timeProvided(vehicle.getDrivers()) < timeNeeded(newOrder)) {
                     throw new IllegalStateException("Not enough drivers for order");
                 }
                 dao.getOrderDAO().assignVehicle(newOrder, vehicle);
@@ -201,5 +204,24 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
                 throw new IllegalStateException("Attempted to assign busy vehicle");
             }
         }
+    }
+
+    private long timeNeeded(Order order) {
+        double distance = 0.0;
+        List<Checkpoint> checkpoints = order.getCheckpoints();
+        String prevCityName = checkpoints.get(0).getCity().getName();
+        for (Checkpoint checkpoint : checkpoints) {
+            String currCityName = checkpoint.getCity().getName();
+            distance += service.getCityService().distance(prevCityName, currCityName);
+            prevCityName = currCityName;
+        }
+        return Math.round(distance / SPEED_KMH * 3_600_000);
+    }
+
+    private long timeProvided(Collection<Driver> drivers) {
+        if (drivers == null) {
+            return 0;
+        }
+        return drivers.stream().mapToLong(x -> MONTH_WORK_TIME - x.getWorkedThisMonthMs()).sum();
     }
 }

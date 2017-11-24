@@ -10,8 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
+import static java.lang.Math.*;
+
 @Service
 public class CityServiceImpl extends AbstractService<City, CityDTO> implements CityService {
+
+    private static final double EARTH_RADIUS = 6371.0;
+    private static final double DISTANCE_MULTIPLIER = 1.15;
 
     public CityServiceImpl() {
         super(City.class);
@@ -91,6 +96,24 @@ public class CityServiceImpl extends AbstractService<City, CityDTO> implements C
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
     public double distance(String firstCityName, String secondCityName) {
-        return 0;
+        if (firstCityName.equals(secondCityName)) {
+            return 0.0;
+        }
+        if (!isSimpleName(firstCityName) || !isSimpleName(secondCityName)) {
+            throw new IllegalArgumentException("Wrong city name");
+        }
+        City firstCity = dao.getCityDAO().selectByName(firstCityName);
+        if (firstCity == null) {
+            throw new EntityNotFoundException("City " + firstCityName + " not found");
+        }
+        City secondCity = dao.getCityDAO().selectByName(secondCityName);
+        if (secondCity == null) {
+            throw new EntityNotFoundException("City " + secondCityName + " not found");
+        }
+        return DISTANCE_MULTIPLIER * EARTH_RADIUS * acos(
+                sin(toRadians(firstCity.getLatitude())) * sin(toRadians(secondCity.getLatitude())) +
+                        cos(toRadians(firstCity.getLatitude())) * cos(toRadians(secondCity.getLatitude())) *
+                                cos(toRadians(firstCity.getLongitude() - secondCity.getLongitude()))
+        );
     }
 }

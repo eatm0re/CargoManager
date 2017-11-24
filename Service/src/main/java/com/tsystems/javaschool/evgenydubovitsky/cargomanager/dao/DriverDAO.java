@@ -13,4 +13,6 @@ public interface DriverDAO extends DAO<Driver> {
     void bind(Driver driver, Vehicle vehicle);
 
     void unbind(Driver driver);
+
+    void updateStatus(Driver driver, Driver.Status status);
 }

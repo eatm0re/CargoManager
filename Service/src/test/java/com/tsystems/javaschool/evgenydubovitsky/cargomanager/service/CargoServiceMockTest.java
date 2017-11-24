@@ -22,7 +22,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring.xml")
-public class CargoServiceTest {
+public class CargoServiceMockTest {
 
     private DAOFacade dao;
     private CargoServiceImpl service;

@@ -11,7 +11,7 @@ public class DriverDTO extends DTO<Driver> {
     private String lastName;
     private Driver.Status status;
     private Timestamp lastStatusUpdate;
-    private int workedThisMonth;
+    private long workedThisMonthMs;
     private CityDTO location;
     private VehicleDTO vehicle;
 
@@ -47,7 +47,7 @@ public class DriverDTO extends DTO<Driver> {
     /**
      * Full
      */
-    public DriverDTO(long id, String persNumber, String firstName, String lastName, CityDTO location, VehicleDTO vehicle, Driver.Status status, Timestamp lastStatusUpdate, int workedThisMonth) {
+    public DriverDTO(long id, String persNumber, String firstName, String lastName, CityDTO location, VehicleDTO vehicle, Driver.Status status, Timestamp lastStatusUpdate, long workedThisMonthMs) {
         this.id = id;
         this.persNumber = persNumber;
         this.firstName = firstName;
@@ -56,7 +56,7 @@ public class DriverDTO extends DTO<Driver> {
         this.vehicle = vehicle;
         this.status = status;
         this.lastStatusUpdate = lastStatusUpdate;
-        this.workedThisMonth = workedThisMonth;
+        this.workedThisMonthMs = workedThisMonthMs;
     }
 
     /**
@@ -72,7 +72,7 @@ public class DriverDTO extends DTO<Driver> {
                 null,
                 entity.getStatus(),
                 entity.getLastStatusUpdate(),
-                entity.getWorkedThisMonth()
+                entity.getWorkedThisMonthMs()
         );
     }
 
@@ -122,12 +122,12 @@ public class DriverDTO extends DTO<Driver> {
         this.lastStatusUpdate = lastStatusUpdate;
     }
 
-    public int getWorkedThisMonth() {
-        return workedThisMonth;
+    public long getWorkedThisMonthMs() {
+        return workedThisMonthMs;
     }
 
-    public void setWorkedThisMonth(int workedThisMonth) {
-        this.workedThisMonth = workedThisMonth;
+    public void setWorkedThisMonthMs(long workedThisMonthMs) {
+        this.workedThisMonthMs = workedThisMonthMs;
     }
 
     public CityDTO getLocation() {
@@ -164,7 +164,7 @@ public class DriverDTO extends DTO<Driver> {
 
         DriverDTO driverDTO = (DriverDTO) o;
 
-        if (workedThisMonth != driverDTO.workedThisMonth) return false;
+        if (workedThisMonthMs != driverDTO.workedThisMonthMs) return false;
         if (persNumber != null ? !persNumber.equals(driverDTO.persNumber) : driverDTO.persNumber != null) return false;
         if (firstName != null ? !firstName.equals(driverDTO.firstName) : driverDTO.firstName != null) return false;
         if (lastName != null ? !lastName.equals(driverDTO.lastName) : driverDTO.lastName != null) return false;
@@ -183,7 +183,7 @@ public class DriverDTO extends DTO<Driver> {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (lastStatusUpdate != null ? lastStatusUpdate.hashCode() : 0);
-        result = 31 * result + workedThisMonth;
+        result = 31 * result + (int) (workedThisMonthMs ^ (workedThisMonthMs >>> 32));
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (vehicle != null ? vehicle.hashCode() : 0);
         return result;
