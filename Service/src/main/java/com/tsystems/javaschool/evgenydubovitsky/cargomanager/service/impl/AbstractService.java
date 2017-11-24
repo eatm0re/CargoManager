@@ -52,7 +52,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends DTO<E>
                     return dto;
                 })
                 .collect(Collectors.toList());
-        if (res.size() == 0) {
+        if (res.isEmpty()) {
             throw new EntityNotFoundException("No one " + entityClass.getSimpleName().toLowerCase() + " found");
         }
         return res;

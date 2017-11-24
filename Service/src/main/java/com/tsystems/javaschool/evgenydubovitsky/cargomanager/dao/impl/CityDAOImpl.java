@@ -21,6 +21,6 @@ public class CityDAOImpl extends AbstractDAO<City> implements CityDAO {
     @Loggable
     public City selectByName(String name) {
         List<City> list = selectByParam("name", name);
-        return list.size() == 0 ? null : list.get(0);
+        return list.isEmpty() ? null : list.get(0);
     }
 }

@@ -48,6 +48,7 @@ public class UserDTO extends DTO<User> {
 
     @Override
     public void fill(User entity) {
+        // no fields to fill
     }
 
     public String getLogin() {

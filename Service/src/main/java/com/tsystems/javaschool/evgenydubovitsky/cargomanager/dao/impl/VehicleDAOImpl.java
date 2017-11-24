@@ -22,7 +22,7 @@ public class VehicleDAOImpl extends AbstractDAO<Vehicle> implements VehicleDAO {
     @Loggable
     public Vehicle selectByRegNumber(String regNumber) {
         List<Vehicle> list = selectByParam("regNumber", regNumber);
-        return list.size() == 0 ? null : list.get(0);
+        return list.isEmpty() ? null : list.get(0);
     }
 
     @Override

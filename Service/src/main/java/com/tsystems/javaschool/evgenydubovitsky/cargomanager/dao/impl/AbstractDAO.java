@@ -48,7 +48,6 @@ public abstract class AbstractDAO<E extends AbstractEntity> implements DAO<E> {
     }
 
     @SuppressWarnings("unchecked")
-    @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
     @Loggable
     protected List<E> selectByParam(String param, Object value) {
         Session session = sessionFactory.getCurrentSession();

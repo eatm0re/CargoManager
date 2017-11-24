@@ -21,6 +21,6 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
     @Loggable
     public User selectByLogin(String login) {
         List<User> list = selectByParam("login", login);
-        return list.size() == 0 ? null : list.get(0);
+        return list.isEmpty() ? null : list.get(0);
     }
 }

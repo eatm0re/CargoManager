@@ -17,7 +17,7 @@ import java.util.Collection;
 @Service
 public class DriverServiceImpl extends AbstractService<Driver, DriverDTO> implements DriverService {
 
-    private static final long MONTH_WORK_TIME = 176 * 3_600_000;
+    private static final long MONTH_WORK_TIME = (long) 176 * 3_600_000;
 
     public DriverServiceImpl() {
         super(Driver.class);
@@ -181,11 +181,9 @@ public class DriverServiceImpl extends AbstractService<Driver, DriverDTO> implem
             String regNumber = driverDTO.getVehicle().getRegNumber();
             if (driver.getVehicle() == null || !regNumber.equals(driver.getVehicle().getRegNumber())) {
                 // bind driver to vehicle
-                if (driver.getVehicle() != null) {
+                if (driver.getVehicle() != null && driver.getVehicle().getOrder() != null) {
                     // bind driver to another vehicle
-                    if (driver.getVehicle().getOrder() != null) {
-                        throw new IllegalStateException("Attempted to assign already assigned driver");
-                    }
+                    throw new IllegalStateException("Attempted to assign already assigned driver");
                 }
                 if (!isSimpleName(regNumber)) {
                     throw new IllegalArgumentException("Wrong registration number");

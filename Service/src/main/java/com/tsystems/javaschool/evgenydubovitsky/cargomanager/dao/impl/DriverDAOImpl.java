@@ -25,7 +25,7 @@ public class DriverDAOImpl extends AbstractDAO<Driver> implements DriverDAO {
     @Loggable
     public Driver selectByPersNumber(String persNumber) {
         List<Driver> list = selectByParam("persNumber", persNumber);
-        return list.size() == 0 ? null : list.get(0);
+        return list.isEmpty() ? null : list.get(0);
     }
 
     @Override

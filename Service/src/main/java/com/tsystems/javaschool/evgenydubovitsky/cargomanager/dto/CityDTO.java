@@ -61,18 +61,18 @@ public class CityDTO extends DTO<City> {
     @Override
     @SuppressWarnings("unchecked")
     public void fill(City entity) {
-        List<Driver> drivers = entity.getDrivers();
-        if (drivers == null) {
-            this.drivers = Collections.EMPTY_LIST;
+        List<Driver> entityDrivers = entity.getDrivers();
+        if (entityDrivers == null) {
+            this.drivers = Collections.emptyList();
         } else {
-            this.drivers = drivers.stream().map(DriverDTO::new).collect(Collectors.toList());
+            this.drivers = entityDrivers.stream().map(DriverDTO::new).collect(Collectors.toList());
         }
 
-        List<Vehicle> vehicles = entity.getVehicles();
-        if (vehicles == null) {
-            this.vehicles = Collections.EMPTY_LIST;
+        List<Vehicle> entityVehicles = entity.getVehicles();
+        if (entityVehicles == null) {
+            this.vehicles = Collections.emptyList();
         } else {
-            this.vehicles = vehicles.stream().map(VehicleDTO::new).collect(Collectors.toList());
+            this.vehicles = entityVehicles.stream().map(VehicleDTO::new).collect(Collectors.toList());
         }
     }
 

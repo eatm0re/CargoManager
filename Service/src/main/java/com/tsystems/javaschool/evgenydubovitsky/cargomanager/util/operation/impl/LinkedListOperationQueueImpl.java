@@ -3,9 +3,10 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.operation.imp
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.operation.DelayedOperation;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.operation.OperationQueue;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
-public class LinkedListOperationQueueImpl implements OperationQueue {
+public class LinkedListOperationQueueImpl implements Serializable, OperationQueue {
 
     private LinkedList<DelayedOperation> queue;
 

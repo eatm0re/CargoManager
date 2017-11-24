@@ -74,11 +74,11 @@ public class VehicleDTO extends DTO<Vehicle> {
     @Override
     @SuppressWarnings("unchecked")
     public void fill(Vehicle entity) {
-        List<Driver> drivers = entity.getDrivers();
-        if (drivers == null) {
-            this.drivers = Collections.EMPTY_LIST;
+        List<Driver> entityDrivers = entity.getDrivers();
+        if (entityDrivers == null) {
+            this.drivers = Collections.emptyList();
         } else {
-            this.drivers = drivers.stream().map(DriverDTO::new).collect(Collectors.toList());
+            this.drivers = entityDrivers.stream().map(DriverDTO::new).collect(Collectors.toList());
         }
 
         order = entity.getOrder() == null ? null : new OrderDTO(entity.getOrder());

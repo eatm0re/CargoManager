@@ -4,6 +4,10 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.*;
 
 public class DTOFactory {
 
+    private DTOFactory() {
+        throw new UnsupportedOperationException("Utility class");
+    }
+
     @SuppressWarnings("unchecked")
     public static <E extends AbstractEntity> DTO<E> createDTO(E entity) {
         if (entity == null) {

@@ -44,7 +44,6 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
         // creating order
         Order order = new Order();
 
-        //dao.getOrderDAO().insert(order);
         order.setCheckpoints(new LinkedList<>());
 
         // scan all checkpoints for order
@@ -77,7 +76,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
 
             // scan all tasks for checkpoint
             List<TaskDTO> tasks = checkpointDTO.getTasks();
-            if (tasks == null || tasks.size() == 0) {
+            if (tasks == null || tasks.isEmpty()) {
                 throw new IllegalArgumentException("Each checkpoint must have at least one task");
             }
             for (TaskDTO taskDTO : tasks) {
@@ -117,7 +116,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
                 task.setCargo(cargo);
             }
         }
-        if (loadedCargoes.size() > 0) {
+        if (!loadedCargoes.isEmpty()) {
             // some unloaded cargo remained at the end point
             throw new IllegalArgumentException("All loaded cargoes must be unloaded");
         }
@@ -187,7 +186,6 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
                 // unloading
                 cargo.setStatus(Cargo.Status.DELIVERED);
                 dao.getCargoDAO().move(cargo, city);
-                //cargo.setLocation(city);
             }
         }
     }
@@ -228,7 +226,6 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
             throw new IllegalStateException("No vehicle assigned to order");
         }
         dao.getOrderDAO().unassignVehicle(order);
-        //vehicle.setOrder(null);
 
         // set all drivers free
         List<Driver> drivers = vehicle.getDrivers();

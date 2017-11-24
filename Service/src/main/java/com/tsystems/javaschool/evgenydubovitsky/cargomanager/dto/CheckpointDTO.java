@@ -1,7 +1,6 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Checkpoint;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Task;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,8 +30,7 @@ public class CheckpointDTO extends DTO<Checkpoint> {
     public void fill(Checkpoint entity) {
         order = new OrderDTO(entity.getOrder());
         city = new CityDTO(entity.getCity());
-        List<Task> tasks = entity.getTasks();
-        this.tasks = tasks.stream().map(TaskDTO::new).collect(Collectors.toList());
+        this.tasks = entity.getTasks().stream().map(TaskDTO::new).collect(Collectors.toList());
     }
 
     public OrderDTO getOrder() {

@@ -10,7 +10,5 @@ public interface Service<E extends DTO<?>> {
 
     E findById(long id);
 
-    //List<E> findByParam(String param, Object value);
-
     void removeByParam(String param, Object value);
 }

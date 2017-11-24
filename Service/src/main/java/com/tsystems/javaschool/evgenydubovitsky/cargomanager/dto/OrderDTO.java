@@ -55,11 +55,11 @@ public class OrderDTO extends DTO<Order> {
     @Override
     @SuppressWarnings("unchecked")
     public void fill(Order entity) {
-        List<Checkpoint> checkpoints = entity.getCheckpoints();
-        if (checkpoints == null) {
-            this.checkpoints = Collections.EMPTY_LIST;
+        List<Checkpoint> entityCheckpoints = entity.getCheckpoints();
+        if (entityCheckpoints == null) {
+            this.checkpoints = Collections.emptyList();
         } else {
-            this.checkpoints = checkpoints.stream().map(CheckpointDTO::new).collect(Collectors.toList());
+            this.checkpoints = entityCheckpoints.stream().map(CheckpointDTO::new).collect(Collectors.toList());
         }
 
         vehicle = entity.getVehicle() == null ? null : new VehicleDTO(entity.getVehicle());

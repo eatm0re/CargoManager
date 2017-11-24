@@ -17,7 +17,7 @@ import java.util.List;
 public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> implements VehicleService {
 
     private static final double SPEED_KMH = 60.0;
-    private static final long MONTH_WORK_TIME = 176 * 3_600_000;
+    private static final long MONTH_WORK_TIME = (long) 176 * 3_600_000;
 
     public VehicleServiceImpl() {
         super(Vehicle.class);

@@ -4,13 +4,14 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.operation.Dela
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.operation.OperationQueue;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.operation.impl.LinkedListOperationQueueImpl;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
-public class LazyListProxy<E> implements List<E> {
+public class LazyListProxy<E> implements Serializable, List<E> {
 
     private List<E> list;
     private OperationQueue queue = new LinkedListOperationQueueImpl();
@@ -210,7 +211,7 @@ public class LazyListProxy<E> implements List<E> {
         list.forEach(action);
     }
 
-    private final class RemoveOperation implements DelayedOperation {
+    private final class RemoveOperation implements Serializable, DelayedOperation {
 
         private Object value;
 

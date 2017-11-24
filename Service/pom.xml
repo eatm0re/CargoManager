@@ -114,7 +114,7 @@
     </dependencies>
 
     <build>
-        <finalName>${name}</finalName>
+        <finalName>${project.name}</finalName>
 
         <plugins>
             <plugin>

@@ -1,7 +1,6 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Cargo;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
 
 import java.math.BigDecimal;
 
@@ -63,8 +62,7 @@ public class CargoDTO extends DTO<Cargo> {
 
     @Override
     public void fill(Cargo entity) {
-        City location = entity.getLocation();
-        this.location = new CityDTO(location);
+        this.location = new CityDTO(entity.getLocation());
     }
 
     public String getName() {

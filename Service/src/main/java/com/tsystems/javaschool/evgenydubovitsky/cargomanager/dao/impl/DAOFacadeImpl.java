@@ -56,36 +56,6 @@ public class DAOFacadeImpl implements DAOFacade {
         this.vehicleDAO = vehicleDAO;
     }
 
-//    @Override
-//    @SuppressWarnings("unchecked")
-//    public <E extends AbstractEntity> DAO<E> getDAO(Class<E> entityClass) {
-//        if (entityClass.equals(cargoDAO.getEntityClass())) {
-//            return (DAO<E>) cargoDAO;
-//        }
-//        if (entityClass.equals(checkpointDAO.getEntityClass())) {
-//            return (DAO<E>) checkpointDAO;
-//        }
-//        if (entityClass.equals(cityDAO.getEntityClass())) {
-//            return (DAO<E>) cityDAO;
-//        }
-//        if (entityClass.equals(driverDAO.getEntityClass())) {
-//            return (DAO<E>) driverDAO;
-//        }
-//        if (entityClass.equals(orderDAO.getEntityClass())) {
-//            return (DAO<E>) orderDAO;
-//        }
-//        if (entityClass.equals(taskDAO.getEntityClass())) {
-//            return (DAO<E>) taskDAO;
-//        }
-//        if (entityClass.equals(userDAO.getEntityClass())) {
-//            return (DAO<E>) userDAO;
-//        }
-//        if (entityClass.equals(vehicleDAO.getEntityClass())) {
-//            return (DAO<E>) vehicleDAO;
-//        }
-//        throw new IllegalArgumentException("Entity " + entityClass.getSimpleName() + " not found");
-//    }
-
     @Override
     public CargoDAO getCargoDAO() {
         return cargoDAO;
