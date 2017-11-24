@@ -2,7 +2,6 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Table(name = "cargoes", schema = "cargomanager")
@@ -14,7 +13,6 @@ public class Cargo extends AbstractEntity {
     private BigDecimal weightKg = BigDecimal.ZERO;
     private Status status = Status.READY;
     private City location;
-    private List<Task> tasks;
 
     public Cargo() {
     }
@@ -76,15 +74,6 @@ public class Cargo extends AbstractEntity {
 
     public void setLocation(City location) {
         this.location = location;
-    }
-
-    @OneToMany(mappedBy = "cargo")
-    public List<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
     }
 
     @Override
