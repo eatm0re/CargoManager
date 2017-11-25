@@ -1,8 +1,11 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.service;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.*;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Cargo;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Driver;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Cargo;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Driver;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.BusinessException;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.EntityNotFoundException;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.WrongParameterException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +15,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -61,7 +63,7 @@ public class OrderServiceTest {
             OrderDTO order = new OrderDTO(Collections.EMPTY_LIST);
             service.getOrderService().add(order);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (BusinessException e) {
             assertEquals("Order must have at least 2 checkpoints", e.getMessage());
         }
     }
@@ -82,7 +84,7 @@ public class OrderServiceTest {
 
             service.getOrderService().add(order);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (BusinessException e) {
             assertEquals("City name must be specified in every checkpoint", e.getMessage());
         }
     }
@@ -103,7 +105,7 @@ public class OrderServiceTest {
 
             service.getOrderService().add(order);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Wrong city name", e.getMessage());
         }
     }
@@ -145,7 +147,7 @@ public class OrderServiceTest {
 
             service.getOrderService().add(order);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Cargo ID must be positive", e.getMessage());
         }
     }
@@ -187,7 +189,7 @@ public class OrderServiceTest {
 
             service.getOrderService().add(order);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (BusinessException e) {
             assertEquals("Unloading cargo in city it was loaded", e.getMessage());
         }
     }
@@ -208,7 +210,7 @@ public class OrderServiceTest {
 
             service.getOrderService().add(order);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (BusinessException e) {
             assertEquals("Loading cargo when it is in another city", e.getMessage());
         }
     }
@@ -230,7 +232,7 @@ public class OrderServiceTest {
 
             service.getOrderService().add(order);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (BusinessException e) {
             assertEquals("All loaded cargoes must be unloaded", e.getMessage());
         }
     }
@@ -279,7 +281,7 @@ public class OrderServiceTest {
         try {
             service.getOrderService().progressReport(-2);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Order ID must be positive", e.getMessage());
         }
     }
@@ -310,7 +312,7 @@ public class OrderServiceTest {
                 service.getOrderService().progressReport(2);
             }
             fail("Exception expected");
-        } catch (IllegalStateException e) {
+        } catch (BusinessException e) {
             assertEquals("Order #2 is already completed", e.getMessage());
         }
     }
@@ -325,7 +327,7 @@ public class OrderServiceTest {
             service.getDriverService().change(new DriverDTO("NMQ109876", null, null, null, new VehicleDTO("9876AS"), null));
             service.getOrderService().progressReport(2);
             fail("Exception expected");
-        } catch (IllegalStateException e) {
+        } catch (BusinessException e) {
             assertEquals("No vehicle assigned to order", e.getMessage());
         }
     }
@@ -514,7 +516,7 @@ public class OrderServiceTest {
             service.getOrderService().interrupt(2);
             service.getOrderService().progressReport(2);
             fail("Exception expected");
-        } catch (IllegalStateException e) {
+        } catch (BusinessException e) {
             assertEquals("No vehicle assigned to order", e.getMessage());
         }
     }
@@ -623,7 +625,7 @@ public class OrderServiceTest {
             }
             service.getOrderService().interrupt(2);
             fail("Exception expected");
-        } catch (IllegalStateException e) {
+        } catch (BusinessException e) {
             assertEquals("Order #2 is already completed", e.getMessage());
         }
     }
@@ -635,7 +637,7 @@ public class OrderServiceTest {
         try {
             service.getOrderService().interrupt(-2);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Order ID must be positive", e.getMessage());
         }
     }
@@ -710,7 +712,7 @@ public class OrderServiceTest {
         try {
             service.getOrderService().capacityNeeded(-2);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Order ID must be positive", e.getMessage());
         }
     }

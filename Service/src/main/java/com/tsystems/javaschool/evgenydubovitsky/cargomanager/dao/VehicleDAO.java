@@ -1,7 +1,7 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao;
 
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.City;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Vehicle;
 
 public interface VehicleDAO extends DAO<Vehicle> {
 

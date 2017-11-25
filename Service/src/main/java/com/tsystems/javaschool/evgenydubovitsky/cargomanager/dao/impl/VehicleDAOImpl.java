@@ -1,8 +1,8 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.impl;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.VehicleDAO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.City;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Vehicle;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;

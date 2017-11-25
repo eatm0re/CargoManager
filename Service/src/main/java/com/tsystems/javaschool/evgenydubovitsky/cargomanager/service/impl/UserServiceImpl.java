@@ -1,15 +1,13 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.UserDTO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.User;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.User;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.*;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.UserService;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 
 @Service
 public class UserServiceImpl extends AbstractService<User, UserDTO> implements UserService {
@@ -21,9 +19,9 @@ public class UserServiceImpl extends AbstractService<User, UserDTO> implements U
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
     @Loggable
-    public UserDTO findByLogin(String login) {
+    public UserDTO findByLogin(String login) throws BusinessException {
         if (!isSimpleName(login)) {
-            throw new IllegalArgumentException("Wrong user login");
+            throw new WrongParameterException("Wrong user login");
         }
         User user = dao.getUserDAO().selectByLogin(login);
         if (user == null) {
@@ -35,7 +33,7 @@ public class UserServiceImpl extends AbstractService<User, UserDTO> implements U
     @Override
     @Transactional(rollbackFor = Exception.class)
     @Loggable
-    public long register(UserDTO userDTO) {
+    public long register(UserDTO userDTO) throws BusinessException {
 
         // create user
         User user = new User();
@@ -43,10 +41,10 @@ public class UserServiceImpl extends AbstractService<User, UserDTO> implements U
         // login
         String login = userDTO.getLogin();
         if (login == null || login.length() == 0) {
-            throw new IllegalArgumentException("User login must be specified");
+            throw new MissedParameterException("User login must be specified");
         }
         if (!isSimpleName(login)) {
-            throw new IllegalArgumentException("Wrong user login");
+            throw new WrongParameterException("Wrong user login");
         }
         if (dao.getUserDAO().selectByLogin(login) != null) {
             throw new EntityExistsException("User " + login + " is already exists");
@@ -56,17 +54,17 @@ public class UserServiceImpl extends AbstractService<User, UserDTO> implements U
         // password
         String password = userDTO.getPassword();
         if (password == null || password.length() == 0) {
-            throw new IllegalArgumentException("User password must be specified");
+            throw new MissedParameterException("User password must be specified");
         }
         if (!isLongName(password)) {
-            throw new IllegalArgumentException("Wrong user password");
+            throw new WrongParameterException("Wrong user password");
         }
         user.setPassword(password);
 
         // post
         User.Post post = userDTO.getPost();
         if (post == null) {
-            throw new IllegalArgumentException("User post must be specified");
+            throw new MissedParameterException("User post must be specified");
         }
         user.setPost(post);
 
@@ -78,15 +76,15 @@ public class UserServiceImpl extends AbstractService<User, UserDTO> implements U
     @Override
     @Transactional(rollbackFor = Exception.class)
     @Loggable
-    public void change(UserDTO userDTO) {
+    public void change(UserDTO userDTO) throws BusinessException {
 
         // find user by login
         String login = userDTO.getLogin();
         if (login == null || login.length() == 0) {
-            throw new IllegalArgumentException("User login must be specified");
+            throw new MissedParameterException("User login must be specified");
         }
         if (!isSimpleName(login)) {
-            throw new IllegalArgumentException("Wrong user login");
+            throw new WrongParameterException("Wrong user login");
         }
         User user = dao.getUserDAO().selectByLogin(login);
         if (user == null) {
@@ -97,7 +95,7 @@ public class UserServiceImpl extends AbstractService<User, UserDTO> implements U
         String password = userDTO.getPassword();
         if (password != null && password.length() > 0) {
             if (!isLongName(password)) {
-                throw new IllegalArgumentException("Wrong user password");
+                throw new WrongParameterException("Wrong user password");
             }
             user.setPassword(password);
         }

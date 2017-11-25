@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.AbstractEntity;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.AbstractEntity;
 
 import java.io.Serializable;
 

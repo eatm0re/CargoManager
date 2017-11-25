@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.User;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.User;
 
 public class UserDTO extends DTO<User> {
 

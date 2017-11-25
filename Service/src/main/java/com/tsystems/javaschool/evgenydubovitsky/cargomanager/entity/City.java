@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities;
+package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.LazyListProxy;
 import org.hibernate.collection.spi.PersistentCollection;

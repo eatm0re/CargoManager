@@ -1,8 +1,8 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager;
 
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Cargo;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Driver;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Cargo;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.City;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Driver;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.Assert;

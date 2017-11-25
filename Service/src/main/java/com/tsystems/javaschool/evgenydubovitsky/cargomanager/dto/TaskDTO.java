@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Task;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Task;
 
 public class TaskDTO extends DTO<Task> {
 

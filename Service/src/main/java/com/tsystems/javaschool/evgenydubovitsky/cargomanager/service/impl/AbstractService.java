@@ -3,7 +3,10 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.DAOFacade;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.DTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.DTOFactory;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.AbstractEntity;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.AbstractEntity;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.BusinessException;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.EntityNotFoundException;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.WrongParameterException;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.Service;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.ServiceFacade;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
@@ -11,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -42,7 +44,7 @@ public abstract class AbstractService<E extends AbstractEntity, D extends DTO<E>
     @SuppressWarnings("unchecked")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
     @Loggable
-    public List<D> getAll() {
+    public List<D> getAll() throws BusinessException {
         List<D> res = (List<D>) dao.getDAO(entityClass)
                 .selectAll()
                 .stream()
@@ -62,9 +64,9 @@ public abstract class AbstractService<E extends AbstractEntity, D extends DTO<E>
     @SuppressWarnings("unchecked")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
     @Loggable
-    public D findById(long id) {
+    public D findById(long id) throws BusinessException {
         if (id <= 0) {
-            throw new IllegalArgumentException("ID must be positive");
+            throw new WrongParameterException("ID must be positive");
         }
         E entity = dao.getDAO(entityClass).selectById(id);
         if (entity == null) {
@@ -75,10 +77,8 @@ public abstract class AbstractService<E extends AbstractEntity, D extends DTO<E>
         return dto;
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
     @Loggable
-    public void removeByParam(String param, Object value) {
+    protected void removeByParam(String param, Object value) throws BusinessException {
         if (dao.getDAO(entityClass).deleteByParam(param, value) == 0) {
             throw new EntityNotFoundException(entityClass.getSimpleName() + " with " + param + " = " + value + " not found");
         }

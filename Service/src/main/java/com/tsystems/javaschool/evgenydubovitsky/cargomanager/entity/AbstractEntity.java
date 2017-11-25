@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities;
+package com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity;
 
 import java.io.Serializable;
 

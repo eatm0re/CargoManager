@@ -4,9 +4,10 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.DAOFacade;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.DAOFacadeMock;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.CityDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.DriverDTO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Driver;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.City;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Driver;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Vehicle;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.*;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl.DriverServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,8 +16,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -54,7 +53,7 @@ public class DriverServiceMockTest {
             DriverDTO driver = new DriverDTO(null, "Test2", "Test3", new CityDTO("TestCity"));
             service.add(driver);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (MissedParameterException e) {
             assertEquals("Personal number must be specified", e.getMessage());
         }
     }
@@ -66,7 +65,7 @@ public class DriverServiceMockTest {
             DriverDTO driver = new DriverDTO("Test1", null, "Test3", new CityDTO("TestCity"));
             service.add(driver);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (MissedParameterException e) {
             assertEquals("First name must be specified", e.getMessage());
         }
     }
@@ -78,7 +77,7 @@ public class DriverServiceMockTest {
             DriverDTO driver = new DriverDTO("Test1", "Test2", null, new CityDTO("TestCity"));
             service.add(driver);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (MissedParameterException e) {
             assertEquals("Last name must be specified", e.getMessage());
         }
     }
@@ -90,7 +89,7 @@ public class DriverServiceMockTest {
             DriverDTO driver = new DriverDTO("Test1", "Test2", "Test3", null);
             service.add(driver);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (MissedParameterException e) {
             assertEquals("City name must be specified", e.getMessage());
         }
     }
@@ -102,7 +101,7 @@ public class DriverServiceMockTest {
             DriverDTO driver = new DriverDTO("Тест1", "Test2", "Test3", new CityDTO("TestCity"));
             service.add(driver);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Wrong personal number", e.getMessage());
         }
     }
@@ -114,7 +113,7 @@ public class DriverServiceMockTest {
             DriverDTO driver = new DriverDTO("Test1", "Тест2", "Test3", new CityDTO("TestCity"));
             service.add(driver);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Wrong first name", e.getMessage());
         }
     }
@@ -126,7 +125,7 @@ public class DriverServiceMockTest {
             DriverDTO driver = new DriverDTO("Test1", "Test2", "Тест3", new CityDTO("TestCity"));
             service.add(driver);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Wrong last name", e.getMessage());
         }
     }
@@ -138,7 +137,7 @@ public class DriverServiceMockTest {
             DriverDTO driver = new DriverDTO("Test1", "Test2", "Test3", new CityDTO("ТестГород"));
             service.add(driver);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Wrong city name", e.getMessage());
         }
     }
@@ -202,7 +201,7 @@ public class DriverServiceMockTest {
             DriverDTO driver = new DriverDTO("Test1", "Test2", "Test3", new CityDTO("TestAnotherCity"), null, null);
             service.change(driver);
             fail("Exception expected");
-        } catch (IllegalStateException e) {
+        } catch (BusinessException e) {
             assertEquals("Attempted to move assigned driver", e.getMessage());
         }
     }
@@ -221,7 +220,7 @@ public class DriverServiceMockTest {
             DriverDTO driver = new DriverDTO("Test1", "Test2", "Test3", null, null, null);
             service.change(driver);
             fail("Exception expected");
-        } catch (IllegalStateException e) {
+        } catch (BusinessException e) {
             assertEquals("Attempted to unbind busy driver from vehicle", e.getMessage());
         }
     }

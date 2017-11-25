@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao;
 
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.AbstractEntity;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.AbstractEntity;
 
 import static org.powermock.api.mockito.PowerMockito.mock;
 

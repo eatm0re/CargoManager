@@ -1,5 +1,7 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.controller;
 
+import org.hibernate.type.SerializationException;
+
 import java.io.Serializable;
 
 public class Response implements Serializable {
@@ -14,7 +16,7 @@ public class Response implements Serializable {
         if (body instanceof Serializable) {
             this.body = (Serializable) body;
         } else {
-            throw new IllegalArgumentException("Response body is not serializable");
+            throw new SerializationException("Response body is not serializable", null);
         }
     }
 

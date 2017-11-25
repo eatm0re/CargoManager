@@ -1,8 +1,8 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Driver;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.City;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Driver;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Vehicle;
 
 import java.util.Collections;
 import java.util.List;

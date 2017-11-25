@@ -1,15 +1,13 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.CityDTO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.City;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.*;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.CityService;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 
 import static java.lang.Math.*;
 
@@ -26,7 +24,7 @@ public class CityServiceImpl extends AbstractService<City, CityDTO> implements C
     @Override
     @Transactional(rollbackFor = Exception.class)
     @Loggable
-    public long add(CityDTO cityDTO) {
+    public long add(CityDTO cityDTO) throws BusinessException {
 
         // creating city
         City city = new City();
@@ -34,10 +32,10 @@ public class CityServiceImpl extends AbstractService<City, CityDTO> implements C
         // name
         String cityName = cityDTO.getName();
         if (cityName == null || cityName.length() == 0) {
-            throw new IllegalArgumentException("City name must be specified");
+            throw new MissedParameterException("City name must be specified");
         }
         if (!isSimpleName(cityName)) {
-            throw new IllegalArgumentException("Wrong city name");
+            throw new WrongParameterException("Wrong city name");
         }
         if (dao.getCityDAO().selectByName(cityName) != null) {
             throw new EntityExistsException("City " + cityName + " is already exists");
@@ -47,14 +45,14 @@ public class CityServiceImpl extends AbstractService<City, CityDTO> implements C
         // latitude
         double latitude = cityDTO.getLatitude();
         if (latitude > 90 || latitude < -90) {
-            throw new IllegalArgumentException("City latitude must be between -90 and +90");
+            throw new WrongParameterException("City latitude must be between -90 and +90");
         }
         city.setLatitude(latitude);
 
         // longitude
         double longitude = cityDTO.getLongitude();
         if (longitude > 180 || longitude <= -180) {
-            throw new IllegalArgumentException("City longitude must be between -180 (not including) and +180 (including)");
+            throw new WrongParameterException("City longitude must be between -180 (not including) and +180 (including)");
         }
         city.setLongitude(longitude);
 
@@ -66,15 +64,15 @@ public class CityServiceImpl extends AbstractService<City, CityDTO> implements C
     @Override
     @Transactional(rollbackFor = Exception.class)
     @Loggable
-    public void change(CityDTO cityDTO) {
+    public void change(CityDTO cityDTO) throws BusinessException {
 
         // find city by name
         String cityName = cityDTO.getName();
         if (cityName == null || cityName.length() == 0) {
-            throw new IllegalArgumentException("City name must be specified");
+            throw new MissedParameterException("City name must be specified");
         }
         if (!isSimpleName(cityName)) {
-            throw new IllegalArgumentException("Wrong city name");
+            throw new WrongParameterException("Wrong city name");
         }
         City city = dao.getCityDAO().selectByName(cityName);
         if (city == null) {
@@ -84,14 +82,14 @@ public class CityServiceImpl extends AbstractService<City, CityDTO> implements C
         // latitude
         double latitude = cityDTO.getLatitude();
         if (latitude > 90 || latitude < -90) {
-            throw new IllegalArgumentException("City latitude must be between -90 and +90");
+            throw new WrongParameterException("City latitude must be between -90 and +90");
         }
         city.setLatitude(latitude);
 
         // longitude
         double longitude = cityDTO.getLongitude();
         if (longitude > 180 || longitude <= -180) {
-            throw new IllegalArgumentException("City longitude must be between -180 (not including) and +180 (including)");
+            throw new WrongParameterException("City longitude must be between -180 (not including) and +180 (including)");
         }
         city.setLongitude(longitude);
     }
@@ -99,12 +97,12 @@ public class CityServiceImpl extends AbstractService<City, CityDTO> implements C
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
     @Loggable
-    public double distance(String firstCityName, String secondCityName) {
+    public double distance(String firstCityName, String secondCityName) throws BusinessException {
         if (firstCityName.equals(secondCityName)) {
             return 0.0;
         }
         if (!isSimpleName(firstCityName) || !isSimpleName(secondCityName)) {
-            throw new IllegalArgumentException("Wrong city name");
+            throw new WrongParameterException("Wrong city name");
         }
         City firstCity = dao.getCityDAO().selectByName(firstCityName);
         if (firstCity == null) {

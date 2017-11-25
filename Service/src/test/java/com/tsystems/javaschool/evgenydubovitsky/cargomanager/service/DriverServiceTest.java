@@ -3,7 +3,8 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.service;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.DriverDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.OrderDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.VehicleDTO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Driver;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Driver;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.BusinessException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class DriverServiceTest {
             service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
             service.getDriverService().change(new DriverDTO("CVB765432", null, null, null, new VehicleDTO("9876AS"), Driver.Status.WORK));
             fail("Exception expected");
-        } catch (IllegalStateException e) {
+        } catch (BusinessException e) {
             assertEquals("Someone is already on wheel", e.getMessage());
         }
     }
@@ -52,7 +53,7 @@ public class DriverServiceTest {
         try {
             service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, null, Driver.Status.WORK));
             fail("Exception expected");
-        } catch (IllegalStateException e) {
+        } catch (BusinessException e) {
             assertEquals("To WORK status driver must be assigned to order", e.getMessage());
         }
     }

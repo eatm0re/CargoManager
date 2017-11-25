@@ -1,9 +1,9 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.*;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Cargo;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.User;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Cargo;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.User;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Vehicle;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,7 +1,7 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.impl;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.CheckpointDAO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Checkpoint;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Checkpoint;
 import org.springframework.stereotype.Repository;
 
 @Repository

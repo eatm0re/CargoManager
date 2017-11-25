@@ -1,8 +1,8 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao;
 
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Checkpoint;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Order;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Checkpoint;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Order;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Vehicle;
 
 public interface OrderDAO extends DAO<Order> {
 

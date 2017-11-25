@@ -3,7 +3,11 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.service;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.DAOFacade;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.DAOFacadeMock;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.CityDTO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.City;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.EntityExistsException;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.EntityNotFoundException;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.MissedParameterException;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.WrongParameterException;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl.CityServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,9 +15,6 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -46,7 +47,7 @@ public class CityServiceMockTest {
             CityDTO city = new CityDTO("");
             service.add(city);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (MissedParameterException e) {
             assertEquals("City name must be specified", e.getMessage());
         }
     }
@@ -57,7 +58,7 @@ public class CityServiceMockTest {
             CityDTO city = new CityDTO("ТестГород");
             service.add(city);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Wrong city name", e.getMessage());
         }
     }
@@ -80,7 +81,7 @@ public class CityServiceMockTest {
             CityDTO city = new CityDTO("TestCity", 100, 0);
             service.add(city);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("City latitude must be between -90 and +90", e.getMessage());
         }
     }
@@ -91,7 +92,7 @@ public class CityServiceMockTest {
             CityDTO city = new CityDTO("TestCity", 0, -200);
             service.add(city);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("City longitude must be between -180 (not including) and +180 (including)", e.getMessage());
         }
     }

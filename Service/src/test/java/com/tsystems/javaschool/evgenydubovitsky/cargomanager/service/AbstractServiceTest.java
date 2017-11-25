@@ -3,7 +3,8 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.service;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.DAOFacade;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.UserDAO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.UserDTO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.User;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.User;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.EntityNotFoundException;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl.AbstractService;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl.UserServiceImpl;
 import org.junit.Before;
@@ -13,7 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

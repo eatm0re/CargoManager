@@ -3,14 +3,17 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.CheckpointDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.OrderDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.TaskDTO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.*;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.*;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.BusinessException;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.EntityNotFoundException;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.MissedParameterException;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.WrongParameterException;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.OrderService;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -39,7 +42,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
     @Override
     @Transactional(rollbackFor = Exception.class)
     @Loggable
-    public long add(OrderDTO orderDTO) {
+    public long add(OrderDTO orderDTO) throws BusinessException {
 
         // creating order
         Order order = new Order();
@@ -49,7 +52,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
         // scan all checkpoints for order
         List<CheckpointDTO> checkpoints = orderDTO.getCheckpoints();
         if (checkpoints == null || checkpoints.size() < 2) {
-            throw new IllegalArgumentException("Order must have at least 2 checkpoints");
+            throw new BusinessException("Order must have at least 2 checkpoints");
         }
         HashSet<Long> loadedCargoes = new HashSet<>();
         for (CheckpointDTO checkpointDTO : checkpoints) {
@@ -61,11 +64,11 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
 
             // checkpoint city
             if (checkpointDTO.getCity() == null || checkpointDTO.getCity().getName() == null || checkpointDTO.getCity().getName().length() == 0) {
-                throw new IllegalArgumentException("City name must be specified in every checkpoint");
+                throw new MissedParameterException("City name must be specified in every checkpoint");
             }
             String cityName = checkpointDTO.getCity().getName();
             if (!isSimpleName(cityName)) {
-                throw new IllegalArgumentException("Wrong city name");
+                throw new WrongParameterException("Wrong city name");
             }
             City city = dao.getCityDAO().selectByName(cityName);
             if (city == null) {
@@ -77,7 +80,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
             // scan all tasks for checkpoint
             List<TaskDTO> tasks = checkpointDTO.getTasks();
             if (tasks == null || tasks.isEmpty()) {
-                throw new IllegalArgumentException("Each checkpoint must have at least one task");
+                throw new BusinessException("Each checkpoint must have at least one task");
             }
             for (TaskDTO taskDTO : tasks) {
 
@@ -91,7 +94,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
                 // bind the task with cargo
                 long cargoId = taskDTO.getCargo().getId();
                 if (cargoId <= 0) {
-                    throw new IllegalArgumentException("Cargo ID must be positive");
+                    throw new WrongParameterException("Cargo ID must be positive");
                 }
                 Cargo cargo = dao.getCargoDAO().selectById(cargoId);
                 if (cargo == null) {
@@ -100,16 +103,16 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
                 if (loadedCargoes.contains(cargoId)) {
                     // task is unloading cargo
                     if (cargo.getLocation().getId() == checkpoint.getCity().getId()) {
-                        throw new IllegalArgumentException("Unloading cargo in city it was loaded");
+                        throw new BusinessException("Unloading cargo in city it was loaded");
                     }
                     loadedCargoes.remove(cargoId);
                 } else {
                     // task is loading cargo
                     if (cargo.getLocation().getId() != checkpoint.getCity().getId()) {
-                        throw new IllegalArgumentException("Loading cargo when it is in another city");
+                        throw new BusinessException("Loading cargo when it is in another city");
                     }
                     if (cargo.getStatus() != Cargo.Status.READY) {
-                        throw new IllegalArgumentException("Cargo is delivering by another order");
+                        throw new BusinessException("Cargo is delivering by another order");
                     }
                     loadedCargoes.add(cargoId);
                 }
@@ -118,7 +121,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
         }
         if (!loadedCargoes.isEmpty()) {
             // some unloaded cargo remained at the end point
-            throw new IllegalArgumentException("All loaded cargoes must be unloaded");
+            throw new BusinessException("All loaded cargoes must be unloaded");
         }
 
         order.setTotal(checkpoints.size());
@@ -139,11 +142,11 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
     @Override
     @Transactional(rollbackFor = Exception.class)
     @Loggable
-    public void progressReport(long id) {
+    public void progressReport(long id) throws BusinessException {
 
         // loading order
         if (id <= 0) {
-            throw new IllegalArgumentException("Order ID must be positive");
+            throw new WrongParameterException("Order ID must be positive");
         }
         Order order = dao.getOrderDAO().selectById(id);
         if (order == null) {
@@ -151,7 +154,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
         }
 
         if (order.getProgress() == order.getTotal()) {
-            throw new IllegalStateException("Order #" + id + " is already completed");
+            throw new BusinessException("Order #" + id + " is already completed");
         }
         Checkpoint checkpoint = order.getCheckpoints().get(order.getProgress());
         City city = checkpoint.getCity();
@@ -160,7 +163,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
         // move vehicle to the new city
         Vehicle vehicle = order.getVehicle();
         if (vehicle == null) {
-            throw new IllegalStateException("No vehicle assigned to order");
+            throw new BusinessException("No vehicle assigned to order");
         }
         dao.getVehicleDAO().move(vehicle, city);
         if (order.getProgress() == order.getTotal()) {
@@ -209,11 +212,11 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
     @Override
     @Transactional(rollbackFor = Exception.class)
     @Loggable
-    public void interrupt(long id) {
+    public void interrupt(long id) throws BusinessException {
 
         // loading order
         if (id <= 0) {
-            throw new IllegalArgumentException("Order ID must be positive");
+            throw new WrongParameterException("Order ID must be positive");
         }
         Order order = dao.getOrderDAO().selectById(id);
         if (order == null) {
@@ -221,7 +224,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
         }
         int progress = order.getProgress();
         if (progress == order.getTotal()) {
-            throw new IllegalStateException("Order #" + id + " is already completed");
+            throw new BusinessException("Order #" + id + " is already completed");
         }
         if (progress == 1) {
             dao.getOrderDAO().resetProgress(order);
@@ -230,7 +233,7 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
         // set vehicle free
         Vehicle vehicle = order.getVehicle();
         if (vehicle == null) {
-            throw new IllegalStateException("No vehicle assigned to order");
+            throw new BusinessException("No vehicle assigned to order");
         }
         dao.getOrderDAO().unassignVehicle(order);
 
@@ -265,11 +268,11 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
     @Loggable
-    public long capacityNeeded(long id) {
+    public long capacityNeeded(long id) throws BusinessException {
 
         // loading order
         if (id <= 0) {
-            throw new IllegalArgumentException("Order ID must be positive");
+            throw new WrongParameterException("Order ID must be positive");
         }
         Order order = dao.getOrderDAO().selectById(id);
         if (order == null) {

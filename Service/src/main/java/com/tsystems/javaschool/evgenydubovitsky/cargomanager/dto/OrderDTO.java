@@ -1,7 +1,7 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Checkpoint;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Order;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Checkpoint;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Order;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.impl;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.DAO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.AbstractEntity;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.AbstractEntity;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

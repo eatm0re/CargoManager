@@ -4,7 +4,11 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.CityDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.DriverDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.OrderDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.VehicleDTO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Vehicle;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Vehicle;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.BusinessException;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.EntityNotFoundException;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.MissedParameterException;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.WrongParameterException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Collections;
 
 import static org.junit.Assert.*;
@@ -65,7 +68,7 @@ public class VehicleServiceTest {
         try {
             service.getVehicleService().findByRegNumber("лол");
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Wrong registration number", e.getMessage());
         }
     }
@@ -99,7 +102,7 @@ public class VehicleServiceTest {
             VehicleDTO vehicle = new VehicleDTO("", 1000, new CityDTO("Saint-Petersburg"));
             service.getVehicleService().add(vehicle);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (MissedParameterException e) {
             assertEquals("Registration number must be specified", e.getMessage());
         }
     }
@@ -112,7 +115,7 @@ public class VehicleServiceTest {
             VehicleDTO vehicle = new VehicleDTO("Тест", 1000, new CityDTO("Saint-Petersburg"));
             service.getVehicleService().add(vehicle);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Wrong registration number", e.getMessage());
         }
     }
@@ -125,7 +128,7 @@ public class VehicleServiceTest {
             VehicleDTO vehicle = new VehicleDTO("Test", -1000, new CityDTO("Saint-Petersburg"));
             service.getVehicleService().add(vehicle);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Vehicle capacity must be non-negative", e.getMessage());
         }
     }
@@ -138,7 +141,7 @@ public class VehicleServiceTest {
             VehicleDTO vehicle = new VehicleDTO("Test", 1000, null);
             service.getVehicleService().add(vehicle);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (MissedParameterException e) {
             assertEquals("The city name must be specified", e.getMessage());
         }
     }
@@ -164,7 +167,7 @@ public class VehicleServiceTest {
             VehicleDTO vehicle = new VehicleDTO("Test", 1000, new CityDTO("Тест"));
             service.getVehicleService().add(vehicle);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Wrong city name", e.getMessage());
         }
     }
@@ -177,7 +180,7 @@ public class VehicleServiceTest {
             VehicleDTO vehicle = new VehicleDTO("Test", 1000, new CityDTO(""));
             service.getVehicleService().add(vehicle);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (MissedParameterException e) {
             assertEquals("The city name must be specified", e.getMessage());
         }
     }
@@ -268,7 +271,7 @@ public class VehicleServiceTest {
             VehicleDTO vehicle = new VehicleDTO("5432DF", 0, null, null, new OrderDTO(2));
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
-        } catch (IllegalStateException e) {
+        } catch (BusinessException e) {
             assertEquals("Not enough drivers for order", e.getMessage());
         }
     }
@@ -284,7 +287,7 @@ public class VehicleServiceTest {
             VehicleDTO vehicle = new VehicleDTO("5432DF", 1, null, null, new OrderDTO(2));
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
-        } catch (IllegalStateException e) {
+        } catch (BusinessException e) {
             assertEquals("Not enough vehicle capacity for order", e.getMessage());
         }
     }
@@ -300,7 +303,7 @@ public class VehicleServiceTest {
             VehicleDTO vehicle = new VehicleDTO("5432DF", 0, Vehicle.Status.BROKEN, null, new OrderDTO(2));
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
-        } catch (IllegalStateException e) {
+        } catch (BusinessException e) {
             assertEquals("Attempted to assign broken vehicle", e.getMessage());
         }
     }
@@ -316,7 +319,7 @@ public class VehicleServiceTest {
             VehicleDTO vehicle = new VehicleDTO("5432DF", 0, null, null, new OrderDTO(-2));
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Order ID must be positive", e.getMessage());
         }
     }
@@ -345,7 +348,7 @@ public class VehicleServiceTest {
             VehicleDTO vehicle = new VehicleDTO("", 0, null, null, null);
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (MissedParameterException e) {
             assertEquals("Registration number must be specified", e.getMessage());
         }
     }
@@ -358,7 +361,7 @@ public class VehicleServiceTest {
             VehicleDTO vehicle = new VehicleDTO("Тест", 0, null, null, null);
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Wrong registration number", e.getMessage());
         }
     }
@@ -384,7 +387,7 @@ public class VehicleServiceTest {
             VehicleDTO vehicle = new VehicleDTO("5432DF", -1000, null, null, null);
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Vehicle capacity must be positive", e.getMessage());
         }
     }
@@ -402,7 +405,7 @@ public class VehicleServiceTest {
             vehicle.setCapacityKg(1);
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
-        } catch (IllegalStateException e) {
+        } catch (BusinessException e) {
             assertEquals("Order interruption needed", e.getMessage());
         }
     }
@@ -420,7 +423,7 @@ public class VehicleServiceTest {
             vehicle.setStatus(Vehicle.Status.BROKEN);
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
-        } catch (IllegalStateException e) {
+        } catch (BusinessException e) {
             assertEquals("Order interruption needed", e.getMessage());
         }
     }
@@ -438,7 +441,7 @@ public class VehicleServiceTest {
             vehicle.setLocation(new CityDTO("Moscow"));
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
-        } catch (IllegalStateException e) {
+        } catch (BusinessException e) {
             assertEquals("Attempted to move vehicle during order", e.getMessage());
         }
     }
@@ -469,7 +472,7 @@ public class VehicleServiceTest {
             VehicleDTO vehicle = new VehicleDTO("5432DF", 0, null, null, new OrderDTO(1));
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
-        } catch (IllegalStateException e) {
+        } catch (BusinessException e) {
             assertEquals("Vehicle must be in Kazan", e.getMessage());
         }
     }
@@ -487,7 +490,7 @@ public class VehicleServiceTest {
             vehicle.setOrder(new OrderDTO(1));
             service.getVehicleService().change(vehicle);
             fail("Exception expected");
-        } catch (IllegalStateException e) {
+        } catch (BusinessException e) {
             assertEquals("Attempted to assign busy vehicle", e.getMessage());
         }
     }

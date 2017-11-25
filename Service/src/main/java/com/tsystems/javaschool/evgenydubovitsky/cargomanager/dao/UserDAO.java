@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao;
 
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.User;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.User;
 
 public interface UserDAO extends DAO<User> {
 

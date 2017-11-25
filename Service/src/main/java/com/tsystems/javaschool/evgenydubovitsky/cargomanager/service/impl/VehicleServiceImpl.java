@@ -1,15 +1,14 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.VehicleDTO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.*;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.*;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.*;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.VehicleService;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityExistsException;
-import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.List;
 
@@ -26,9 +25,9 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
     @Loggable
-    public VehicleDTO findByRegNumber(String regNumber) {
+    public VehicleDTO findByRegNumber(String regNumber) throws BusinessException {
         if (!isSimpleName(regNumber)) {
-            throw new IllegalArgumentException("Wrong registration number");
+            throw new WrongParameterException("Wrong registration number");
         }
         Vehicle entity = dao.getVehicleDAO().selectByRegNumber(regNumber);
         if (entity == null) {
@@ -51,16 +50,16 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
     @Override
     @Transactional(rollbackFor = Exception.class)
     @Loggable
-    public long add(VehicleDTO vehicleDTO) {
+    public long add(VehicleDTO vehicleDTO) throws BusinessException {
         Vehicle vehicle = new Vehicle();
 
         // registration number
         String regNumber = vehicleDTO.getRegNumber();
         if (regNumber == null || regNumber.length() == 0) {
-            throw new IllegalArgumentException("Registration number must be specified");
+            throw new MissedParameterException("Registration number must be specified");
         }
         if (!isSimpleName(regNumber)) {
-            throw new IllegalArgumentException("Wrong registration number");
+            throw new WrongParameterException("Wrong registration number");
         }
         if (dao.getVehicleDAO().selectByRegNumber(regNumber) != null) {
             throw new EntityExistsException("Vehicle with registration number " + regNumber + " is already exists");
@@ -70,17 +69,17 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
         // capacity
         long capacityKg = vehicleDTO.getCapacityKg();
         if (capacityKg < 0) {
-            throw new IllegalArgumentException("Vehicle capacity must be non-negative");
+            throw new WrongParameterException("Vehicle capacity must be non-negative");
         }
         vehicle.setCapacityKg(capacityKg);
 
         // location
         if (vehicleDTO.getLocation() == null || vehicleDTO.getLocation().getName() == null || vehicleDTO.getLocation().getName().length() == 0) {
-            throw new IllegalArgumentException("The city name must be specified");
+            throw new MissedParameterException("The city name must be specified");
         }
         String cityName = vehicleDTO.getLocation().getName();
         if (!isSimpleName(cityName)) {
-            throw new IllegalArgumentException("Wrong city name");
+            throw new WrongParameterException("Wrong city name");
         }
         City city = dao.getCityDAO().selectByName(cityName);
         if (city == null) {
@@ -115,15 +114,15 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
     @Override
     @Transactional(rollbackFor = Exception.class)
     @Loggable
-    public void change(VehicleDTO vehicleDTO) {
+    public void change(VehicleDTO vehicleDTO) throws BusinessException {
 
         // search by registration number
         String regNumber = vehicleDTO.getRegNumber();
         if (regNumber == null || regNumber.length() == 0) {
-            throw new IllegalArgumentException("Registration number must be specified");
+            throw new MissedParameterException("Registration number must be specified");
         }
         if (!isSimpleName(regNumber)) {
-            throw new IllegalArgumentException("Wrong registration number");
+            throw new WrongParameterException("Wrong registration number");
         }
         Vehicle vehicle = dao.getVehicleDAO().selectByRegNumber(regNumber);
         if (vehicle == null) {
@@ -135,11 +134,11 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
         Order oldOrder = vehicle.getOrder();
         if (capacityKg != 0 && capacityKg != vehicle.getCapacityKg()) {
             if (capacityKg < 0) {
-                throw new IllegalArgumentException("Vehicle capacity must be positive");
+                throw new WrongParameterException("Vehicle capacity must be positive");
             }
             if (oldOrder != null && capacityKg < service.getOrderService().capacityNeeded(oldOrder.getId())) {
                 // new capacity is less than needed to continue order execution
-                throw new IllegalStateException("Order interruption needed");
+                throw new BusinessException("Order interruption needed");
             }
             vehicle.setCapacityKg(capacityKg);
         }
@@ -149,7 +148,7 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
         if (status != vehicle.getStatus() && status != null) {
             if (status == Vehicle.Status.BROKEN && oldOrder != null) {
                 // breaking vehicle during order
-                throw new IllegalStateException("Order interruption needed");
+                throw new BusinessException("Order interruption needed");
             }
             vehicle.setStatus(status);
         }
@@ -158,11 +157,11 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
         if (vehicleDTO.getLocation() != null && vehicleDTO.getLocation().getName() != null && vehicleDTO.getLocation().getName().length() > 0) {
             String cityName = vehicleDTO.getLocation().getName();
             if (!isSimpleName(cityName)) {
-                throw new IllegalArgumentException("Wrong city name");
+                throw new WrongParameterException("Wrong city name");
             }
             if (!cityName.equals(vehicle.getLocation().getName())) {
                 if (vehicle.getOrder() != null) {
-                    throw new IllegalStateException("Attempted to move vehicle during order");
+                    throw new BusinessException("Attempted to move vehicle during order");
                 }
                 City city = dao.getCityDAO().selectByName(cityName);
                 if (city == null) {
@@ -181,15 +180,15 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
         } else {
             long newOrderId = vehicleDTO.getOrder().getId();
             if (newOrderId < 0) {
-                throw new IllegalArgumentException("Order ID must be positive");
+                throw new WrongParameterException("Order ID must be positive");
             }
             if (oldOrder == null) {
                 // assign vehicle to order
                 if (status == Vehicle.Status.BROKEN) {
-                    throw new IllegalStateException("Attempted to assign broken vehicle");
+                    throw new BusinessException("Attempted to assign broken vehicle");
                 }
                 if (vehicle.getCapacityKg() < service.getOrderService().capacityNeeded(newOrderId)) {
-                    throw new IllegalStateException("Not enough vehicle capacity for order");
+                    throw new BusinessException("Not enough vehicle capacity for order");
                 }
                 Order newOrder = dao.getOrderDAO().selectById(newOrderId);
                 if (newOrder == null) {
@@ -198,19 +197,19 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
                 int progress = newOrder.getProgress();
                 City orderCity = newOrder.getCheckpoints().get(progress == 0 ? 0 : progress - 1).getCity();
                 if (vehicle.getLocation().getId() != orderCity.getId()) {
-                    throw new IllegalStateException("Vehicle must be in " + orderCity.getName());
+                    throw new BusinessException("Vehicle must be in " + orderCity.getName());
                 }
                 if (timeProvided(vehicle.getDrivers()) < timeNeeded(newOrder)) {
-                    throw new IllegalStateException("Not enough drivers for order");
+                    throw new BusinessException("Not enough drivers for order");
                 }
                 dao.getOrderDAO().assignVehicle(newOrder, vehicle);
             } else if (oldOrder.getId() != newOrderId) {
-                throw new IllegalStateException("Attempted to assign busy vehicle");
+                throw new BusinessException("Attempted to assign busy vehicle");
             }
         }
     }
 
-    private long timeNeeded(Order order) {
+    private long timeNeeded(Order order) throws BusinessException {
         double distance = 0.0;
         List<Checkpoint> checkpoints = order.getCheckpoints();
         String prevCityName = checkpoints.get(0).getCity().getName();

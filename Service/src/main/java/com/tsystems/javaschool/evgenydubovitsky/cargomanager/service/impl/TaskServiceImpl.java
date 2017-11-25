@@ -1,7 +1,7 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.TaskDTO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Task;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Task;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.TaskService;
 import org.springframework.stereotype.Service;
 

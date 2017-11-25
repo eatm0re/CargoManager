@@ -4,8 +4,11 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.DAOFacade;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.DAOFacadeMock;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.CargoDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.CityDTO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Cargo;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.City;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Cargo;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.City;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.EntityNotFoundException;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.MissedParameterException;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.WrongParameterException;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl.CargoServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +17,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
@@ -50,7 +52,7 @@ public class CargoServiceMockTest {
             CargoDTO cargo = new CargoDTO(null, BigDecimal.ONE, new CityDTO("TestCity"));
             service.add(cargo);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (MissedParameterException e) {
             assertEquals("Cargo name must be specified", e.getMessage());
         }
     }
@@ -62,7 +64,7 @@ public class CargoServiceMockTest {
             CargoDTO cargo = new CargoDTO("Тест", BigDecimal.ONE, new CityDTO("TestCity"));
             service.add(cargo);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Wrong cargo name", e.getMessage());
         }
     }
@@ -74,7 +76,7 @@ public class CargoServiceMockTest {
             CargoDTO cargo = new CargoDTO("Test", BigDecimal.ONE.negate(), new CityDTO("TestCity"));
             service.add(cargo);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Weight must be non-negative", e.getMessage());
         }
     }
@@ -85,7 +87,7 @@ public class CargoServiceMockTest {
             CargoDTO cargo = new CargoDTO("Test", BigDecimal.ONE, null);
             service.add(cargo);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (MissedParameterException e) {
             assertEquals("City name must be specified", e.getMessage());
         }
     }
@@ -96,7 +98,7 @@ public class CargoServiceMockTest {
             CargoDTO cargo = new CargoDTO("Test", BigDecimal.ONE, new CityDTO("Test@City"));
             service.add(cargo);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Wrong city name", e.getMessage());
         }
     }
@@ -125,7 +127,7 @@ public class CargoServiceMockTest {
             CargoDTO cargo = new CargoDTO(-2, "Test", BigDecimal.ONE);
             service.change(cargo);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Cargo ID must be positive", e.getMessage());
         }
     }
@@ -148,7 +150,7 @@ public class CargoServiceMockTest {
             CargoDTO cargo = new CargoDTO(2, "Тест", BigDecimal.ONE);
             service.change(cargo);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Wrong cargo name", e.getMessage());
         }
     }
@@ -160,7 +162,7 @@ public class CargoServiceMockTest {
             CargoDTO cargo = new CargoDTO(2, "Test", BigDecimal.ONE.negate());
             service.change(cargo);
             fail("Exception expected");
-        } catch (IllegalArgumentException e) {
+        } catch (WrongParameterException e) {
             assertEquals("Weight must be non-negative", e.getMessage());
         }
     }

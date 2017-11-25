@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.Checkpoint;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Checkpoint;
 
 import java.util.List;
 import java.util.stream.Collectors;

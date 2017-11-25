@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto;
 
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entities.*;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.*;
 
 public class DTOFactory {
 
