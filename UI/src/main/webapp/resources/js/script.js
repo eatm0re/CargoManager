@@ -48,11 +48,32 @@ function hideStatus() {
 
 function handleError(result, action) {
     hideStatus();
-    if (result.status == 200) {
-        action(result.data);
+    if (result.code == 200) {
+        action(result.body);
     } else {
         writeRedStatus(result.message);
+        console.log(result.body);
     }
+}
+
+function findBy(entity, param, action) {
+    jQuery
+        .ajax({url: contextPath + "/rest/" + entity + "/" + param})
+        .done(function (result) {
+            handleError(result, function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    action(result[i]);
+                }
+            })
+        })
+}
+
+function findOneBy(entity, param, action) {
+    jQuery
+        .ajax({url: contextPath + "/rest/" + entity + "/" + param})
+        .done(function (result) {
+            handleError(result, action);
+        })
 }
 
 function findByParam(entityPath, action, paramName, paramValue) {
@@ -157,15 +178,16 @@ function addDriverRow(row) {
         "<td>" + row.persNumber + "</td>" +
         "<td>" + row.firstName + "</td>" +
         "<td>" + row.lastName + "</td>" +
-        "<td>" + row.currStatus + "</td>" +
+        "<td>" + row.status + "</td>" +
         "<td>" + (row.vehicle == null ? "" : row.vehicle.regNumber) + "</td>" +
-        "<td>" + row.town.name + "</td>" +
+        "<td>" + row.location.name + "</td>" +
+        "<td>" + (row.workedThisMonthMs / 3600000) + "</td>" +
         "</tr>"
     );
 }
 
 function showAllDrivers() {
-    findByParam("driver", addDriverRow, "all", "");
+    findBy("driver", "", addDriverRow);
 }
 
 function findDriver() {
