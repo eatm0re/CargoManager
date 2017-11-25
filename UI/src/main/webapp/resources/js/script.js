@@ -369,18 +369,19 @@ function addVehicleRow(row) {
     var table = jQuery("#resultTable");
     table.append(
         "<tr>" +
-        "<td>" + row.id + "</td>" +
         "<td>" + row.regNumber + "</td>" +
         "<td>" + row.capacityKg + "</td>" +
         "<td>" + row.status + "</td>" +
-        "<td>" + (row.orderId == 0 ? "" : row.orderId) + "</td>" +
-        "<td>" + row.town.name + "</td>" +
+        "<td>" + row.location.name + "</td>" +
+        "<td>" + (row.drivers.length == 0 ? "" : row.drivers.length) + "</td>" +
+        "<td>" + (row.order == null ? "" : row.order.id) + "</td>" +
+        "<td>" + (row.cargoes.length == 0 ? "" : row.cargoes.length) + "</td>" +
         "</tr>"
     );
 }
 
 function showAllVehicles() {
-    findByParam("vehicle", addVehicleRow, "all", "");
+    findBy("vehicle", "", addVehicleRow)
 }
 
 function findVehicle() {
@@ -552,7 +553,7 @@ function addTownRow(row) {
 }
 
 function showAllTowns() {
-    findByParam("town", addTownRow, "all", "");
+    findBy("city", "", addTownRow)
 }
 
 function addTown() {
@@ -597,7 +598,7 @@ function addOrderRow(row) {
 }
 
 function showAllOrders() {
-    findByParam("order", addOrderRow, "all", "");
+    findBy("order", "", addOrderRow);
 }
 
 function addCheckpointToList(checkpoint) {
@@ -781,7 +782,7 @@ function addCargoRow(row) {
 }
 
 function showAllCargoes() {
-    findByParam("cargo", addCargoRow, "all", "");
+    findBy("cargo", "", addCargoRow);
 }
 
 function findCargo() {
