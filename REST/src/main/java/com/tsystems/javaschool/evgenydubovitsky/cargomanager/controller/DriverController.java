@@ -12,7 +12,7 @@ import javax.persistence.PersistenceException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rest/driver")
+@RequestMapping("/driver")
 public class DriverController {
 
     private DriverService service;
