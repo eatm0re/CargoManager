@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -26,6 +27,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring.xml")
+@WebAppConfiguration
 public class DriverServiceMockTest {
 
     private DAOFacade dao;
