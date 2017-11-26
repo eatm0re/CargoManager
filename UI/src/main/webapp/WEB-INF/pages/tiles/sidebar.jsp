@@ -10,9 +10,6 @@
             <a href="${pageContext.request.contextPath}/admin/driver">Drivers</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/admin/driver/search">Search</a>
-        </li>
-        <li>
             <a href="${pageContext.request.contextPath}/admin/driver/add">Add</a>
         </li>
         <li>

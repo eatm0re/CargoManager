@@ -13,7 +13,9 @@ public class Response implements Serializable {
     public Response(int code, String message, Object body) {
         this.code = code;
         this.message = message;
-        if (body instanceof Serializable) {
+        if (body == null) {
+            this.body = null;
+        } else if (body instanceof Serializable) {
             this.body = (Serializable) body;
         } else {
             throw new SerializationException("Response body is not serializable", null);

@@ -31,11 +31,11 @@
                     <td><input id="lastNameField" type="text"/></td>
                 </tr>
                 <tr>
-                    <td>City:</td>
-                    <td><input id="townField" type="text"/></td>
+                    <td>Location:</td>
+                    <td><input id="locationField" type="text"/></td>
                 </tr>
             </table>
-            <button type="button" onclick="addDriver()">Add</button>
+            <button id="addDriverButton" type="button">Add</button>
             <div id="statusText">Status</div>
             <c:import url="resultTable.jsp"/>
         </div>
@@ -44,6 +44,8 @@
 </div>
 
 <c:import url="../tiles/scripts.jsp"/>
+<script src="<c:url value="/resources/js/driver/util.js"/>"></script>
+<script src="<c:url value="/resources/js/driver/add.js"/>"></script>
 
 </body>
 

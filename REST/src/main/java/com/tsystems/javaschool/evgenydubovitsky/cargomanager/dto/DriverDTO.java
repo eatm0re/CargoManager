@@ -16,6 +16,12 @@ public class DriverDTO extends DTO<Driver> {
     private VehicleDTO vehicle;
 
     /**
+     * Empty
+     */
+    public DriverDTO() {
+    }
+
+    /**
      * Identifier
      */
     public DriverDTO(String persNumber) {

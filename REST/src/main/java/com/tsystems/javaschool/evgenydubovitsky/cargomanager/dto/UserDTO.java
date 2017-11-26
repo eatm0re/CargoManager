@@ -9,6 +9,12 @@ public class UserDTO extends DTO<User> {
     private User.Post post;
 
     /**
+     * Empty
+     */
+    public UserDTO() {
+    }
+
+    /**
      * Identifier
      */
     public UserDTO(String login) {

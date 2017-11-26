@@ -19,6 +19,12 @@ public class VehicleDTO extends DTO<Vehicle> {
     private List<CargoDTO> cargoes;
 
     /**
+     * Empty
+     */
+    public VehicleDTO() {
+    }
+
+    /**
      * Identifier
      */
     public VehicleDTO(String regNumber) {

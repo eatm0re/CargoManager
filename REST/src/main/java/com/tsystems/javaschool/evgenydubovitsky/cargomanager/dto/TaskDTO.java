@@ -7,6 +7,12 @@ public class TaskDTO extends DTO<Task> {
     private CheckpointDTO checkpoint;
     private CargoDTO cargo;
 
+    /**
+     * Empty
+     */
+    public TaskDTO() {
+    }
+
     public TaskDTO(long id) {
         this.id = id;
     }

@@ -15,6 +15,12 @@ public class OrderDTO extends DTO<Order> {
     private VehicleDTO vehicle;
 
     /**
+     * Empty
+     */
+    public OrderDTO() {
+    }
+
+    /**
      * Identifier
      */
     public OrderDTO(long id) {

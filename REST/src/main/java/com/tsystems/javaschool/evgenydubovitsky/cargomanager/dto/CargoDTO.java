@@ -14,6 +14,12 @@ public class CargoDTO extends DTO<Cargo> {
     private VehicleDTO vehicle;
 
     /**
+     * Empty
+     */
+    public CargoDTO() {
+    }
+
+    /**
      * Identifier
      */
     public CargoDTO(long id) {

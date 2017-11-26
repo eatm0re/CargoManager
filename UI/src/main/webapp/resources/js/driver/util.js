@@ -1,6 +1,5 @@
 function addDriverRow(row) {
-    var table = $("#resultTable");
-    table.append(
+    resultTable.append(
         "<tr>" +
         "<td>" + row.persNumber + "</td>" +
         "<td>" + row.firstName + "</td>" +
@@ -13,16 +12,6 @@ function addDriverRow(row) {
     );
 }
 
-function showAllDrivers() {
-    showAll("driver", addDriverRow);
-}
-
-function findDriver() {
-    refreshResultTable();
-    var value = $("#searchField").val();
-    if (!isSimpleName(value)) {
-        writeWrongValueMessage("personal number");
-        return;
-    }
-    findOne("driver", value, addDriverRow);
+function findDriverByPersNumber(persNumber) {
+    findOne("driver", persNumber, addDriverRow);
 }

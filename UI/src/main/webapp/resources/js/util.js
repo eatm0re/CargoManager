@@ -2,9 +2,10 @@
 
 var contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/"));
 var statusText = $("#statusText");
+var resultTable = $("#resultTable");
 
 function refreshResultTable() {
-    jQuery("#resultTable").empty();
+    resultTable.empty();
 }
 
 
@@ -60,6 +61,7 @@ function handleError(result, action) {
 // DISPLAY
 
 function showAll(entity, action) {
+    refreshResultTable();
     jQuery
         .ajax({url: contextPath + "/rest/" + entity})
         .done(function (result) {
@@ -72,6 +74,7 @@ function showAll(entity, action) {
 }
 
 function findOne(entity, param, action) {
+    refreshResultTable();
     jQuery
         .ajax({url: contextPath + "/rest/" + entity + "/" + param})
         .done(function (result) {

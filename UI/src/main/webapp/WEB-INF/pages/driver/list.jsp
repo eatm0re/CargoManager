@@ -7,7 +7,7 @@
     <c:import url="../tiles/stylesheets.jsp"/>
 </head>
 
-<body onload="showAllDrivers()">
+<body>
 
 <div id="wrapper" class="toggled">
 
@@ -19,8 +19,8 @@
             <br/>
             Find by personal number:
             <input id="searchField" type="text">
-            <button type="button" onclick="findDriver()">Find</button>
-            <button type="button" onclick="showAllDrivers()">Show all</button>
+            <button id="findOneButton" type="button">Find</button>
+            <button id="showAllButton" type="button">Show all</button>
             <div id="statusText">Status</div>
             <c:import url="resultTable.jsp"/>
         </div>
@@ -29,7 +29,8 @@
 </div>
 
 <c:import url="../tiles/scripts.jsp"/>
-<script src="<c:url value="/resources/js/driver/display.js"/>"></script>
+<script src="<c:url value="/resources/js/driver/util.js"/>"></script>
+<script src="<c:url value="/resources/js/driver/list.js"/>"></script>
 
 </body>
 

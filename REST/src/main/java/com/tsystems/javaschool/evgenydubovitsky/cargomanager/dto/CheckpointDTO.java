@@ -11,6 +11,12 @@ public class CheckpointDTO extends DTO<Checkpoint> {
     private CityDTO city;
     private List<TaskDTO> tasks;
 
+    /**
+     * Empty
+     */
+    public CheckpointDTO() {
+    }
+
     public CheckpointDTO(long id) {
         this.id = id;
     }

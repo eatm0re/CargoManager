@@ -17,6 +17,12 @@ public class CityDTO extends DTO<City> {
     private List<VehicleDTO> vehicles;
 
     /**
+     * Empty
+     */
+    public CityDTO() {
+    }
+
+    /**
      * Identifier
      */
     public CityDTO(String name) {
