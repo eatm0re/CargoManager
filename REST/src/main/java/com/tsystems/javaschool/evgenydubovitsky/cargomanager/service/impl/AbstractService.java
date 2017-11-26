@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractService<E extends AbstractEntity, D extends DTO<E>> implements Service<D> {
 
-    private static final Pattern simpleNamePattern = Pattern.compile("^[a-zA-Z0-9 _-]{1,45}$");
+    private static final Pattern simpleNamePattern = Pattern.compile("^[a-zA-Z0-9_-]{1,45}$");
     private static final Pattern longNamePattern = Pattern.compile("^[a-zA-Z0-9 ~!@\"#№$;%^:&?*()-_=+\\[{\\]}\\\\'|,<.>/]{1,255}$");
     private final Class<E> entityClass;
     protected DAOFacade dao;

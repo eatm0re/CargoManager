@@ -31,7 +31,7 @@ function writeGreenStatus(message) {
 }
 
 function writeWrongValueMessage(name) {
-    writeRedStatus("Wrong '" + name + "' value! It is only allowed letters, digits and '-'.");
+    writeRedStatus("Wrong " + name + "! It is only allowed letters, digits, '-' and '_'");
 }
 
 function markStatusRed() {
@@ -56,9 +56,9 @@ function handleError(result, action) {
     }
 }
 
-function findBy(entity, param, action) {
+function showAll(entity, action) {
     jQuery
-        .ajax({url: contextPath + "/rest/" + entity + "/" + param})
+        .ajax({url: contextPath + "/rest/" + entity})
         .done(function (result) {
             handleError(result, function (result) {
                 for (var i = 0; i < result.length; i++) {
@@ -68,7 +68,7 @@ function findBy(entity, param, action) {
         })
 }
 
-function findOneBy(entity, param, action) {
+function findOne(entity, param, action) {
     jQuery
         .ajax({url: contextPath + "/rest/" + entity + "/" + param})
         .done(function (result) {
@@ -109,40 +109,32 @@ function isInteger(str) {
 var MAX_INT = 2147483647;
 var DEFAULT_MAX_LENGTH = 45;
 
-function isPermittedExtString(str) {
+function isLongName(str) {
     for (var i = 0; i < str.length; i++) {
         var c = str.charAt(i);
-        if (!isPermittedExtChar(c)) {
+        if (!isExtChar(c)) {
             return false;
         }
     }
-    return str.length > 0;
+    return (str.length > 0) && (str.length <= 255);
 }
 
-function isPermittedString(str) {
+function isSimpleName(str) {
     for (var i = 0; i < str.length; i++) {
         var c = str.charAt(i);
-        if (!isPermittedChar(c)) {
+        if (!isSimpleChar(c)) {
             return false;
         }
     }
-    return str.length > 0;
+    return (str.length > 0) && (str.length <= 45);
 }
 
-function ensureLength(str, maxLength, name) {
-    if (str.length > maxLength) {
-        writeRedStatus("'" + name + "' value is too long. Max length allowed: " + maxLength + ".");
-        return true;
-    }
-    return false;
+function isSimpleChar(char) {
+    return isLetter(char) || isDigit(char) || isSimpleSymbol(char);
 }
 
-function isPermittedChar(char) {
-    return isLetter(char) || isDigit(char) || isPermittedSpecSymbol(char);
-}
-
-function isPermittedExtChar(char) {
-    return isLetter(char) || isDigit(char) || isPermittedExtSymbol(char);
+function isExtChar(char) {
+    return isLetter(char) || isDigit(char) || isExtSymbol(char);
 }
 
 function isDigit(char) {
@@ -153,14 +145,20 @@ function isLetter(char) {
     return (char >= "a") && (char <= "z") || (char >= "A") && (char <= "Z");
 }
 
-function isPermittedSpecSymbol(char) {
-    return char == "-";
+function isSimpleSymbol(char) {
+    var simpleSymbols = "_-";
+    for (var i = 0; i < simpleSymbols.length; i++) {
+        if (char == simpleSymbols.charAt(i)) {
+            return true;
+        }
+    }
+    return false;
 }
 
-function isPermittedExtSymbol(char) {
-    var permittedExtSymbols = "-_ :;.()!/|";
-    for (var i = 0; i < permittedExtSymbols.length; i++) {
-        if (char == permittedExtSymbols.charAt(i)) {
+function isExtSymbol(char) {
+    var extSymbols = " ~!@\"#№$;%^:&?*()-_=+[{]}\\'|,<.>/";
+    for (var i = 0; i < extSymbols.length; i++) {
+        if (char == extSymbols.charAt(i)) {
             return true;
         }
     }
@@ -187,52 +185,19 @@ function addDriverRow(row) {
 }
 
 function showAllDrivers() {
-    findBy("driver", "", addDriverRow);
+    showAll("driver", "", addDriverRow);
 }
 
 function findDriver() {
     refreshResultTable();
-    var param = $("#searchParamList").val();
     var value = $("#searchField").val();
-    switch (param) {
-        case "id":
-            if (!isInteger(value)) {
-                writeRedStatus("ID must be a positive integer!");
-                break;
-            }
-            if (value > MAX_INT) {
-                writeRedStatus("ID must not be more than is too big!");
-                break;
-            }
-            findOneByParam("driver", addDriverRow, param, value);
-            break;
-        case "persNumber":
-            if (!isPermittedString(value)) {
-                writeWrongValueMessage("Personal number");
-                break;
-            }
-            if (ensureLength(value, DEFAULT_MAX_LENGTH, "Personal number")) {
-                break;
-            }
-            findOneByParam("driver", addDriverRow, param, value);
-            break;
-        default:
-            var name = $("#option_" + param).attr("name");
-            if (!isPermittedString(value)) {
-                writeWrongValueMessage(name);
-                break;
-            }
-            if (ensureLength(value, DEFAULT_MAX_LENGTH, name)) {
-                break;
-            }
-            findByParam("driver", addDriverRow, param, value);
-    }
+    findOne("driver", value, addDriverRow);
 }
 
 function addDriver() {
     refreshResultTable();
     var persNumber = jQuery("#persNumberField").val();
-    if (!isPermittedString(persNumber)) {
+    if (!isSimpleName(persNumber)) {
         writeWrongValueMessage("Personal number");
         return;
     }
@@ -240,7 +205,7 @@ function addDriver() {
         return;
     }
     var firstName = jQuery("#firstNameField").val();
-    if (!isPermittedString(firstName)) {
+    if (!isSimpleName(firstName)) {
         writeWrongValueMessage("First name");
         return;
     }
@@ -248,7 +213,7 @@ function addDriver() {
         return;
     }
     var lastName = jQuery("#lastNameField").val();
-    if (!isPermittedString(lastName)) {
+    if (!isSimpleName(lastName)) {
         writeWrongValueMessage("Last name");
         return;
     }
@@ -256,7 +221,7 @@ function addDriver() {
         return;
     }
     var town = jQuery("#townField").val();
-    if (!isPermittedString(town)) {
+    if (!isSimpleName(town)) {
         writeWrongValueMessage("City");
         return;
     }
@@ -283,7 +248,7 @@ function setDriverStatus(status) {
 
 function loadDriverToChange() {
     var persNumber = $("#persNumberField").val();
-    if (!isPermittedString(persNumber)) {
+    if (!isSimpleName(persNumber)) {
         writeWrongValueMessage("Personal number");
         return;
     }
@@ -307,7 +272,7 @@ function loadDriverToChange() {
 function applyDriverChanges() {
     refreshResultTable();
     var persNumber = $("#persNumberField").val();
-    if (!isPermittedString(persNumber)) {
+    if (!isSimpleName(persNumber)) {
         writeWrongValueMessage("Personal number");
         return;
     }
@@ -315,7 +280,7 @@ function applyDriverChanges() {
         return;
     }
     var firstName = $("#firstNameField").val();
-    if (!isPermittedString(firstName)) {
+    if (!isSimpleName(firstName)) {
         writeWrongValueMessage("First name");
         return;
     }
@@ -323,7 +288,7 @@ function applyDriverChanges() {
         return;
     }
     var lastName = $("#lastNameField").val();
-    if (!isPermittedString(lastName)) {
+    if (!isSimpleName(lastName)) {
         writeWrongValueMessage("Last name");
         return;
     }
@@ -333,7 +298,7 @@ function applyDriverChanges() {
     var status = $("#statusField").val();
     var vehicle = $("#vehicleField").val();
     if (vehicle != "") {
-        if (!isPermittedString(vehicle)) {
+        if (!isSimpleName(vehicle)) {
             writeWrongValueMessage("Vehicle");
             return;
         }
@@ -342,7 +307,7 @@ function applyDriverChanges() {
         }
     }
     var town = $("#townField").val();
-    if (!isPermittedString(town)) {
+    if (!isSimpleName(town)) {
         writeWrongValueMessage("City");
         return;
     }
@@ -381,7 +346,7 @@ function addVehicleRow(row) {
 }
 
 function showAllVehicles() {
-    findBy("vehicle", "", addVehicleRow)
+    showAll("vehicle", "", addVehicleRow)
 }
 
 function findVehicle() {
@@ -401,7 +366,7 @@ function findVehicle() {
             findOneByParam("vehicle", addVehicleRow, param, value);
             break;
         case "regNumber":
-            if (!isPermittedString(value)) {
+            if (!isSimpleName(value)) {
                 writeWrongValueMessage("Registration number");
                 break;
             }
@@ -412,7 +377,7 @@ function findVehicle() {
             break;
         default:
             var name = $("#option_" + param).attr("name");
-            if (!isPermittedString(value)) {
+            if (!isSimpleName(value)) {
                 writeWrongValueMessage(name);
                 break;
             }
@@ -426,7 +391,7 @@ function findVehicle() {
 function addVehicle() {
     refreshResultTable();
     var regNumber = jQuery("#regNumberField").val();
-    if (!isPermittedString(regNumber)) {
+    if (!isSimpleName(regNumber)) {
         writeWrongValueMessage("Registration number");
         return;
     }
@@ -443,7 +408,7 @@ function addVehicle() {
         return;
     }
     var town = jQuery("#townField").val();
-    if (!isPermittedString(town)) {
+    if (!isSimpleName(town)) {
         writeWrongValueMessage("City");
         return;
     }
@@ -468,7 +433,7 @@ function setVehicleStatus(status) {
 
 function loadVehicleToChange() {
     var regNumber = $("#regNumberField").val();
-    if (!isPermittedString(regNumber)) {
+    if (!isSimpleName(regNumber)) {
         writeWrongValueMessage("Registration number");
         return;
     }
@@ -491,7 +456,7 @@ function loadVehicleToChange() {
 function applyVehicleChanges() {
     refreshResultTable();
     var regNumber = $("#regNumberField").val();
-    if (!isPermittedString(regNumber)) {
+    if (!isSimpleName(regNumber)) {
         writeWrongValueMessage("Registration number");
         return;
     }
@@ -520,7 +485,7 @@ function applyVehicleChanges() {
         }
     }
     var town = $("#townField").val();
-    if (!isPermittedString(town)) {
+    if (!isSimpleName(town)) {
         writeWrongValueMessage("City");
         return;
     }
@@ -553,13 +518,13 @@ function addTownRow(row) {
 }
 
 function showAllTowns() {
-    findBy("city", "", addTownRow)
+    showAll("city", "", addTownRow)
 }
 
 function addTown() {
     refreshResultTable();
     var name = jQuery("#townNameField").val();
-    if (!isPermittedString(name)) {
+    if (!isSimpleName(name)) {
         writeWrongValueMessage("City name");
         return;
     }
@@ -598,7 +563,7 @@ function addOrderRow(row) {
 }
 
 function showAllOrders() {
-    findBy("order", "", addOrderRow);
+    showAll("order", "", addOrderRow);
 }
 
 function addCheckpointToList(checkpoint) {
@@ -727,7 +692,7 @@ function addOrder() {
     var checkpoints = [];
     for (var i = 0; i < checkpointCounter; i++) {
         var town = $("#generic_town_" + i).val();
-        if (!isPermittedString(town)) {
+        if (!isSimpleName(town)) {
             writeWrongValueMessage("City " + town);
             return;
         }
@@ -782,7 +747,7 @@ function addCargoRow(row) {
 }
 
 function showAllCargoes() {
-    findBy("cargo", "", addCargoRow);
+    showAll("cargo", "", addCargoRow);
 }
 
 function findCargo() {
@@ -803,7 +768,7 @@ function findCargo() {
             break;
         default:
             var name = $("#option_" + param).attr("name");
-            if (!isPermittedString(value)) {
+            if (!isSimpleName(value)) {
                 writeWrongValueMessage(name);
                 break;
             }
@@ -817,7 +782,7 @@ function findCargo() {
 function addCargo() {
     refreshResultTable();
     var name = $("#nameField").val();
-    if (!isPermittedExtString(name)) {
+    if (!isLongName(name)) {
         writeRedStatus("Wrong cargo name!");
         return;
     }

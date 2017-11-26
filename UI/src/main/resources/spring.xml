@@ -16,7 +16,7 @@
     </b:bean>
 
     <http auto-config="true">
-        <intercept-url pattern="/admin/*" access="hasRole('ROLE_STUFF')"/>
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_STUFF')"/>
     </http>
 
     <authentication-manager>

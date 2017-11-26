@@ -14,7 +14,7 @@ public class AdminController {
 
     @RequestMapping("driver")
     public String showAllDrivers() {
-        return "driver/all";
+        return "driver/list";
     }
 
     @RequestMapping("driver/search")
