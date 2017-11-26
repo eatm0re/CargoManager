@@ -4,55 +4,55 @@
 <div id="sidebar-wrapper">
     <ul class="sidebar-nav">
         <li class="sidebar-brand">
-            <a href="${pageContext.request.contextPath}/">Main menu</a>
+            <a href="${pageContext.request.contextPath}/admin/">Main menu</a>
         </li>
         <li class="sidebar-h1">
-            <a href="${pageContext.request.contextPath}/driver">Drivers</a>
+            <a href="${pageContext.request.contextPath}/admin/driver">Drivers</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/driver/search">Search</a>
+            <a href="${pageContext.request.contextPath}/admin/driver/search">Search</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/driver/add">Add</a>
+            <a href="${pageContext.request.contextPath}/admin/driver/add">Add</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/driver/edit">Edit</a>
+            <a href="${pageContext.request.contextPath}/admin/driver/edit">Edit</a>
         </li>
         <li class="sidebar-h1">
-            <a href="${pageContext.request.contextPath}/vehicle">Vehicles</a>
+            <a href="${pageContext.request.contextPath}/admin/vehicle">Vehicles</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/vehicle/search">Search</a>
+            <a href="${pageContext.request.contextPath}/admin/vehicle/search">Search</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/vehicle/add">Add</a>
+            <a href="${pageContext.request.contextPath}/admin/vehicle/add">Add</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/vehicle/edit">Edit</a>
+            <a href="${pageContext.request.contextPath}/admin/vehicle/edit">Edit</a>
         </li>
         <li class="sidebar-h1">
-            <a href="${pageContext.request.contextPath}/town">Cities</a>
+            <a href="${pageContext.request.contextPath}/admin/town">Cities</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/town/add">Add</a>
+            <a href="${pageContext.request.contextPath}/admin/town/add">Add</a>
         </li>
         <li class="sidebar-h1">
-            <a href="${pageContext.request.contextPath}/order">Orders</a>
+            <a href="${pageContext.request.contextPath}/admin/order">Orders</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/order/details">Details</a>
+            <a href="${pageContext.request.contextPath}/admin/order/details">Details</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/order/add">Add</a>
+            <a href="${pageContext.request.contextPath}/admin/order/add">Add</a>
         </li>
         <li class="sidebar-h1">
-            <a href="${pageContext.request.contextPath}/cargo">Cargoes</a>
+            <a href="${pageContext.request.contextPath}/admin/cargo">Cargoes</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/cargo/search">Search</a>
+            <a href="${pageContext.request.contextPath}/admin/cargo/search">Search</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/cargo/add">Add</a>
+            <a href="${pageContext.request.contextPath}/admin/cargo/add">Add</a>
         </li>
     </ul>
 </div>
