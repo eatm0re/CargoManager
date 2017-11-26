@@ -27,6 +27,9 @@
 </div>
 
 <c:import url="../tiles/scripts.jsp"/>
+<script src="<c:url value="/resources/js/driver/util.js"/>"></script>
+<script src="<c:url value="/resources/js/driver/initEditFields.js"/>"></script>
+<script src="<c:url value="/resources/js/driver/change.js"/>"></script>
 
 </body>
 

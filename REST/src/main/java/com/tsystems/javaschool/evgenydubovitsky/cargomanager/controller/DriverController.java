@@ -64,4 +64,20 @@ public class DriverController {
             return new Response(520, "Unknown server error. Please contact your administrator", e.getClass().getSimpleName() + ": " + e.getMessage());
         }
     }
+
+    @RequestMapping(path = {"", "/"}, method = RequestMethod.PUT)
+    public Response change(@RequestBody String driverJson) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            DriverDTO driver = mapper.readValue(driverJson, DriverDTO.class);
+            service.change(driver);
+            return new Response(200, "OK", null);
+        } catch (BusinessException e) {
+            return new Response(e.getHttpCode(), e.getMessage(), e.getClass().getSimpleName());
+        } catch (PersistenceException e) {
+            return new Response(503, "Can not access the database. Please try again later or contact your administrator", e.getMessage());
+        } catch (Exception e) {
+            return new Response(520, "Unknown server error. Please contact your administrator", e.getClass().getSimpleName() + ": " + e.getMessage());
+        }
+    }
 }

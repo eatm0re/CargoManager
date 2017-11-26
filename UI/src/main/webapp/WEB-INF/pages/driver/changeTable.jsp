@@ -4,40 +4,39 @@
         <th>Personal number</th>
         <th>First name</th>
         <th>Last name</th>
+        <th>Location</th>
+        <th>Vehicle</th>
         <th>Status</th>
-        <th>Vehicle (reg. number)</th>
-        <th>City</th>
     </tr>
     </thead>
     <tbody id="changeTable">
     <tr>
         <td>
-            <input id="persNumberField" type="text" <%--size="10"--%>>
+            <input id="persNumberField" type="text">
         </td>
         <td>
-            <input id="firstNameField" type="text" <%--size="30"--%>>
+            <input id="firstNameField" type="text">
         </td>
         <td>
-            <input id="lastNameField" type="text" <%--size="30"--%>>
+            <input id="lastNameField" type="text">
+        </td>
+        <td>
+            <input id="locationField" type="text">
+        </td>
+        <td>
+            <input id="vehicleField" type="text">
         </td>
         <td>
             <select id="statusField">
                 <option id="statusREST" value="REST">REST</option>
-                <option id="statusSHIFT" value="SHIFT">SHIFT</option>
-                <option id="statusWHEEL" value="WHEEL">WHEEL</option>
+                <option id="statusWORK" value="WORK">WORK</option>
             </select>
-        </td>
-        <td>
-            <input id="vehicleField" type="text" <%--size="10"--%>>
-        </td>
-        <td>
-            <input id="townField" type="text" <%--size="30"--%>>
         </td>
     </tr>
     <tr>
         <td>
-            <button type="button" onclick="loadDriverToChange()">Load</button>
-            <button type="button" onclick="applyDriverChanges()">Apply</button>
+            <button id="loadButton" type="button">Load</button>
+            <button id="applyButton" type="button">Apply</button>
         </td>
     </tr>
     </tbody>

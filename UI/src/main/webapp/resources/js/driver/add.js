@@ -1,11 +1,4 @@
-var persNumberField = $("#persNumberField");
-var firstNameField = $("#firstNameField");
-var lastNameField = $("#lastNameField");
-var locationField = $("#locationField");
 $("#addDriverButton").click(addDriver);
-var driver = {
-    location: {}
-};
 
 
 function addDriver() {
