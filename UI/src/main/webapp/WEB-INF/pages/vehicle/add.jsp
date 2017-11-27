@@ -24,14 +24,14 @@
                 </tr>
                 <tr>
                     <td>Capacity (in KG):</td>
-                    <td><input id="capacityKgField" type="text"/></td>
+                    <td><input id="capacityField" type="text"/></td>
                 </tr>
                 <tr>
-                    <td>City:</td>
-                    <td><input id="townField" type="text"/></td>
+                    <td>Location:</td>
+                    <td><input id="locationField" type="text"/></td>
                 </tr>
             </table>
-            <button type="button" onclick="addVehicle()">Add</button>
+            <button id="addButton" type="button">Add</button>
             <div id="statusText">Status</div>
             <c:import url="resultTable.jsp"/>
         </div>
@@ -40,6 +40,9 @@
 </div>
 
 <c:import url="../tiles/scripts.jsp"/>
+<script src="<c:url value="/resources/js/vehicle/util.js"/>"></script>
+<script src="<c:url value="/resources/js/vehicle/initEditFields.js"/>"></script>
+<script src="<c:url value="/resources/js/vehicle/add.js"/>"></script>
 
 </body>
 

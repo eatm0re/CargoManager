@@ -35,7 +35,7 @@
                     <td><input id="locationField" type="text"/></td>
                 </tr>
             </table>
-            <button id="addDriverButton" type="button">Add</button>
+            <button id="addButton" type="button">Add</button>
             <div id="statusText">Status</div>
             <c:import url="resultTable.jsp"/>
         </div>

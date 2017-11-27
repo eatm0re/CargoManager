@@ -17,11 +17,6 @@ public class AdminController {
         return "driver/list";
     }
 
-    @RequestMapping("driver/search")
-    public String searchForDrivers() {
-        return "driver/search";
-    }
-
     @RequestMapping("driver/add")
     public String addDriver() {
         return "driver/add";
@@ -34,12 +29,7 @@ public class AdminController {
 
     @RequestMapping("vehicle")
     public String showAllVehicles() {
-        return "vehicle/all";
-    }
-
-    @RequestMapping("vehicle/search")
-    public String searchForVehicles() {
-        return "vehicle/search";
+        return "vehicle/list";
     }
 
     @RequestMapping("vehicle/add")

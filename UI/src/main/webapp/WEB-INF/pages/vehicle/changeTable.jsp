@@ -4,8 +4,8 @@
         <th>Registration number</th>
         <th>Capacity (in KG)</th>
         <th>Status</th>
+        <th>Location</th>
         <th>Order ID</th>
-        <th>City</th>
     </tr>
     </thead>
     <tbody id="changeTable">
@@ -14,7 +14,7 @@
             <input id="regNumberField" type="text">
         </td>
         <td>
-            <input id="capacityKgField" type="text">
+            <input id="capacityField" type="text">
         </td>
         <td>
             <select id="statusField">
@@ -23,16 +23,16 @@
             </select>
         </td>
         <td>
-            <input id="orderField" type="text">
+            <input id="locationField" type="text">
         </td>
         <td>
-            <input id="townField" type="text">
+            <input id="orderField" type="text">
         </td>
     </tr>
     <tr>
         <td>
-            <button type="button" onclick="loadVehicleToChange()">Load</button>
-            <button type="button" onclick="applyVehicleChanges()">Apply</button>
+            <button id="loadButton" type="button">Load</button>
+            <button id="applyButton" type="button">Apply</button>
         </td>
     </tr>
     </tbody>

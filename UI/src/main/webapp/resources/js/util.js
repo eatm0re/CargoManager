@@ -73,12 +73,15 @@ function showAll(entity, action) {
         })
 }
 
-function findOne(entity, param, action) {
+function findOne(entity, param, action, after) {
     refreshResultTable();
     jQuery
         .ajax({url: contextPath + "/rest/" + entity + "/" + param})
         .done(function (result) {
             handleError(result, action);
+            if (after != null) {
+                after();
+            }
         })
 }
 

@@ -19,9 +19,6 @@
             <a href="${pageContext.request.contextPath}/admin/vehicle">Vehicles</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/admin/vehicle/search">Search</a>
-        </li>
-        <li>
             <a href="${pageContext.request.contextPath}/admin/vehicle/add">Add</a>
         </li>
         <li>

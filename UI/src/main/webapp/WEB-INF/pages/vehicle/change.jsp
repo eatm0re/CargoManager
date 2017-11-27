@@ -27,6 +27,9 @@
 </div>
 
 <c:import url="../tiles/scripts.jsp"/>
+<script src="<c:url value="/resources/js/vehicle/util.js"/>"></script>
+<script src="<c:url value="/resources/js/vehicle/initEditFields.js"/>"></script>
+<script src="<c:url value="/resources/js/vehicle/change.js"/>"></script>
 
 </body>
 

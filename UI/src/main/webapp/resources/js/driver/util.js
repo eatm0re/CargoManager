@@ -12,6 +12,6 @@ function addDriverRow(row) {
     );
 }
 
-function findDriverByPersNumber(persNumber) {
-    findOne("driver", persNumber, addDriverRow);
+function findDriverByPersNumber(persNumber, after) {
+    findOne("driver", persNumber, addDriverRow, after);
 }

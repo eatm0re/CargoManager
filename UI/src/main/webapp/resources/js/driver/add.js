@@ -1,4 +1,4 @@
-$("#addDriverButton").click(addDriver);
+$("#addButton").click(addDriver);
 
 
 function addDriver() {
@@ -29,8 +29,9 @@ function addDriver() {
         data: JSON.stringify(driver)
     }).done(function (result) {
         handleError(result, function () {
-            writeGreenStatus("Driver has successfully added!");
-            findDriverByPersNumber(driver.persNumber);
+            findDriverByPersNumber(driver.persNumber, function () {
+                writeGreenStatus("Driver has successfully added!");
+            });
         });
     })
 }

@@ -18,7 +18,7 @@ function loadDriverToChange() {
             lastNameField.val(result.lastName);
             locationField.val(result.location.name);
             vehicleField.val(result.vehicle == null ? "" : result.vehicle.regNumber);
-            setDriverStatus(result.currStatus);
+            setDriverStatus(result.status);
         })
     })
 }
@@ -59,8 +59,9 @@ function applyDriverChanges() {
         data: JSON.stringify(driver)
     }).done(function (result) {
         handleError(result, function () {
-            writeGreenStatus("Driver has successfully changed!");
-            findDriverByPersNumber(driver.persNumber);
+            findDriverByPersNumber(driver.persNumber, function () {
+                writeGreenStatus("Driver has successfully changed!");
+            });
         });
     })
 }
