@@ -170,6 +170,7 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
                     throw new EntityNotFoundException("City " + cityName + " not found");
                 }
                 dao.getVehicleDAO().move(vehicle, city);
+                dao.getDriverDAO().moveAll(vehicle.getDrivers(), city);
             }
         }
 

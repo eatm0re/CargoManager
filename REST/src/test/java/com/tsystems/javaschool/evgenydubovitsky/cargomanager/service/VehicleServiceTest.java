@@ -494,4 +494,14 @@ public class VehicleServiceTest {
             assertEquals("Attempted to assign busy vehicle", e.getMessage());
         }
     }
+
+    @Test
+    @Transactional(rollbackFor = Exception.class)
+    @Rollback
+    public void change_20() throws Exception {
+        service.getDriverService().change(new DriverDTO("LZX321098", null, null, null, new VehicleDTO("7890OP"), null));
+        service.getVehicleService().change(new VehicleDTO("7890OP", 20000, new CityDTO("Moscow")));
+        assertEquals("Moscow", service.getDriverService().findByPersNumber("LZX321098").getLocation().getName());
+        assertEquals("Moscow", service.getVehicleService().findByRegNumber("7890OP").getLocation().getName());
+    }
 }

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -37,6 +38,18 @@ public class DriverDAOImpl extends AbstractDAO<Driver> implements DriverDAO {
 
         prevLocation.removeDriver(driver);
         location.putDriver(driver);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
+    @Loggable
+    public void moveAll(Collection<Driver> drivers, City location) {
+        if (drivers == null) {
+            return;
+        }
+        for (Driver driver : drivers) {
+            move(driver, location);
+        }
     }
 
     @Override
