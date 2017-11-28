@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -35,7 +36,8 @@ public class Logging {
         }
     }
 
-    @Around("@annotation(LoggableRequest)")
+    @Around("@annotation(Request)")
+    @Order(2)
     public Object requestLog(ProceedingJoinPoint pjp) throws Throwable {
         String methodName = pjp.getSignature().getName();
         logger.info("Received request " + methodName.toUpperCase() + " for " + pjp.getTarget().getClass().getSimpleName() + " with data contained: " + Arrays.toString(pjp.getArgs()));

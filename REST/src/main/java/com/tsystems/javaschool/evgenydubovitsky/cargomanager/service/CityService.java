@@ -5,6 +5,8 @@ import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.BusinessE
 
 public interface CityService extends Service<CityDTO> {
 
+    CityDTO findByName(String name) throws BusinessException;
+
     long add(CityDTO cityDTO) throws BusinessException;
 
     void change(CityDTO cityDTO) throws BusinessException;

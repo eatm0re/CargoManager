@@ -42,14 +42,14 @@ public class AdminController {
         return "vehicle/change";
     }
 
-    @RequestMapping("town")
+    @RequestMapping("city")
     public String showAllCities() {
-        return "town/all";
+        return "city/list";
     }
 
-    @RequestMapping("town/add")
+    @RequestMapping("city/add")
     public String addTown() {
-        return "town/add";
+        return "city/add";
     }
 
     @RequestMapping("order")

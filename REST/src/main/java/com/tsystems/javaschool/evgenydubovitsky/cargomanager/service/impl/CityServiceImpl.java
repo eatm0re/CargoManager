@@ -22,6 +22,23 @@ public class CityServiceImpl extends AbstractService<City, CityDTO> implements C
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    @Loggable
+    public CityDTO findByName(String name) throws BusinessException {
+        if (!isSimpleName(name)) {
+            throw new WrongParameterException("Wrong city name");
+        }
+        City city = dao.getCityDAO().selectByName(name);
+        if (city == null) {
+            throw new EntityNotFoundException("City " + name + " not found");
+        }
+
+        CityDTO res = new CityDTO(city);
+        res.fill(city);
+        return res;
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     @Loggable
     public long add(CityDTO cityDTO) throws BusinessException {

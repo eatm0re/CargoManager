@@ -2,13 +2,11 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.DriverDTO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.BusinessException;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.DriverService;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.LoggableRequest;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.PersistenceException;
 import java.util.List;
 
 @RestController
@@ -22,67 +20,35 @@ public class DriverController {
         this.service = service;
     }
 
-    @LoggableRequest
+    @Request
     @RequestMapping(path = {"", "/"})
-    public Response getAll() {
-        try {
+    public Response getAll() throws Exception {
             List<DriverDTO> drivers = service.getAll();
             return new Response(200, "OK", drivers);
-        } catch (BusinessException e) {
-            return new Response(e.getHttpCode(), e.getMessage(), e.getClass().getSimpleName());
-        } catch (PersistenceException e) {
-            return new Response(503, "Can not access the database. Please try again later or contact your administrator", e.getMessage());
-        } catch (Exception e) {
-            return new Response(520, "Unknown server error. Please contact your administrator", e.getClass().getSimpleName() + ": " + e.getMessage());
-        }
     }
 
-    @LoggableRequest
+    @Request
     @RequestMapping("/{persNumber}")
-    public Response findByPersNumber(@PathVariable String persNumber) {
-        try {
+    public Response findByPersNumber(@PathVariable String persNumber) throws Exception {
             DriverDTO driver = service.findByPersNumber(persNumber);
             return new Response(200, "OK", driver);
-        } catch (BusinessException e) {
-            return new Response(e.getHttpCode(), e.getMessage(), e.getClass().getSimpleName());
-        } catch (PersistenceException e) {
-            return new Response(503, "Can not access the database. Please try again later or contact your administrator", e.getMessage());
-        } catch (Exception e) {
-            return new Response(520, "Unknown server error. Please contact your administrator", e.getClass().getSimpleName() + ": " + e.getMessage());
-        }
     }
 
-    @LoggableRequest
+    @Request
     @RequestMapping(path = {"", "/"}, method = RequestMethod.POST)
-    public Response add(@RequestBody String driverJson) {
-        try {
+    public Response add(@RequestBody String driverJson) throws Exception {
             ObjectMapper mapper = new ObjectMapper();
             DriverDTO driver = mapper.readValue(driverJson, DriverDTO.class);
             service.add(driver);
             return new Response(200, "OK", null);
-        } catch (BusinessException e) {
-            return new Response(e.getHttpCode(), e.getMessage(), e.getClass().getSimpleName());
-        } catch (PersistenceException e) {
-            return new Response(503, "Can not access the database. Please try again later or contact your administrator", e.getMessage());
-        } catch (Exception e) {
-            return new Response(520, "Unknown server error. Please contact your administrator", e.getClass().getSimpleName() + ": " + e.getMessage());
-        }
     }
 
-    @LoggableRequest
+    @Request
     @RequestMapping(path = {"", "/"}, method = RequestMethod.PUT)
-    public Response change(@RequestBody String driverJson) {
-        try {
+    public Response change(@RequestBody String driverJson) throws Exception {
             ObjectMapper mapper = new ObjectMapper();
             DriverDTO driver = mapper.readValue(driverJson, DriverDTO.class);
             service.change(driver);
             return new Response(200, "OK", null);
-        } catch (BusinessException e) {
-            return new Response(e.getHttpCode(), e.getMessage(), e.getClass().getSimpleName());
-        } catch (PersistenceException e) {
-            return new Response(503, "Can not access the database. Please try again later or contact your administrator", e.getMessage());
-        } catch (Exception e) {
-            return new Response(520, "Unknown server error. Please contact your administrator", e.getClass().getSimpleName() + ": " + e.getMessage());
-        }
     }
 }

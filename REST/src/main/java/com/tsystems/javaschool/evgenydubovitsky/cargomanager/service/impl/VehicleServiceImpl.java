@@ -35,6 +35,7 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
         if (entity == null) {
             throw new EntityNotFoundException("Vehicle with registration number " + regNumber + " not found");
         }
+
         VehicleDTO dto = new VehicleDTO(entity);
         dto.fill(entity);
         return dto;

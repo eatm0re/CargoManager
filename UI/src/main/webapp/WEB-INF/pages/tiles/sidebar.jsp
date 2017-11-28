@@ -25,10 +25,10 @@
             <a href="${pageContext.request.contextPath}/admin/vehicle/edit">Edit</a>
         </li>
         <li class="sidebar-h1">
-            <a href="${pageContext.request.contextPath}/admin/town">Cities</a>
+            <a href="${pageContext.request.contextPath}/admin/city">Cities</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/admin/town/add">Add</a>
+            <a href="${pageContext.request.contextPath}/admin/city/add">Add</a>
         </li>
         <li class="sidebar-h1">
             <a href="${pageContext.request.contextPath}/admin/order">Orders</a>
