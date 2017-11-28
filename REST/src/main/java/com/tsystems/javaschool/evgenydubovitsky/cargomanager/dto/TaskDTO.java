@@ -73,6 +73,8 @@ public class TaskDTO extends DTO<Task> {
     public String toString() {
         return "TaskDTO{" +
                 "id=" + id +
+                ", checkpoint=" + checkpoint +
+                ", cargo=" + cargo +
                 '}';
     }
 }

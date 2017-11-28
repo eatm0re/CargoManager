@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.VehicleDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.BusinessException;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.VehicleService;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.LoggableRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ public class VehicleController {
         this.service = service;
     }
 
+    @LoggableRequest
     @RequestMapping({"", "/"})
     public Response getAll() {
         try {
@@ -35,6 +37,7 @@ public class VehicleController {
         }
     }
 
+    @LoggableRequest
     @RequestMapping("/{regNumber}")
     public Response findByRegNumber(@PathVariable String regNumber) {
         try {
@@ -49,6 +52,7 @@ public class VehicleController {
         }
     }
 
+    @LoggableRequest
     @RequestMapping(path = {"", "/"}, method = RequestMethod.POST)
     public Response add(@RequestBody String vehicleJson) {
         try {
@@ -65,6 +69,7 @@ public class VehicleController {
         }
     }
 
+    @LoggableRequest
     @RequestMapping(path = {"", "/"}, method = RequestMethod.PUT)
     public Response change(@RequestBody String vehicleJson) {
         try {

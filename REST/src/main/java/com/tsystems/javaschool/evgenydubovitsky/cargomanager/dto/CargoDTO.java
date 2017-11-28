@@ -150,7 +150,9 @@ public class CargoDTO extends DTO<Cargo> {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", weightKg=" + weightKg +
+                ", location=" + location +
                 ", status=" + status +
+                ", vehicle=" + vehicle +
                 '}';
     }
 }

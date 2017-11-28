@@ -195,6 +195,8 @@ public class DriverDTO extends DTO<Driver> {
                 ", status=" + status +
                 ", lastStatusUpdate=" + lastStatusUpdate +
                 ", workedThisMonthMs=" + workedThisMonthMs +
+                ", location=" + location +
+                ", vehicle=" + vehicle +
                 '}';
     }
 }

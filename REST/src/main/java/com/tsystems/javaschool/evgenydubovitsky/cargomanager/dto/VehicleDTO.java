@@ -195,6 +195,10 @@ public class VehicleDTO extends DTO<Vehicle> {
                 ", regNumber='" + regNumber + '\'' +
                 ", capacityKg=" + capacityKg +
                 ", status=" + status +
+                ", location=" + location +
+                ", order=" + order +
+                ", drivers=" + drivers +
+                ", cargoes=" + cargoes +
                 '}';
     }
 }

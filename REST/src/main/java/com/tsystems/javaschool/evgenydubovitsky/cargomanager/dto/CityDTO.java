@@ -158,6 +158,8 @@ public class CityDTO extends DTO<City> {
                 ", name='" + name + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", drivers=" + drivers +
+                ", vehicles=" + vehicles +
                 '}';
     }
 }

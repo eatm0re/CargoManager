@@ -134,6 +134,8 @@ public class OrderDTO extends DTO<Order> {
                 "id=" + id +
                 ", progress=" + progress +
                 ", total=" + total +
+                ", checkpoints=" + checkpoints +
+                ", vehicle=" + vehicle +
                 '}';
     }
 }

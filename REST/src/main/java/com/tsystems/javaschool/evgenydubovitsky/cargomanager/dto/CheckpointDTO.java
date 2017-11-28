@@ -89,6 +89,9 @@ public class CheckpointDTO extends DTO<Checkpoint> {
     public String toString() {
         return "CheckpointDTO{" +
                 "id=" + id +
+                ", order=" + order +
+                ", city=" + city +
+                ", tasks=" + tasks +
                 '}';
     }
 }
