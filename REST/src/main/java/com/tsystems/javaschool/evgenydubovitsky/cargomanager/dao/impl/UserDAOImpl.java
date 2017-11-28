@@ -23,4 +23,11 @@ public class UserDAOImpl extends AbstractDAO<User> implements UserDAO {
         List<User> list = selectByParam("login", login);
         return list.isEmpty() ? null : list.get(0);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
+    @Loggable
+    public boolean deleteByLogin(String login) {
+        return deleteByParam("login", login) > 0;
+    }
 }

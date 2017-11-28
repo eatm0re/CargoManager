@@ -16,5 +16,5 @@ public interface DAO<E extends AbstractEntity> {
 
     void update(E obj);
 
-    int deleteByParam(String param, Object value);
+    boolean deleteById(long id);
 }

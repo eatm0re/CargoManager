@@ -28,6 +28,13 @@ public class VehicleDAOImpl extends AbstractDAO<Vehicle> implements VehicleDAO {
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
     @Loggable
+    public boolean deleteByRegNumber(String regNumber) {
+        return deleteByParam("regNumber", regNumber) > 0;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
+    @Loggable
     public void move(Vehicle vehicle, City location) {
         City prevLocation = vehicle.getLocation();
         vehicle.setLocation(location);

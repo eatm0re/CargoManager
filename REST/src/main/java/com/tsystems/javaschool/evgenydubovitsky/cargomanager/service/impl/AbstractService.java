@@ -77,12 +77,12 @@ public abstract class AbstractService<E extends AbstractEntity, D extends DTO<E>
         return dto;
     }
 
-    @Loggable
-    protected void removeByParam(String param, Object value) throws BusinessException {
-        if (dao.getDAO(entityClass).deleteByParam(param, value) == 0) {
-            throw new EntityNotFoundException(entityClass.getSimpleName() + " with " + param + " = " + value + " not found");
-        }
-    }
+//    @Loggable
+//    protected void removeByParam(String param, Object value) throws BusinessException {
+//        if (dao.getDAO(entityClass).deleteByParam(param, value) == 0) {
+//            throw new EntityNotFoundException(entityClass.getSimpleName() + " with " + param + " = " + value + " not found");
+//        }
+//    }
 
     protected static boolean isSimpleName(String str) {
         return simpleNamePattern.matcher(str).matches();

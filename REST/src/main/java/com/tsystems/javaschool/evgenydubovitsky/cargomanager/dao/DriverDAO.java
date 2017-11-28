@@ -10,6 +10,8 @@ public interface DriverDAO extends DAO<Driver> {
 
     Driver selectByPersNumber(String persNumber);
 
+    boolean deleteByPersNumber(String persNumber);
+
     void move(Driver driver, City location);
 
     void moveAll(Collection<Driver> drivers, City location);

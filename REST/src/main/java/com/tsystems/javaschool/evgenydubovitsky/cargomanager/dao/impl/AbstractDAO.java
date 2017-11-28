@@ -76,7 +76,12 @@ public abstract class AbstractDAO<E extends AbstractEntity> implements DAO<E> {
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
     @Loggable
-    public int deleteByParam(String param, Object value) {
+    public boolean deleteById(long id) {
+        return deleteByParam("id", id) > 0;
+    }
+
+    @Loggable
+    protected int deleteByParam(String param, Object value) {
         Session session = sessionFactory.getCurrentSession();
         return session
                 .createQuery("delete from " + entityClass.getSimpleName() + " x where x." + param + " = ?1")

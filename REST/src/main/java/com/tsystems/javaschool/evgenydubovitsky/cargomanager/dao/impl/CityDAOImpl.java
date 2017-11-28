@@ -23,4 +23,11 @@ public class CityDAOImpl extends AbstractDAO<City> implements CityDAO {
         List<City> list = selectByParam("name", name);
         return list.isEmpty() ? null : list.get(0);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
+    @Loggable
+    public boolean deleteByName(String name) {
+        return deleteByParam("name", name) > 0;
+    }
 }

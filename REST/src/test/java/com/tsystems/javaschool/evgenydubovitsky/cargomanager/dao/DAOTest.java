@@ -1,6 +1,5 @@
-package com.tsystems.javaschool.evgenydubovitsky.cargomanager;
+package com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao;
 
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dao.*;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Cargo;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.User;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Vehicle;
@@ -12,6 +11,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -24,7 +24,6 @@ public class DAOTest {
 
     private CargoDAO cargoDAO;
     private CityDAO cityDAO;
-    private DriverDAO driverDAO;
     private UserDAO userDAO;
     private VehicleDAO vehicleDAO;
 
@@ -39,11 +38,6 @@ public class DAOTest {
     }
 
     @Autowired
-    public void setDriverDAO(DriverDAO driverDAO) {
-        this.driverDAO = driverDAO;
-    }
-
-    @Autowired
     public void setUserDAO(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
@@ -54,8 +48,8 @@ public class DAOTest {
     }
 
     @Test
-    @Transactional(rollbackFor = Exception.class, readOnly = true)
-    public void selectAllVehicles() throws Exception {
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    public void selectAll_1() throws Exception {
         List<Vehicle> allVehicles = vehicleDAO.selectAll();
         Assert.assertTrue(allVehicles.size() >= 20);
         Vehicle vehicle = allVehicles.get(8);
@@ -68,8 +62,8 @@ public class DAOTest {
     }
 
     @Test
-    @Transactional(rollbackFor = Exception.class, readOnly = true)
-    public void selectUserById_1() throws Exception {
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    public void selectById_1() throws Exception {
         User user = userDAO.selectById(1L);
         Assert.assertEquals(1L, user.getId());
         Assert.assertEquals("admin", user.getLogin());
@@ -78,8 +72,8 @@ public class DAOTest {
     }
 
     @Test
-    @Transactional(rollbackFor = Exception.class, readOnly = true)
-    public void selectUserById_2() throws Exception {
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    public void selectById_2() throws Exception {
         User user = userDAO.selectById(2L);
         Assert.assertEquals(2L, user.getId());
         Assert.assertEquals("user", user.getLogin());
@@ -87,51 +81,10 @@ public class DAOTest {
         Assert.assertEquals(User.Post.DRIVER, user.getPost());
     }
 
-//    @Test
-//    @Transactional(rollbackFor = Exception.class, readOnly = true)
-//    public void selectDriversByFirstName() throws Exception {
-//        List<Driver> drivers = driverDAO.selectByParam("firstName", "Alexandr");
-//        Assert.assertTrue(drivers.size() >= 3);
-//        Assert.assertEquals(4L, drivers.get(1).getId());
-//        Assert.assertEquals("Moscow", drivers.get(0).getLocation().getName());
-//        Assert.assertEquals("IOP357913", drivers.get(2).getPersNumber());
-//        Assert.assertEquals("Alexandr", drivers.get(0).getFirstName());
-//        Assert.assertEquals("Popov", drivers.get(1).getLastName());
-//        Assert.assertEquals(Driver.Status.REST, drivers.get(2).getStatus());
-//        Assert.assertTrue(drivers.get(0).getLastStatusUpdate().before(Timestamp.valueOf(LocalDateTime.now())));
-//    }
-
-//    @Test
-//    @Transactional(rollbackFor = Exception.class)
-//    @Rollback
-//    public void insertCity() throws Exception {
-//        int count = cityDAO.selectByParam("name", "Test").size();
-//        City city = new City();
-//        city.setName("Test");
-//        cityDAO.insert(city);
-//        Assert.assertTrue(city.getId() > 0L);
-//        Assert.assertEquals(count + 1, cityDAO.selectByParam("name", "Test").size());
-//    }
-
-//    @Test
-//    @Transactional(rollbackFor = Exception.class)
-//    @Rollback
-//    public void changeCargo() throws Exception {
-//        List<Cargo> oranges = cargoDAO.selectByParam("name", "Oranges");
-//        List<Cargo> lemons = cargoDAO.selectByParam("name", "Lemons");
-//        int orangesCount = oranges.size();
-//        int lemonsCount = lemons.size();
-//        oranges.get(0).setName("Lemons");
-//        oranges = cargoDAO.selectByParam("name", "Oranges");
-//        lemons = cargoDAO.selectByParam("name", "Lemons");
-//        Assert.assertEquals(orangesCount - 1, oranges.size());
-//        Assert.assertEquals(lemonsCount + 1, lemons.size());
-//    }
-
     @Test
     @Transactional(rollbackFor = Exception.class)
     @Rollback
-    public void updateCargo() throws Exception {
+    public void update_1() throws Exception {
         Cargo cargo = new Cargo();
         cargo.setId(2);
         cargo.setName("Test");
@@ -147,9 +100,9 @@ public class DAOTest {
     @Test
     @Transactional(rollbackFor = Exception.class)
     @Rollback
-    public void deleteUser() throws Exception {
+    public void deleteById_1() throws Exception {
         int userCount = userDAO.selectAll().size();
-        userDAO.deleteByParam("id", 1L);
+        userDAO.deleteById(1L);
         Assert.assertEquals(userCount - 1, userDAO.selectAll().size());
     }
 }

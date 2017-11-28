@@ -32,6 +32,13 @@ public class DriverDAOImpl extends AbstractDAO<Driver> implements DriverDAO {
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
     @Loggable
+    public boolean deleteByPersNumber(String persNumber) {
+        return deleteByParam("persNumber", persNumber) > 0;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.MANDATORY)
+    @Loggable
     public void move(Driver driver, City location) {
         City prevLocation = driver.getLocation();
         driver.setLocation(location);

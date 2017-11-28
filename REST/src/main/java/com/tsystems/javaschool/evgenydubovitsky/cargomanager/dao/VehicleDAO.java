@@ -7,5 +7,7 @@ public interface VehicleDAO extends DAO<Vehicle> {
 
     Vehicle selectByRegNumber(String regNumber);
 
+    boolean deleteByRegNumber(String regNumber);
+
     void move(Vehicle vehicle, City location);
 }
