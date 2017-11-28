@@ -12,4 +12,6 @@ public interface OrderService extends Service<OrderDTO> {
     void interrupt(long id) throws BusinessException;
 
     long capacityNeeded(long id) throws BusinessException;
+
+    long timeNeeded(long id) throws BusinessException;
 }

@@ -3,6 +3,7 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.DriverDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.City;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Driver;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Order;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Vehicle;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.*;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.DriverService;
@@ -171,10 +172,12 @@ public class DriverServiceImpl extends AbstractService<Driver, DriverDTO> implem
                 if (driver.getStatus() == Driver.Status.WORK) {
                     throw new BusinessException("Attempted to unbind busy driver from vehicle");
                 }
-                if (driver.getVehicle().getDrivers().size() == 1) {
-                    service.getOrderService().interrupt(driver.getVehicle().getOrder().getId());
-                }
+                Vehicle vehicle = driver.getVehicle();
+                Order order = vehicle.getOrder();
                 dao.getDriverDAO().unbind(driver);
+                if (order != null && service.getVehicleService().timeProvided(vehicle.getRegNumber()) < service.getOrderService().timeNeeded(order.getId())) {
+                    service.getOrderService().interrupt(order.getId());
+                }
             }
         } else {
             String regNumber = driverDTO.getVehicle().getRegNumber();

@@ -726,4 +726,29 @@ public class OrderServiceTest {
             assertEquals("Order #666666666666 not found", e.getMessage());
         }
     }
+
+    @Test
+    public void timeNeeded_1() throws Exception {
+        assertTrue(service.getOrderService().timeNeeded(2) > 1);
+    }
+
+    @Test
+    public void timeNeeded_2() throws Exception {
+        try {
+            service.getOrderService().timeNeeded(666_666_666_666L);
+            fail("Exception expected");
+        } catch (EntityNotFoundException e) {
+            assertEquals("Order #666666666666 not found", e.getMessage());
+        }
+    }
+
+    @Test
+    public void timeNeeded_3() throws Exception {
+        try {
+            service.getOrderService().timeNeeded(-2);
+            fail("Exception expected");
+        } catch (WrongParameterException e) {
+            assertEquals("Order ID must be positive", e.getMessage());
+        }
+    }
 }

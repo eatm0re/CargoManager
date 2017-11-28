@@ -311,4 +311,30 @@ public class OrderServiceImpl extends AbstractService<Order, OrderDTO> implement
             return maxWeight.longValue() + 1;
         }
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    @Loggable
+    public long timeNeeded(long orderId) throws BusinessException {
+        if (orderId <= 0) {
+            throw new WrongParameterException("Order ID must be positive");
+        }
+        Order order = dao.getOrderDAO().selectById(orderId);
+        if (order == null) {
+            throw new EntityNotFoundException("Order #" + orderId + " not found");
+        }
+        return timeNeeded(order);
+    }
+
+    private long timeNeeded(Order order) throws BusinessException {
+        double distance = 0.0;
+        List<Checkpoint> checkpoints = order.getCheckpoints();
+        String prevCityName = checkpoints.get(0).getCity().getName();
+        for (Checkpoint checkpoint : checkpoints) {
+            String currCityName = checkpoint.getCity().getName();
+            distance += service.getCityService().distance(prevCityName, currCityName);
+            prevCityName = currCityName;
+        }
+        return Math.round(distance / service.getVehicleService().getSpeedKMH() * 3_600_000);
+    }
 }

@@ -1,7 +1,10 @@
 package com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.impl;
 
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.VehicleDTO;
-import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.*;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.City;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Driver;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Order;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.entity.Vehicle;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.exception.*;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.VehicleService;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Loggable;
@@ -10,7 +13,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.List;
 
 @Service
 public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> implements VehicleService {
@@ -199,7 +201,7 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
                 if (vehicle.getLocation().getId() != orderCity.getId()) {
                     throw new BusinessException("Vehicle must be in " + orderCity.getName());
                 }
-                if (timeProvided(vehicle.getDrivers()) < timeNeeded(newOrder)) {
+                if (timeProvided(vehicle.getDrivers()) < service.getOrderService().timeNeeded(newOrder.getId())) {
                     throw new BusinessException("Not enough drivers for order");
                 }
                 dao.getOrderDAO().assignVehicle(newOrder, vehicle);
@@ -209,16 +211,18 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
         }
     }
 
-    private long timeNeeded(Order order) throws BusinessException {
-        double distance = 0.0;
-        List<Checkpoint> checkpoints = order.getCheckpoints();
-        String prevCityName = checkpoints.get(0).getCity().getName();
-        for (Checkpoint checkpoint : checkpoints) {
-            String currCityName = checkpoint.getCity().getName();
-            distance += service.getCityService().distance(prevCityName, currCityName);
-            prevCityName = currCityName;
+    @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS, readOnly = true)
+    @Loggable
+    public long timeProvided(String regNumber) throws BusinessException {
+        if (!isSimpleName(regNumber)) {
+            throw new WrongParameterException("Wrong registration number");
         }
-        return Math.round(distance / SPEED_KMH * 3_600_000);
+        Vehicle vehicle = dao.getVehicleDAO().selectByRegNumber(regNumber);
+        if (vehicle == null) {
+            throw new EntityNotFoundException("Vehicle with registration number " + regNumber + " not found");
+        }
+        return timeProvided(vehicle.getDrivers());
     }
 
     private long timeProvided(Collection<Driver> drivers) {
@@ -226,5 +230,10 @@ public class VehicleServiceImpl extends AbstractService<Vehicle, VehicleDTO> imp
             return 0;
         }
         return drivers.stream().mapToLong(x -> MONTH_WORK_TIME - x.getWorkedThisMonthMs()).sum();
+    }
+
+    @Override
+    public double getSpeedKMH() {
+        return SPEED_KMH;
     }
 }

@@ -10,4 +10,8 @@ public interface VehicleService extends Service<VehicleDTO> {
     long add(VehicleDTO vehicleDTO) throws BusinessException;
 
     void change(VehicleDTO vehicleDTO) throws BusinessException;
+
+    long timeProvided(String regNumber) throws BusinessException;
+
+    double getSpeedKMH();
 }
