@@ -20,17 +20,17 @@ public class Logging {
     @Around("@annotation(Loggable)")
     public Object debugLog(ProceedingJoinPoint pjp) throws Throwable {
         String methodName = pjp.getSignature().getName();
-        logger.debug(methodName + " invoked in " + pjp.getTarget().getClass().getSimpleName() + " with arguments: " + Arrays.toString(pjp.getArgs()));
+        logger.debug("{} invoked in {} with arguments: {}", methodName, pjp.getTarget().getClass().getSimpleName(), Arrays.toString(pjp.getArgs()));
         try {
             Object res = pjp.proceed();
-            logger.debug(methodName + "(" + Arrays.toString(pjp.getArgs()) + ") has successfully executed in " + pjp.getTarget().getClass().getSimpleName() + ". Returned value: " + res);
+            logger.debug("{}({}) has successfully executed in {}. Returned value: {}", methodName, Arrays.toString(pjp.getArgs()), pjp.getTarget().getClass().getSimpleName(), res);
             return res;
         } catch (Throwable e) {
-            String log = methodName + "(" + Arrays.toString(pjp.getArgs()) + ") has thrown the " + e.getClass().getSimpleName() + ": " + e.getMessage();
+            String log = "{}({}) has thrown the {}: {}";
             if (e instanceof BusinessException) {
-                logger.info(log);
+                logger.info(log, methodName, Arrays.toString(pjp.getArgs()), e.getClass().getSimpleName(), e.getMessage());
             } else {
-                logger.error(log);
+                logger.error(log, methodName, Arrays.toString(pjp.getArgs()), e.getClass().getSimpleName(), e.getMessage());
             }
             throw e;
         }
@@ -39,10 +39,10 @@ public class Logging {
     @Around("@annotation(Request)")
     @Order(2)
     public Object requestLog(ProceedingJoinPoint pjp) throws Throwable {
-        String methodName = pjp.getSignature().getName();
-        logger.info("Received request " + methodName.toUpperCase() + " for " + pjp.getTarget().getClass().getSimpleName() + " with data contained: " + Arrays.toString(pjp.getArgs()));
+        String methodName = pjp.getSignature().getName().toUpperCase();
+        logger.info("Received request {} for {} with data contained: {}", methodName, pjp.getTarget().getClass().getSimpleName(), Arrays.toString(pjp.getArgs()));
         Object res = pjp.proceed();
-        logger.info(methodName.toUpperCase() + "(" + Arrays.toString(pjp.getArgs()) + ") response body for " + pjp.getTarget().getClass().getSimpleName() + ": " + res);
+        logger.info("{}.{}({}) responsed: {}", pjp.getTarget().getClass().getSimpleName(), methodName, Arrays.toString(pjp.getArgs()), res);
         return res;
     }
 }

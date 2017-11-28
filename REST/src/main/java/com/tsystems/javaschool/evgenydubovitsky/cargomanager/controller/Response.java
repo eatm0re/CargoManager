@@ -10,14 +10,18 @@ public class Response implements Serializable {
     private final String message;
     private final Serializable body;
 
+    public Response(int code, String message) {
+        this.code = code;
+        this.message = message;
+        this.body = null;
+    }
+
     public Response(int code, String message, Object body) {
         this.code = code;
         this.message = message;
-        if (body == null) {
-            this.body = null;
-        } else if (body instanceof Serializable) {
+        try {
             this.body = (Serializable) body;
-        } else {
+        } catch (ClassCastException e) {
             throw new SerializationException("Response body is not serializable", null);
         }
     }
@@ -32,5 +36,14 @@ public class Response implements Serializable {
 
     public Serializable getBody() {
         return body;
+    }
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                ", body=" + body +
+                '}';
     }
 }
