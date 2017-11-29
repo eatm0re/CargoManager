@@ -3,6 +3,7 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.dto.OrderDTO;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.service.OrderService;
+import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.JMSProducer;
 import com.tsystems.javaschool.evgenydubovitsky.cargomanager.util.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +15,16 @@ import java.util.List;
 public class OrderController {
 
     private OrderService service;
+    private JMSProducer jms;
 
     @Autowired
     public void setService(OrderService service) {
         this.service = service;
+    }
+
+    @Autowired
+    public void setJms(JMSProducer jms) {
+        this.jms = jms;
     }
 
     @Request
@@ -47,6 +54,7 @@ public class OrderController {
         ObjectMapper mapper = new ObjectMapper();
         OrderDTO order = mapper.readValue(orderJson, OrderDTO.class);
         long id = service.add(order);
+        jms.sendMessage();
         return new Response(200, "OK", id);
     }
 
@@ -54,6 +62,7 @@ public class OrderController {
     @RequestMapping(path = "/{id}", method = RequestMethod.PATCH)
     public Response progressReport(@PathVariable long id) throws Exception {
         service.progressReport(id);
+        jms.sendMessage();
         return Response.OK;
     }
 
@@ -61,6 +70,7 @@ public class OrderController {
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
     public Response interrupt(@PathVariable long id) throws Exception {
         service.interrupt(id);
+        jms.sendMessage();
         return Response.OK;
     }
 }
