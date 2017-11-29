@@ -88,6 +88,8 @@ function findOne(entity, param, action, after) {
 
 // VERIFICATIONS
 
+var MAX_LONG = 9223372036854775807;
+
 function isInteger(str) {
     for (var i = 0; i < str.length; i++) {
         var c = str.charAt(i);

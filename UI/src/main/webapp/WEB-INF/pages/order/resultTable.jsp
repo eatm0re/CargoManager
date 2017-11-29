@@ -3,8 +3,9 @@
     <tr>
         <th>Number</th>
         <th>Capacity needed (in KG)</th>
-        <th>Completed</th>
+        <th>Progress</th>
         <th>Vehicle</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody id="resultTable">

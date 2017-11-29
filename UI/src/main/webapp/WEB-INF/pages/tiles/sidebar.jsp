@@ -34,9 +34,6 @@
             <a href="${pageContext.request.contextPath}/admin/order">Orders</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/admin/order/details">Details</a>
-        </li>
-        <li>
             <a href="${pageContext.request.contextPath}/admin/order/add">Add</a>
         </li>
         <li class="sidebar-h1">

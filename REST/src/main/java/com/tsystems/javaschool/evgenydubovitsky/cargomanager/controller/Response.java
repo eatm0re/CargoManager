@@ -6,6 +6,8 @@ import java.io.Serializable;
 
 public class Response implements Serializable {
 
+    public static final Response OK = new Response(200, "OK");
+
     private final int code;
     private final String message;
     private final Serializable body;

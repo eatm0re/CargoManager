@@ -54,12 +54,7 @@ public class AdminController {
 
     @RequestMapping("order")
     public String showAllOrders() {
-        return "order/all";
-    }
-
-    @RequestMapping("order/details")
-    public String showOrderDetails() {
-        return "order/details";
+        return "order/list";
     }
 
     @RequestMapping("order/add")

@@ -40,6 +40,6 @@ public class CityController {
         ObjectMapper mapper = new ObjectMapper();
         CityDTO city = mapper.readValue(cityJson, CityDTO.class);
         service.add(city);
-        return new Response(200, "OK", null);
+        return Response.OK;
     }
 }

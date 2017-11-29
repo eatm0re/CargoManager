@@ -29,7 +29,6 @@ public class TaskDTO extends DTO<Task> {
 
     @Override
     public void fill(Task entity) {
-        checkpoint = new CheckpointDTO(entity.getCheckpoint());
         cargo = new CargoDTO(entity.getCargo());
     }
 

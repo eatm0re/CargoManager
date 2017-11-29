@@ -40,7 +40,7 @@ public class DriverController {
             ObjectMapper mapper = new ObjectMapper();
             DriverDTO driver = mapper.readValue(driverJson, DriverDTO.class);
             service.add(driver);
-            return new Response(200, "OK", null);
+        return Response.OK;
     }
 
     @Request
@@ -49,6 +49,6 @@ public class DriverController {
             ObjectMapper mapper = new ObjectMapper();
             DriverDTO driver = mapper.readValue(driverJson, DriverDTO.class);
             service.change(driver);
-            return new Response(200, "OK", null);
+        return Response.OK;
     }
 }

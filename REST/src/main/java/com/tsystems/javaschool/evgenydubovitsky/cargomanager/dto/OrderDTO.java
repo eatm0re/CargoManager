@@ -65,7 +65,11 @@ public class OrderDTO extends DTO<Order> {
         if (entityCheckpoints == null) {
             this.checkpoints = Collections.emptyList();
         } else {
-            this.checkpoints = entityCheckpoints.stream().map(CheckpointDTO::new).collect(Collectors.toList());
+            this.checkpoints = entityCheckpoints.stream().map(x -> {
+                CheckpointDTO res = new CheckpointDTO(x);
+                res.fill(x);
+                return res;
+            }).collect(Collectors.toList());
         }
 
         vehicle = entity.getVehicle() == null ? null : new VehicleDTO(entity.getVehicle());

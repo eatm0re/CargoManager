@@ -49,9 +49,6 @@ public class OrderServiceTest {
         order = service.getOrderService().findById(orderId);
         assertEquals(2, order.getTotal());
         assertEquals(2, order.getCheckpoints().size());
-        assertNull(order.getCheckpoints().get(0).getOrder());
-        assertNull(order.getCheckpoints().get(1).getCity());
-        assertNull(order.getCheckpoints().get(0).getTasks());
     }
 
     @Test

@@ -34,9 +34,12 @@ public class CheckpointDTO extends DTO<Checkpoint> {
 
     @Override
     public void fill(Checkpoint entity) {
-        order = new OrderDTO(entity.getOrder());
         city = new CityDTO(entity.getCity());
-        this.tasks = entity.getTasks().stream().map(TaskDTO::new).collect(Collectors.toList());
+        this.tasks = entity.getTasks().stream().map(x -> {
+            TaskDTO res = new TaskDTO(x);
+            res.fill(x);
+            return res;
+        }).collect(Collectors.toList());
     }
 
     public OrderDTO getOrder() {

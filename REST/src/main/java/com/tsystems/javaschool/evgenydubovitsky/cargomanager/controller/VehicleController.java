@@ -40,7 +40,7 @@ public class VehicleController {
             ObjectMapper mapper = new ObjectMapper();
             VehicleDTO vehicle = mapper.readValue(vehicleJson, VehicleDTO.class);
             service.add(vehicle);
-            return new Response(200, "OK", null);
+        return Response.OK;
     }
 
     @Request
@@ -49,6 +49,6 @@ public class VehicleController {
         ObjectMapper mapper = new ObjectMapper();
         VehicleDTO vehicle = mapper.readValue(vehicleJson, VehicleDTO.class);
         service.change(vehicle);
-        return new Response(200, "OK", null);
+        return Response.OK;
     }
 }
