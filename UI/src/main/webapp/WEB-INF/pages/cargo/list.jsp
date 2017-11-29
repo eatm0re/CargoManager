@@ -3,11 +3,11 @@
 <html>
 
 <head>
-    <title>All cargoes</title>
+    <title>Cargoes list</title>
     <c:import url="../tiles/stylesheets.jsp"/>
 </head>
 
-<body onload="showAllCargoes()">
+<body>
 
 <div id="wrapper" class="toggled">
 
@@ -15,7 +15,12 @@
 
     <div id="page-content-wrapper">
         <div class="container-fluid">
-            <h1>All cargoes</h1>
+            <h1>Cargoes list</h1>
+            <br/>
+            Find by ID:
+            <input id="searchField" type="text">
+            <button id="findOneButton" type="button">Find</button>
+            <button id="showAllButton" type="button">Show all</button>
             <div id="statusText">Status</div>
             <c:import url="resultTable.jsp"/>
         </div>
@@ -24,6 +29,8 @@
 </div>
 
 <c:import url="../tiles/scripts.jsp"/>
+<script src="<c:url value="/resources/js/cargo/util.js"/>"></script>
+<script src="<c:url value="/resources/js/cargo/list.js"/>"></script>
 
 </body>
 

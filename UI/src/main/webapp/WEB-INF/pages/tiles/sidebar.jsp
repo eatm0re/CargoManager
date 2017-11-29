@@ -40,9 +40,6 @@
             <a href="${pageContext.request.contextPath}/admin/cargo">Cargoes</a>
         </li>
         <li>
-            <a href="${pageContext.request.contextPath}/admin/cargo/search">Search</a>
-        </li>
-        <li>
             <a href="${pageContext.request.contextPath}/admin/cargo/add">Add</a>
         </li>
     </ul>

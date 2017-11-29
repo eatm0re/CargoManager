@@ -64,12 +64,7 @@ public class AdminController {
 
     @RequestMapping("cargo")
     public String showAllCargoes() {
-        return "cargo/all";
-    }
-
-    @RequestMapping("cargo/search")
-    public String searchForCargoes() {
-        return "cargo/search";
+        return "cargo/list";
     }
 
     @RequestMapping("cargo/add")

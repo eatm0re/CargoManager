@@ -39,7 +39,7 @@ public class CargoController {
     public Response add(@RequestBody String cargoJson) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         CargoDTO cargo = mapper.readValue(cargoJson, CargoDTO.class);
-        service.add(cargo);
-        return Response.OK;
+        long id = service.add(cargo);
+        return new Response(200, "OK", id);
     }
 }

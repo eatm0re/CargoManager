@@ -24,11 +24,15 @@
                 </tr>
                 <tr>
                     <td>Weight (in KG):</td>
-                    <td><input id="weightKgField" type="text" size="15"/></td>
+                    <td><input id="weightField" type="text" size="20"/></td>
+                </tr>
+                <tr>
+                    <td>Location:</td>
+                    <td><input id="locationField" type="text" size="20"/></td>
                 </tr>
                 <tr>
             </table>
-            <button type="button" onclick="addCargo()">Add</button>
+            <button id="addButton" type="button">Add</button>
             <div id="statusText">Status</div>
             <c:import url="resultTable.jsp"/>
         </div>
@@ -37,6 +41,9 @@
 </div>
 
 <c:import url="../tiles/scripts.jsp"/>
+<script src="<c:url value="/resources/js/cargo/util.js"/>"></script>
+<script src="<c:url value="/resources/js/cargo/initEditFields.js"/>"></script>
+<script src="<c:url value="/resources/js/cargo/add.js"/>"></script>
 
 </body>
 
