@@ -1,10 +1,47 @@
 var loadedCargoes;
-var searchField = $("#searchField");
+var persNumber = "LZX321098";
 var interruptBlock = $("#interruptBlock");
 var detailsList = $("#detailsList");
-$("#showButton").click(showOrder);
-showAllOrders();
+showCurrentOrder();
 
+
+function showCurrentOrder() {
+    $.ajax({url: contextPath + "/rest/driver/" + persNumber}).done(function (result) {
+        handleError(result, function (driver) {
+            if (driver.vehicle == null) {
+                writeGreenStatus("You are not assigned to any vehicle");
+                return;
+            }
+            var regNumber = driver.vehicle.regNumber;
+            $.ajax({url: contextPath + "/rest/vehicle/" + regNumber}).done(function (result) {
+                handleError(result, function (vehicle) {
+                    if (vehicle.order == null) {
+                        writeGreenStatus("You are not assigned to any order");
+                        return;
+                    }
+                    var id = vehicle.order.id;
+                    $.ajax({url: "/rest/order/" + id}).done(function (result) {
+                        handleError(result, drawOrder)
+                    })
+                })
+            })
+        })
+    })
+}
+
+function progressReport(order) {
+    $.ajax({
+        type: "PATCH",
+        contentType: "application/json; charset=UTF-8",
+        url: contextPath + "/rest/order/" + order.id
+    }).done(function (result) {
+        handleError(result, function () {
+            writeGreenStatus("Progress has successfully registered");
+            order.progress++;
+            drawOrder(order);
+        })
+    })
+}
 
 function addOrderRow(row) {
     resultTable.append(
@@ -23,7 +60,7 @@ function addOrderRow(row) {
         drawOrder(row);
     });
     if (row.progress == row.total) {
-        var progressRow = $("#generic_progress_" + row.id);
+        var progressRow = $("#generic_progress_" + currentRow);
         progressRow.css("color", "green");
         progressRow.css("font-weight", "bold");
         $("#generic_interruptButton_" + row.id).prop("disabled", "true");
@@ -62,9 +99,15 @@ function drawOrder(order) {
     interruptBlock.empty();
     detailsList.empty();
     loadedCargoes = [];
-    interruptBlock.append("<button id='interruptButton' type='button'>Interrupt order</button>");
+    interruptBlock.append(
+        "<button id='interruptButton' type='button'>Interrupt order</button> " +
+        "<button id='progressButton' type='button'>Report on progress</button>"
+    );
     $("#interruptButton").click(function () {
         interrupt(order.id);
+    });
+    $("#progressButton").click(function () {
+        progressReport(order);
     });
     var checkpoints = order.checkpoints;
     for (var i = 0; i < checkpoints.length; i++) {
