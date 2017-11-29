@@ -1,4 +1,6 @@
 var searchField = $("#searchField");
+var editVehicleForm = $("#editVehicleForm");
+var editVehicleValue = $("#editVehicleValue");
 $("#findOneButton").click(findVehicle);
 $("#showAllButton").click(showAllVehicles);
 showAllVehicles();

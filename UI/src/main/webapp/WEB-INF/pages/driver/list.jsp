@@ -13,6 +13,15 @@
 
     <c:import url="../tiles/sidebar.jsp"/>
 
+    <form id="editDriverForm" action="<c:url value='/admin/driver/edit'/>" method="post">
+        <input id="editDriverValue" type="hidden"
+               name="persNumber"
+               value=""/>
+        <input type="hidden"
+               name="${_csrf.parameterName}"
+               value="${_csrf.token}"/>
+    </form>
+
     <div id="page-content-wrapper">
         <div class="container-fluid">
             <h1>Drivers list</h1>

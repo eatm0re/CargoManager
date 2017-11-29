@@ -31,6 +31,13 @@
 <script src="<c:url value="/resources/js/vehicle/initEditFields.js"/>"></script>
 <script src="<c:url value="/resources/js/vehicle/change.js"/>"></script>
 
+<c:if test="${not empty regNumber}">
+    <script>
+        regNumberField.val("${regNumber}");
+        loadVehicleToChange();
+    </script>
+</c:if>
+
 </body>
 
 </html>

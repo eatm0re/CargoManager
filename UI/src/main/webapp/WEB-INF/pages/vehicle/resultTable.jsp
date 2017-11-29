@@ -8,6 +8,7 @@
         <th>Drivers</th>
         <th>Order ID</th>
         <th>Cargoes</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody id="resultTable">

@@ -22,11 +22,7 @@ function addCheckpoint() {
 function addTask(checkpoint) {
     $("#generic_checkpoint_" + checkpoint).append(
         "<li>" +
-        "<select id='generic_type_" + taskCounter + "'>" +
-        "<option value='LOADING'>Loading</option>" +
-        "<option value='UNLOADING'>Unloading</option>" +
-        "</select>" +
-        " cargo #" +
+        " Cargo #" +
         "<input id='generic_cargoId_" + taskCounter + "' type='text' size='15' onchange='showCargoInfo(" + taskCounter + ", this.value)'/>" +
         " <i id='generic_cargoInfo_" + taskCounter + "'></i><br/><br/>" +
         "</li>"

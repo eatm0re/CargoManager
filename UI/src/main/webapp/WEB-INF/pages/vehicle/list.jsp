@@ -13,6 +13,15 @@
 
     <c:import url="../tiles/sidebar.jsp"/>
 
+    <form id="editVehicleForm" action="<c:url value='/admin/vehicle/edit'/>" method="post">
+        <input id="editVehicleValue" type="hidden"
+               name="regNumber"
+               value=""/>
+        <input type="hidden"
+               name="${_csrf.parameterName}"
+               value="${_csrf.token}"/>
+    </form>
+
     <div id="page-content-wrapper">
         <div class="container-fluid">
             <h1>Vehicles list</h1>

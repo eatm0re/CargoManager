@@ -2,6 +2,9 @@ package com.tsystems.javaschool.evgenydubovitsky.cargomanager.ui;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/admin")
@@ -27,6 +30,16 @@ public class AdminController {
         return "driver/change";
     }
 
+    @RequestMapping(value = "driver/edit", method = RequestMethod.POST)
+    public ModelAndView changeConcreteDriver(
+            @RequestParam(value = "persNumber", required = false) String persNumber) {
+        ModelAndView model = new ModelAndView("driver/change");
+        if (persNumber != null) {
+            model.addObject("persNumber", persNumber);
+        }
+        return model;
+    }
+
     @RequestMapping("vehicle")
     public String showAllVehicles() {
         return "vehicle/list";
@@ -40,6 +53,16 @@ public class AdminController {
     @RequestMapping("vehicle/edit")
     public String changeVehicle() {
         return "vehicle/change";
+    }
+
+    @RequestMapping(value = "vehicle/edit", method = RequestMethod.POST)
+    public ModelAndView changeConcreteVehicle(
+            @RequestParam(value = "regNumber", required = false) String regNumber) {
+        ModelAndView model = new ModelAndView("vehicle/change");
+        if (regNumber != null) {
+            model.addObject("regNumber", regNumber);
+        }
+        return model;
     }
 
     @RequestMapping("city")

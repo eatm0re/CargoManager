@@ -31,6 +31,13 @@
 <script src="<c:url value="/resources/js/driver/initEditFields.js"/>"></script>
 <script src="<c:url value="/resources/js/driver/change.js"/>"></script>
 
+<c:if test="${not empty persNumber}">
+    <script>
+        persNumberField.val("${persNumber}");
+        loadDriverToChange();
+    </script>
+</c:if>
+
 </body>
 
 </html>

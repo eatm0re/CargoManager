@@ -7,7 +7,8 @@
         <th>Status</th>
         <th>Vehicle</th>
         <th>Location</th>
-        <th>Worked this month</th>
+        <th>Worked</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody id="resultTable">

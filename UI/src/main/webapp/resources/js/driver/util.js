@@ -10,8 +10,15 @@ function addDriverRow(row) {
         "<td>" + (row.vehicle == null ? "" : row.vehicle.regNumber) + "</td>" +
         "<td>" + row.location.name + "</td>" +
         "<td>" + workedThisMonthH + "h " + workedThisMonthM + "m</td>" +
+        "<td>" +
+        "<button id='generic_editButton_" + row.id + "' type='button'>Edit</button> " +
+        "</td>" +
         "</tr>"
     );
+    $("#generic_editButton_" + row.id).click(function () {
+        editDriverValue.val(row.persNumber);
+        editDriverForm.submit();
+    });
 }
 
 function findDriverByPersNumber(persNumber, after) {
