@@ -16,7 +16,18 @@
     </b:bean>
 
     <http auto-config="true">
+        <intercept-url pattern="/admin" access="hasRole('ROLE_STUFF')"/>
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_STUFF')"/>
+        <intercept-url pattern="/user" access="hasRole('ROLE_DRIVER')"/>
+        <intercept-url pattern="/user/**" access="hasRole('ROLE_DRIVER')"/>
+        <form-login
+                login-page="/login"
+                authentication-success-handler-ref="authSuccessHandler"
+                authentication-failure-url="/login?error"
+                username-parameter="username"
+                password-parameter="password"/>
+        <logout logout-success-url="/?logout"/>
+        <csrf/>
     </http>
 
     <authentication-manager>
