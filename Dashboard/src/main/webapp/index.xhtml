@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+>
+
+<h:head>
+    <title>CargoManager Dashboard</title>
+    <h:outputStylesheet name="vendor/bootstrap/css/bootstrap.min.css"/>
+    <h:outputStylesheet name="css/simple-sidebar.css"/>
+</h:head>
+
+<h:body>
+    <div id="wrapper" class="toggled">
+
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="${pageContext.request.contextPath}/">Sign in</a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <h1>Orders</h1>
+                <br/>
+                Show order by number:
+                <input id="searchField" type="text"/>
+                <button id="showButton" type="button">Show</button>
+                <div id="statusText">Status</div>
+                <ol id="detailsList"></ol>
+                <br/><br/>
+                <table class="customResultTable">
+                    <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Capacity needed (in KG)</th>
+                        <th>Progress</th>
+                        <th>Vehicle</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody id="resultTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <h:outputScript library="vendor" name="jquery/jquery.min.js"/>
+    <h:outputScript library="vendor" name="popper/popper.min.js"/>
+    <h:outputScript library="vendor" name="bootstrap/js/bootstrap.min.js"/>
+    <h:outputScript library="js" name="dashboard.js"/>
+
+</h:body>
+
+</html>

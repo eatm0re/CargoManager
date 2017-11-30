@@ -19,6 +19,9 @@
             <a href="${pageContext.request.contextPath}/user/order">Order</a>
         </li>
         <li class="sidebar-brand">
+            <a href="${pageContext.request.contextPath}/dashboard">Dashboard</a>
+        </li>
+        <li class="sidebar-brand">
             <a href="javascript:$('#logoutForm').submit()">Logout</a>
         </li>
     </ul>

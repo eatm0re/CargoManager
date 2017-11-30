@@ -16,7 +16,7 @@
             <a href="${pageContext.request.contextPath}/">Main menu</a>
         </li>
         <li class="sidebar-brand">
-            <a href="javascript:$('#logoutForm').submit()">Logout</a>
+            <a href="${pageContext.request.contextPath}/dashboard">Dashboard</a>
         </li>
     </ul>
 </div>
