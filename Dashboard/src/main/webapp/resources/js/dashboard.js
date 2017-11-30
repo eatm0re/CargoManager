@@ -10,6 +10,9 @@ var detailsList = $("#detailsList");
 $("#showButton").click(showOrder);
 showAllOrders();
 
+var socket = new WebSocket("ws://localhost:8080/dashboard/socket");
+socket.onmessage = onMessage;
+
 
 function refreshResultTable() {
     resultTable.empty();
@@ -249,4 +252,12 @@ function containsCargo(id) {
     }
     loadedCargoes.push(id);
     return false;
+}
+
+
+// JMS
+
+function onMessage(event) {
+    writeGreenStatus(event.data);
+    showAllOrders();
 }
