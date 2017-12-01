@@ -4,15 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.tsystems.javaschool.evgenydubovitsky</groupId>
     <artifactId>cargomanager-dashboard</artifactId>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <packaging>war</packaging>
     <name>CargoManager-Dashboard</name>
 
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
+    <parent>
+        <groupId>com.tsystems.javaschool.evgenydubovitsky</groupId>
+        <artifactId>cargomanager</artifactId>
+        <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
     <dependencies>
         <dependency>
@@ -50,26 +52,5 @@
             <version>2.2.0.Final</version>
         </dependency>
     </dependencies>
-
-    <build>
-        <finalName>${project.name}</finalName>
-
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>1.2.1.Final</version>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
