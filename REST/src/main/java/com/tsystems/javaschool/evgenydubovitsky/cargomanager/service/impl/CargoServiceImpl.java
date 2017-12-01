@@ -21,6 +21,19 @@ public class CargoServiceImpl extends AbstractService<Cargo, CargoDTO> implement
         super(Cargo.class);
     }
 
+    /**
+     * Creates a new cargo with specified name, weight and location.
+     *
+     * @param cargoDTO not empty name must be specified;
+     *                 weight is non-negative;
+     *                 city name must be specified.
+     * @return ID of created cargo.
+     * @throws BusinessException in cases of:
+     *                           wrong or empty cargo name,
+     *                           negative weight,
+     *                           wrong or empty city name,
+     *                           city with specified name not found.
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     @Loggable
@@ -67,6 +80,18 @@ public class CargoServiceImpl extends AbstractService<Cargo, CargoDTO> implement
         return entity.getId();
     }
 
+    /**
+     * Changes properties of existing cargo. Search for cargo is performed by ID.
+     * Changing of cargo location is not allowed.
+     * @param cargoDTO ID (identifying property) is positive value,
+     *                 not empty cargo name,
+     *                 non-negative weight.
+     * @throws BusinessException in cases of:
+     *                              non-positive cargo ID,
+     *                              cargo with specified ID not found,
+     *                              wrong cargo name,
+     *                              negative weight.
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     @Loggable

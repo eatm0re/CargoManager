@@ -258,6 +258,5 @@ function containsCargo(id) {
 // JMS
 
 function onMessage(event) {
-    writeGreenStatus(event.data);
     showAllOrders();
 }
